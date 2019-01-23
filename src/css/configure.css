@@ -1,0 +1,20 @@
+.big_box{
+    width: 100%;
+}
+.big_box>.small_box{
+    width: 400px;
+    margin: 0 auto;
+}
+.big_box>.small_box .configure_input{
+    width: 350px;
+    margin-top: 40px;
+}
+.ant-input{
+    width: 250px !important;
+}
+.more_inputTxt{
+    display: flex;
+}
+.save_button{
+    text-align: center;
+}

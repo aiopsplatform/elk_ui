@@ -1,0 +1,131 @@
+/* 设置侧栏导航的样式 */
+
+/* .ant-menu-submenu-title{
+    font-size: 16px !important;
+}
+.ant-menu-submenu>.ant-menu-submenu-title>span>.anticon>svg{
+    width: 1.5em !important;
+    height: 1.5em !important;
+    color: blue !important;
+} */
+
+
+
+.big_box{
+    width: 100%;
+    height: 100%;
+    margin-left: 30px;
+}
+.small_query_box{
+    width: 100%;
+    display: flex;
+    flex-flow : row wrap;
+}
+.select_box{
+    width: 350px;
+    height: 60px;
+}
+
+.slider{
+    width: 100%;
+}
+.spanall{
+    font-size: 16px;
+}
+/* .ant-select-selection{
+    width:200px;
+}
+.ant-select-enabled{
+    width: 200px !important;
+} */
+
+.buttons{
+    width: 300px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.cont_box{
+    width: 96%;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+/* real_time */
+
+.realtime_big_box{
+    width: 100%;
+    height: 100%;
+    margin: 20px 20px;
+    border-radius: 10%;
+}
+.realtime_cont_box{
+    width: 97%;
+    height: 72%;
+}
+.cont_box_header,.realtime_heade{
+    width: 100%;
+    height: 40px;
+    background:#660000;
+}
+.data_show_txt{
+    font-size: 20px;
+    color:#7CFC00;
+    line-height: 40px;
+    margin-left: 20px;
+}
+.blow_up{
+    color: #7CFC00;
+    font-size: 20px;
+    float: right;
+    margin-right: 20px;
+    margin-top: 7px;
+    cursor:pointer;
+}
+.cont_box_body{
+    width: 100%;
+    height: 90%;
+    background: #000000;
+}
+.realtime_header{
+    width: 100%;
+    height: 40px;
+    background:#660000;
+}
+.realtime_body{
+    width: 100%;
+    height: 100%;
+    background: #000000;
+}
+.span_txt{
+    font-size: 16px;
+}
+.ant-layout-sider-trigger{
+    z-index:0 !important;
+}
+.big_box .ant-calendar-picker-icon{
+    z-index:0 !important;
+    right: -36px !important;
+}
+.ant-menu-submenu-placement-rightTop{
+    left : 84px !important;
+
+}
+/* .ant-menu-submenu-placement-rightTop{
+    height: 400px !important;
+    background: #fff !important;
+} */
+
+.ant-select-search__field__wrap{
+    display: block;
+    text-align: center;
+}
+.xxss .ant-select-search__field{
+    width: 160px !important;
+    margin: 0 auto !important;
+    border: 1px solid #7CFC00 !important;
+}
+
+
+
