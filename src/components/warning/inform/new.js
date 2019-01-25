@@ -3,9 +3,15 @@ import { Icon, Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 const { TextArea } = Input;
 class News extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            flag :false
+        }
+      }
     render() {
         return (
-            <div className="new_mask" ref="new_mask">
+            <div className="new_mask" ref="new_mask" style={{display:this.state.flag?'block' : 'none'}}>
                 <div className="new_big_box">
                     <div className="new_header">
                         <span className="new_left">创建告警策略</span>
@@ -40,10 +46,10 @@ class News extends Component {
                             <Button>取消</Button>
                         </div>
                         <div style={{fontSize:16,paddingTop:20}}>
-                            <a href="javaScript:;"><Icon type="plus-circle" /> 添加邮箱</a>
+                            <p style={{color:'blue',marginLeft:40,cursor:'pointer'}}><Icon type="plus-circle" /> 添加邮箱</p>
                         </div>
                         <div className="one_button">
-                            <Button style={{marginRight:30}}>取消</Button>
+                            <Button style={{marginRight:30}} onClick={this.handleClick.bind(this)}>取消</Button>
                             <Button type="primary">保存</Button>
                         </div>
                     </div>
@@ -63,7 +69,9 @@ class News extends Component {
         console.log('focus');
     }
     handleClick() {
-        this.refs.new_mask.style = `display:none`
+        this.setState({
+            flag : false
+        })
     }
 }
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import MemoryWarn from "../set/memoryWarn"
 import { Table } from 'antd';
 import 'antd/dist/antd.css';
 //表格部分
@@ -9,8 +10,8 @@ const columns = [{
 }, {
     title: '策略名称',
     dataIndex: '策略名称',
-    render: text => <a href="javascript:;">{text}</a>,
-    width: 10 + '%',
+    render: text => data[0].策略名称 === <MemoryWarn />?<a href="/setWarning/warn_detail">{text}</a> :<a href="/setWarning/CPU_detail">{text}</a>, 
+    width: 12 + '%',
 }, {
     title: '类型',
     dataIndex: '类型',
@@ -19,13 +20,12 @@ const columns = [{
 {
     title: '告警对象',
     dataIndex: '告警对象',
-    render: text => <a href="javascript:;">{text}</a>,
-    width: 12 + '%',
+    width: 15 + '%',
 },
 {
     title: '告警当前值',
     dataIndex: '告警当前值',
-    width: 20 + '%',
+    width: 15 + '%',
 }, {
     title: '告警规则',
     dataIndex: '告警规则',
@@ -37,10 +37,11 @@ const columns = [{
     className : 'yornswnd',
     width: 12 + '%',
 }];
+//表格内容
 const data = [{
     key: '1',
     告警时间: '2019-1-21-11:01:01',
-    策略名称: '内存告警',
+    策略名称: <MemoryWarn />,
     类型: '节点',
     告警对象: 'k8s-master-1',
     告警当前值: '内存使用率1000MB',

@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 
 const menu = (
     <Menu onClick={handleMenuClick}>
+        <Menu.Item key="0">删除</Menu.Item>
         <Menu.Item key="1">修改</Menu.Item>
     </Menu>
 );

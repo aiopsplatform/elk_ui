@@ -1,50 +1,43 @@
 import React, { Component } from 'react'
-import { Steps, Icon, Button } from 'antd';
-import StepsOne from "./stepsOne"
+import { Icon } from 'antd';
+import Steps from "./steps"
+import StepsPage from "./stepsPage"
 import 'antd/dist/antd.css';
-const Step = Steps.Step;
+
 class News extends Component {
-    constructor(props){
-        super(props)
+    constructor(props) {
+        super(props);
+        this.state = {
+            flag: false,
+        }
     }
     render() {
         return (
-            <div className="new_mask" ref="new_mask">
+            <div className="new_mask" ref="new_mask" style={{ display: this.state.flag ? 'block' : 'none' }}>
                 <div className="new_big_box">
                     <div className="new_header">
                         <span className="new_left">创建告警策略</span>
-                        <span className="new_right" onClick={this.handleClick.bind(this)}><Icon type="close" /></span>
+                        <span className="new_right" onClick={this._click.bind(this)}><Icon type="close" /></span>
                     </div>
                     <div className="new_body">
-                        <Steps current={0}>
-                            <Step title="参数设置" />
-                            <Step title="告警规则" />
-                            <Step title="告警行为" />
-                        </Steps>
-                        <StepsOne />
-                        <div className="one_button">
-                            <Button>取消</Button>
-                            <Button type="primary">下一步</Button>
-                        </div>
+                        <Steps />
+                        <StepsPage onSubmit={this.submit.bind(this)} />
                     </div>
+
                 </div>
             </div>
         )
     }
-    handleChange(value) {
-        console.log(`selected ${value}`);
-    }
 
-    handleBlur() {
-        console.log('blur');
+    _click() {
+        this.setState({
+            flag: false
+        })
     }
-
-    handleFocus() {
-        console.log('focus');
-    }
-    handleClick() {
-        // this.refs.new_mask.style = `display:none`
-       
+    submit(e){
+        this.setState({
+            flag : e
+        })
     }
 }
 

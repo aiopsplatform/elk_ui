@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout, Menu, Icon , LocaleProvider } from 'antd'
+import { Layout, Menu, Icon, LocaleProvider } from 'antd'
 import zh_CN from 'antd/lib/locale-provider/zh_CN'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
@@ -14,6 +14,8 @@ import SetWarning from "./components/warning/setWarning"
 import RecordWarning from "./components/warning/recordWarning"
 import InformWarning from "./components/warning/informWarning"
 import Configure from "./components/configure/configure"
+import WarnDetail from "./components/warning/warningDetails/warnDetail"
+import CPUDDetail from "./components/warning/warningDetails/CPUDetail"
 import { Provider } from "react-redux";
 import store from "./store"
 import 'antd/dist/antd.css';
@@ -36,7 +38,7 @@ class App extends Component {
       openKeys: [sessionStorage.getItem('name1')] || ['sub1'],
     };
   }
-  rootSubmenuKeys = ['sub1', 'sub2', 'sub3','sub4'];
+  rootSubmenuKeys = ['sub1', 'sub2', 'sub3', 'sub4'];
   state = {
     collapsed: false,
     openKeys: ['sub1'],
@@ -59,66 +61,68 @@ class App extends Component {
   render() {
     return (
       <LocaleProvider locale={zh_CN}>
-      <Provider store={store}>
-        <Router>
-          <Layout style={{ minHeight: '100vh' }}>
-            <Sider
-              collapsible
-              collapsed={this.state.collapsed}
-              onCollapse={this.onCollapse}
-            >
-              <div className="logo" />
-              <Menu selectkeys={['3']} theme="dark" defaultSelectedKeys={[sessionStorage.getItem('name')]} mode="inline" onOpenChange={this.onOpenChange.bind(this)} openKeys={this.state.openKeys}>
-                <SubMenu
-                  key="sub1"
-                  title={<span><Icon type="file-search" /><span>日志查询</span></span>}
-                >
-                  <Menu.Item key="1"><Link onClick={this._click.bind(this, 1, 'sub1')} to="/conditionquery">条件查询</Link></Menu.Item>
-                  <Menu.Item key="2"><Link onClick={this._click.bind(this, 2, 'sub1')} to="/realtion">实时查询</Link></Menu.Item>
-                </SubMenu>
-                <SubMenu
-                  key="sub2"
-                  title={<span><Icon type="audit" /><span>日志统计</span></span>}
-                >
-                  <Menu.Item key="3"><Link onClick={this._click.bind(this, 3, 'sub2')} to='/statistics'>字段统计</Link></Menu.Item>
-                  <Menu.Item key="4"><Link onClick={this._click.bind(this, 4, 'sub2')} to='/abnormal'>异常统计</Link></Menu.Item>
-                  <Menu.Item key="5"><Link onClick={this._click.bind(this, 5, 'sub2')} to='/slowrequest'>慢请求统计</Link></Menu.Item>
-                  <Menu.Item key="6"><Link onClick={this._click.bind(this, 6, 'sub2')} to='/most'>最频繁请求统计</Link></Menu.Item>
-                </SubMenu>
-                <SubMenu
-                  key="sub3"
-                  title={<span><Icon type="alert" /><span>告警处理</span></span>}
-                >
-                  <Menu.Item key="7"><Link onClick={this._click.bind(this, 7, 'sub3')} to='/setWarning'>告警设置</Link></Menu.Item>
-                  <Menu.Item key="8"><Link onClick={this._click.bind(this, 8, 'sub3')} to='/recordWarning'>告警记录</Link></Menu.Item>
-                  <Menu.Item key="9"><Link onClick={this._click.bind(this, 9, 'sub3')} to='/informWarning'>告警通知组</Link></Menu.Item>
-                </SubMenu>
-                <SubMenu
-                  key="sub4"
-                  title={<span><Icon type="setting" /><span>配置</span></span>}
-                >
-                  <Menu.Item key="10"><Link onClick={this._click.bind(this, 10, 'sub4')} to='/configure'>配置</Link></Menu.Item>
-                </SubMenu>
-              </Menu>
-            </Sider>
-            <Layout>
-              <Switch>
-                <Route path="/conditionquery" component={ConditionQuery} />
-                <Route path="/realtion" component={RealTion} />
-                <Route path="/statistics" component={Statistics} />
-                <Route path="/configure" component={Configure} />
-                <Route path="/abnormal" component={Abnormal} />
-                <Route path="/slowrequest" component={SlowRequest} />
-                <Route path="/most" component={Most} />
-                <Route path="/setWarning" component={SetWarning} />
-                <Route path="/recordWarning" component={RecordWarning} />
-                <Route path="/informWarning" component={InformWarning} />
-                <Redirect from="/" to="/conditionquery" />
-              </Switch>
+        <Provider store={store}>
+          <Router>
+            <Layout style={{ minHeight: '100vh' }}>
+              <Sider
+                collapsible
+                collapsed={this.state.collapsed}
+                onCollapse={this.onCollapse}
+              >
+                <div className="logo" />
+                <Menu selectkeys={['3']} theme="dark" defaultSelectedKeys={[sessionStorage.getItem('name')]} mode="inline" onOpenChange={this.onOpenChange.bind(this)} openKeys={this.state.openKeys}>
+                  <SubMenu
+                    key="sub1"
+                    title={<span><Icon type="file-search" /><span>日志查询</span></span>}
+                  >
+                    <Menu.Item key="1"><Link onClick={this._click.bind(this, 1, 'sub1')} to="/conditionquery">条件查询</Link></Menu.Item>
+                    <Menu.Item key="2"><Link onClick={this._click.bind(this, 2, 'sub1')} to="/realtion">实时查询</Link></Menu.Item>
+                  </SubMenu>
+                  <SubMenu
+                    key="sub2"
+                    title={<span><Icon type="audit" /><span>日志统计</span></span>}
+                  >
+                    <Menu.Item key="3"><Link onClick={this._click.bind(this, 3, 'sub2')} to='/statistics'>字段统计</Link></Menu.Item>
+                    <Menu.Item key="4"><Link onClick={this._click.bind(this, 4, 'sub2')} to='/abnormal'>异常统计</Link></Menu.Item>
+                    <Menu.Item key="5"><Link onClick={this._click.bind(this, 5, 'sub2')} to='/slowrequest'>慢请求统计</Link></Menu.Item>
+                    <Menu.Item key="6"><Link onClick={this._click.bind(this, 6, 'sub2')} to='/most'>最频繁请求统计</Link></Menu.Item>
+                  </SubMenu>
+                  <SubMenu
+                    key="sub3"
+                    title={<span><Icon type="alert" /><span>告警处理</span></span>}
+                  >
+                    <Menu.Item key="7"><Link onClick={this._click.bind(this, 7, 'sub3')} to='/setWarning'>告警设置</Link></Menu.Item>
+                    <Menu.Item key="8"><Link onClick={this._click.bind(this, 8, 'sub3')} to='/recordWarning'>告警记录</Link></Menu.Item>
+                    <Menu.Item key="9"><Link onClick={this._click.bind(this, 9, 'sub3')} to='/informWarning'>告警通知组</Link></Menu.Item>
+                  </SubMenu>
+                  <SubMenu
+                    key="sub4"
+                    title={<span><Icon type="setting" /><span>配置</span></span>}
+                  >
+                    <Menu.Item key="10"><Link onClick={this._click.bind(this, 10, 'sub4')} to='/configure'>配置</Link></Menu.Item>
+                  </SubMenu>
+                </Menu>
+              </Sider>
+              <Layout>
+                <Switch>
+                  <Route path="/conditionquery" component={ConditionQuery} />
+                  <Route path="/realtion" component={RealTion} />
+                  <Route path="/statistics" component={Statistics} />
+                  <Route path="/configure" component={Configure} />
+                  <Route path="/abnormal" component={Abnormal} />
+                  <Route path="/slowrequest" component={SlowRequest} />
+                  <Route path="/most" component={Most} />
+                  <Route path="/setWarning" exact component={SetWarning} />
+                  <Route path="/recordWarning" component={RecordWarning} />
+                  <Route path="/informWarning" component={InformWarning} />
+                  <Route path="/setWarning/warn_detail" component={WarnDetail} />
+                  <Route path="/setWarning/CPU_detail" component={CPUDDetail} />
+                  <Redirect from="/" to="/conditionquery" />
+                </Switch>
+              </Layout>
             </Layout>
-          </Layout>
-        </Router>
-      </Provider>
+          </Router>
+        </Provider>
       </LocaleProvider>
     );
   }
@@ -152,7 +156,7 @@ class App extends Component {
       case 9:
         sessionStorage.setItem('name', '9');
         break;
-        case 10:
+      case 10:
         sessionStorage.setItem('name', '9');
         break;
       default:
