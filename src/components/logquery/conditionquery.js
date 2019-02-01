@@ -8,8 +8,8 @@ import Project from "./queryInputs/project"
 import StartTime from "./queryInputs/starttime"
 import EndTime from "./queryInputs/endtime"
 import HandSlider from "./queryInputs/handslider"
-import Buttons from "./queryInputs/buttons"
 import Show from "./queryInputs/show"
+import { Button, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import "../../css/query.css"
 import { getData_action } from "../../action/actioncreator"
@@ -28,7 +28,18 @@ class CondiQuery extends Component {
                     <Serve />
                     <Project />
                     <HandSlider />
-                    <Buttons />
+                    <div className="select_box buttons">
+                        <Button.Group>
+                            <Button type="primary">
+                                <Icon type="search" />
+                                <span>立即查询</span>
+                            </Button>
+                            <Button type="primary">
+                                <Icon type="download" />
+                                <span>立即下载</span>
+                            </Button>
+                        </Button.Group>
+                    </div>
                     <Show />
                 </div>
             </div>

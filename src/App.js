@@ -16,6 +16,8 @@ import InformWarning from "./components/warning/informWarning"
 import Configure from "./components/configure/configure"
 import WarnDetail from "./components/warning/warningDetails/warnDetail"
 import CPUDDetail from "./components/warning/warningDetails/CPUDetail"
+import Analyze from "./components/analyze/analyze"
+import Monito from "./components/analyze/monito"
 import { Provider } from "react-redux";
 import store from "./store"
 import 'antd/dist/antd.css';
@@ -38,13 +40,8 @@ class App extends Component {
       openKeys: [sessionStorage.getItem('name1')] || ['sub1'],
     };
   }
-  rootSubmenuKeys = ['sub1', 'sub2', 'sub3', 'sub4'];
-  state = {
-    collapsed: false,
-    openKeys: ['sub1'],
-  };
+  rootSubmenuKeys = ['sub1', 'sub2', 'sub3', 'sub4', 'sub5'];
   onCollapse = (collapsed) => {
-    console.log(collapsed);
     this.setState({ collapsed });
   }
   onOpenChange = (openKeys) => {
@@ -97,9 +94,16 @@ class App extends Component {
                   </SubMenu>
                   <SubMenu
                     key="sub4"
+                    title={<span><Icon type="cluster" /><span>问题分析</span></span>}
+                  >
+                    <Menu.Item key="10"><Link onClick={this._click.bind(this, 10, 'sub4')} to='/analyze'>问题分析</Link></Menu.Item>
+                    <Menu.Item key="11"><Link onClick={this._click.bind(this, 11, 'sub4')} to='/monito'>资源监控</Link></Menu.Item>
+                  </SubMenu>
+                  <SubMenu
+                    key="sub5"
                     title={<span><Icon type="setting" /><span>配置</span></span>}
                   >
-                    <Menu.Item key="10"><Link onClick={this._click.bind(this, 10, 'sub4')} to='/configure'>配置</Link></Menu.Item>
+                    <Menu.Item key="11"><Link onClick={this._click.bind(this, 12, 'sub5')} to='/configure'>配置</Link></Menu.Item>
                   </SubMenu>
                 </Menu>
               </Sider>
@@ -115,6 +119,8 @@ class App extends Component {
                   <Route path="/setWarning" exact component={SetWarning} />
                   <Route path="/recordWarning" component={RecordWarning} />
                   <Route path="/informWarning" component={InformWarning} />
+                  <Route path="/analyze" component={Analyze} />
+                  <Route path="/monito" component={Monito} />
                   <Route path="/setWarning/warn_detail" component={WarnDetail} />
                   <Route path="/setWarning/CPU_detail" component={CPUDDetail} />
                   <Redirect from="/" to="/conditionquery" />
@@ -157,7 +163,13 @@ class App extends Component {
         sessionStorage.setItem('name', '9');
         break;
       case 10:
-        sessionStorage.setItem('name', '9');
+        sessionStorage.setItem('name', '10');
+        break;
+      case 11:
+        sessionStorage.setItem('name', '11');
+        break;
+      case 12:
+        sessionStorage.setItem('name', '12');
         break;
       default:
         break;

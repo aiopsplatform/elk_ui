@@ -1,24 +1,33 @@
 import React, { Component } from 'react'
-import { Input, Select, Button, Icon, Radio, InputNumber } from 'antd';
+import { Input, Select, Button, Icon, Radio, InputNumber, Steps } from 'antd';
 import 'antd/dist/antd.css';
-import Observer from "../../packaging/observer"
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
+const Step = Steps.Step;
 class StepsPage extends Component {
     constructor(props) {
         super(props);
         this.num = 0;
+
         this.state = {
             value: 1,
-            num : 0
+            num: 0,
+            oneOne: '',
+            oneTwo: ''
         }
 
     }
     render() {
         let num = this.state.num;
-        // console.log(num)
         return (
             <div className="stepspage_box">
+                <div>
+                    <Steps current={num}>
+                        <Step title="参数设置" />
+                        <Step title="告警规则" />
+                        <Step title="告警行为" />
+                    </Steps>
+                </div>
                 {/* 一 */}
                 <div style={{ display: num === 0 ? 'block' : 'none' }}>
                     <div className="one_name">
@@ -26,7 +35,9 @@ class StepsPage extends Component {
                         <Input
                             placeholder="请输入名称"
                             className="baibashi"
+                            onChange={this.handleOneOne.bind(this)}
                         />
+                        <p id="oneOne_html" style={{ color: 'red' }} ></p>
                     </div>
                     <div className="one_type">
                         <div>
@@ -37,8 +48,6 @@ class StepsPage extends Component {
                                 optionFilterProp="children"
                                 defaultValue="节点"
                                 onChange={this.handleChange}
-                                onFocus={this.handleFocus}
-                                onBlur={this.handleBlur}
                                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                             >
                                 <Option value="节点">节点</Option>
@@ -52,8 +61,6 @@ class StepsPage extends Component {
                                 optionFilterProp="children"
                                 defaultValue="5分钟"
                                 onChange={this.handleChange}
-                                onFocus={this.handleFocus}
-                                onBlur={this.handleBlur}
                                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                             >
                                 <Option value="5分钟">5分钟</Option>
@@ -71,9 +78,7 @@ class StepsPage extends Component {
                             optionFilterProp="children"
                             placeholder="请选择节点"
                             className="baibashi"
-                            onChange={this.handleChange}
-                            onFocus={this.handleFocus}
-                            onBlur={this.handleBlur}
+                            onChange={this.handleOneTwo.bind(this)}
                             filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                         >
                             <Option value="节点一">节点一</Option>
@@ -81,10 +86,11 @@ class StepsPage extends Component {
                             <Option value="节点三">节点三</Option>
                             <Option value="节点四">节点四</Option>
                         </Select>
+                        <p id="oneTwo_html" style={{ color: 'red' }} ></p>
                     </div>
                     <div className="one_button">
                         <Button onClick={this.handleMove.bind(this)} >取消</Button>
-                        <Button type="primary" onClick={this.handleNext.bind(this)} >下一步</Button>
+                        <Button type="primary" onClick={this.handleOneNext.bind(this)} >下一步</Button>
                     </div>
                 </div>
 
@@ -98,8 +104,6 @@ class StepsPage extends Component {
                                 defaultValue="CPU利用率"
                                 className="two_cpulyl"
                                 onChange={this.handleChange}
-                                onFocus={this.handleFocus}
-                                onBlur={this.handleBlur}
                                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                             >
                                 <Option value="CPU利用率">CPU利用率</Option>
@@ -115,8 +119,6 @@ class StepsPage extends Component {
                                 defaultValue=">"
                                 className="two_dx"
                                 onChange={this.handleChange}
-                                onFocus={this.handleFocus}
-                                onBlur={this.handleBlur}
                                 filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                             >
                                 <Option value=">"><Icon type="right" /></Option>
@@ -148,13 +150,13 @@ class StepsPage extends Component {
                     <div className="two_wz">
                         <p><Icon type="exclamation-circle" /> </p>
                         <p>
-                            <span style={{color:'blue'}}>CPU利用率</span>=所有容器实例占用CPU总和/CPU资源总量<br />
-                            <span style={{color:'blue'}}>内存使用率</span>=所有容器实例占用内存总和/容器实例数量
+                            <span style={{ color: 'blue' }}>CPU利用率</span>=所有容器实例占用CPU总和/CPU资源总量<br />
+                            <span style={{ color: 'blue' }}>内存使用率</span>=所有容器实例占用内存总和/容器实例数量
                         </p>
                     </div>
                     <div className="one_button">
-                        <Button type="primary" onClick={this.handleOn.bind(this)}>上一步</Button>
-                        <Button type="primary" onClick={this.handleNext.bind(this)}  >下一步</Button>
+                        <Button type="primary" onClick={this.handleOneOn.bind(this)}>上一步</Button>
+                        <Button type="primary" onClick={this.handleTwoNext.bind(this)}  >下一步</Button>
                     </div>
                 </div>
 
@@ -180,8 +182,6 @@ class StepsPage extends Component {
                             defaultValue="zhangsan"
                             className="three_tzz"
                             onChange={this.handleChange}
-                            onFocus={this.handleFocus}
-                            onBlur={this.handleBlur}
                             filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                         >
                             <Option value="zhangsan">zhangsan</Option>
@@ -194,47 +194,75 @@ class StepsPage extends Component {
                         <Button type="primary"><Icon type="plus" />新建组</Button>
                     </div>
                     <div className="one_button">
-                        <Button type="primary" onClick={this.handleOn.bind(this)} >上一步</Button>
-                        <Button type="primary">提交</Button>
+                        <Button type="primary" onClick={this.handleTwoOn.bind(this)} >上一步</Button>
+                        <Button type="primary" onClick={this.handleTJ.bind(this)} >提交</Button>
                     </div>
                 </div>
             </div>
         )
     }
-    handleNext() {
-        if (this.num < 2) {
-            this.num += 1;
-            this.setState({
-                num : this.num
-            })
-            Observer.$emit("handle", this.state.num)
-        } else {
-            return;
-        }
 
-    }
     handleOn() {
         if (this.num > 0) {
             this.num -= 1;
             this.setState({
-                num : this.num
+                num: this.num
             })
-            Observer.$emit("handle1", this.state.num)
         } else {
             return;
         }
 
     }
-    handleChange(value) {
-        console.log(`selected ${value}`);
+    handleOneOne(e) {
+        var oneOneHint = document.getElementById('oneOne_html')
+        this.setState({
+            oneOne: e.target.value
+        })
+        if (e.target.value !== '') {
+            oneOneHint.innerHTML = ('')
+        }
+    }
+    handleOneTwo(value) {
+        var oneTwoHint = document.getElementById('oneTwo_html')
+        this.setState({
+            oneTwo: `${value}`
+        })
+        if (`${value}` !== '') {
+            oneTwoHint.innerHTML = ('')
+        }
     }
 
-    handleBlur() {
-        console.log('blur');
-    }
 
-    handleFocus() {
-        console.log('focus');
+    handleOneNext() {
+        console.log(this.refs.oneOne)
+        var oneOneHint = document.getElementById('oneOne_html')
+        var oneTwoHint = document.getElementById('oneTwo_html')
+        if (this.state.oneOne !== '' && this.state.oneTwo !== '') {
+            this.setState({
+                num: 1
+            })
+        } else {
+            oneOneHint.innerHTML = ('此处不能为空!!')
+            oneTwoHint.innerHTML = ('此处不能为空!!')
+        }
+    }
+    handleTwoNext() {
+        this.setState({
+            num: 2
+        })
+    }
+    handleOneOn(){
+        this.setState({
+            num : 0
+        })
+    }
+    handleTwoOn(){
+        this.setState({
+            num : 1
+        })
+    }
+    handleTJ(){
+        alert("提交成功")
     }
     onChange(value) {
         console.log('changed', value);

@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-import Observer from "../../../packaging/observer"
 import { Button } from 'antd';
 import 'antd/dist/antd.css'
 class StartButton extends Component {
     state = {
         loading: false,
         iconLoading: false,
-        num: ''
     }
     render() {
         return (
@@ -17,16 +15,11 @@ class StartButton extends Component {
             </div>
         )
     }
-    enterLoading = () => {
-        this.setState({ loading: true, num: 1 });
+    enterLoading () {
+        this.setState({ loading: true});
         setTimeout(() => {
             this.setState({ loading: false });
         }, 1000)
-    }
-
-
-    componentDidUpdate() {
-        Observer.$emit("handle", this.state.num)
     }
 
 }

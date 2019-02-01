@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import MemoryWarn from "./set/memoryWarn"
 import { Select, DatePicker, Button, Icon, Table, Pagination } from 'antd';
 import 'antd/dist/antd.css'
 import "../../css/warning.css"
@@ -14,7 +13,7 @@ const columns = [{
 }, {
     title: '策略名称',
     dataIndex: '策略名称',
-    render: text => data[0].策略名称 === <MemoryWarn /> ? <a href="/setWarning/warn_detail">{text}</a> : <a href="/setWarning/CPU_detail">{text}</a>,
+    render: text => data[0].策略名称 === <span><Icon type="caret-right" />内存告警</span> ? <a href="/setWarning/warn_detail">{text}</a> : <a href="/setWarning/CPU_detail">{text}</a>,
     width: 12 + '%',
 }, {
     title: '类型',
@@ -45,7 +44,7 @@ const columns = [{
 const data = [{
     key: '1',
     告警时间: '2019-1-21-11:01:01',
-    策略名称: <MemoryWarn />,
+    策略名称: <span><Icon type="caret-right" />内存告警</span>,
     类型: '节点',
     告警对象: 'k8s-master-1',
     告警当前值: '内存使用率1000MB',
@@ -71,13 +70,9 @@ class RecordWarning extends Component {
                         <div>
                             <Select
                                 showSearch
-                                style={{ width: 200 }}
                                 placeholder="选择告警策略"
                                 optionFilterProp="children"
                                 onChange={this.handleChange}
-                                onFocus={this.handleFocus}
-                                onBlur={this.handleBlur}
-                                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                             >
                                 <Option value="max">全部</Option>
                                 <Option value="min">内存告警</Option>
@@ -86,13 +81,9 @@ class RecordWarning extends Component {
                         <div>
                             <Select
                                 showSearch
-                                style={{ width: 200 }}
                                 placeholder="选择类型"
                                 optionFilterProp="children"
                                 onChange={this.handleChange}
-                                onFocus={this.handleFocus}
-                                onBlur={this.handleBlur}
-                                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                             >
                                 <Option value="max">全部</Option>
                                 <Option value="min">服务</Option>
@@ -102,13 +93,9 @@ class RecordWarning extends Component {
                         <div>
                             <Select
                                 showSearch
-                                style={{ width: 200 }}
                                 placeholder="选择告警对象"
                                 optionFilterProp="children"
                                 onChange={this.handleChange}
-                                onFocus={this.handleFocus}
-                                onBlur={this.handleBlur}
-                                filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                             >
                                 <Option value="max">全部</Option>
                                 <Option value="min">k8s-master-1</Option>

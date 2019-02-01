@@ -9,13 +9,9 @@ class Types extends Component {
                 <span className="span_statis">查询指标 : </span>
                 <Select
                     showSearch
-                    style={{ width: 200 }}
                     placeholder="请选择异常类型"
                     optionFilterProp="children"
                     onChange={this.handleChange}
-                    onFocus={this.handleFocus}
-                    onBlur={this.handleBlur}
-                    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                 >
                     <Option value="max">类型 1</Option>
                     <Option value="min">类型 2</Option>

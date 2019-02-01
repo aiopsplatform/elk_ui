@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Icon } from 'antd';
-import Steps from "./steps"
 import StepsPage from "./stepsPage"
 import 'antd/dist/antd.css';
 
@@ -20,7 +19,6 @@ class News extends Component {
                         <span className="new_right" onClick={this._click.bind(this)}><Icon type="close" /></span>
                     </div>
                     <div className="new_body">
-                        <Steps />
                         <StepsPage onSubmit={this.submit.bind(this)} />
                     </div>
 

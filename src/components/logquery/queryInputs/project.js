@@ -15,16 +15,14 @@ class Project extends Component {
                 <span className="spanall">实例 ：</span>
                 <TreeSelect
                     showSearch
-                    style={{ width: 300 }}
                     value={this.state.projectValue}
                     dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                     placeholder="请选择实例"
                     allowClear
-                    treeDefaultExpandAll
                     dropdownClassName="xxss"
                     onChange={this.onChangeProject.bind(this)}
                 >
-                    <TreeNode value="parent 4" title="parent 1" key="0-4">
+                    <TreeNode value="parent 4" title="parent 1111" key="0-4">
 
                     </TreeNode>
                 </TreeSelect>

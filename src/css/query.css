@@ -14,20 +14,29 @@
 .big_box{
     width: 100%;
     height: 100%;
-    margin-left: 30px;
+    padding-left: 30px;
 }
-.small_query_box{
+.big_box .small_query_box{
     width: 100%;
     display: flex;
     flex-flow : row wrap;
 }
-.select_box{
+.big_box .small_query_box .select_box{
     width: 350px;
     height: 60px;
 }
 
-.slider{
+.big_box .small_query_box .slider{
     width: 100%;
+}
+.big_box .small_query_box .select_box  .ant-select{
+    width: 200px !important;
+}
+.big_box .small_query_box .select_box .ant-select-allow-clear .ant-select-selection{
+    width:  200px !important;
+}
+.big_box .small_query_box .select_box .ant-calendar-picker-input{
+    width: 200px !important;
 }
 .spanall{
     font-size: 16px;
@@ -106,7 +115,7 @@
 }
 .big_box .ant-calendar-picker-icon{
     z-index:0 !important;
-    right: -36px !important;
+    right: 0 !important;
 }
 .ant-menu-submenu-placement-rightTop{
     left : 84px !important;

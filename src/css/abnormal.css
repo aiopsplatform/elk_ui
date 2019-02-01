@@ -10,12 +10,21 @@
     flex-flow : row wrap;
 }
 .abnormal_box>.top_box .abnormal_module{
-    width: 370px;
+    width: 320px;
     height: 60px;
+}
+.abnormal_box>.top_box .abnormal_module .ant-select{
+    width: 200px !important;
+}
+.abnormal_box>.top_box .abnormal_module .ant-select-selection{
+    width: 200px !important;
+}
+.abnormal_box>.top_box .abnormal_module .ant-calendar-picker-input{
+    width: 200px !important;
 }
 .abnormal_box .ant-calendar-picker-icon{
     z-index:0 !important;
-    right : -36px !important;
+    right : 0 !important;
 }
 .abnormal_box>.top_box .abnormal_module_button{
     height: 60px;

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Button, Icon, Input, Pagination, Menu, Dropdown, Table } from 'antd';
+import { Button, Icon, Input, Pagination, Table } from 'antd';
 import New from './inform/new'
-import CPUWarn from "./set/cpuWarn"
 import Buttons from "./inform/buttons"
 import 'antd/dist/antd.css';
 import "../../css/warning.css"
@@ -31,7 +30,7 @@ const columns = [{
 {
   title: '关联策略',
   dataIndex: '关联策略',
-  render: text => data[0].关联策略 === <CPUWarn /> ? <a href="/setWarning/CPU_detail">{text}</a> : <a href="/setWarning/warn_detail">{text}</a>,
+  render: text => data[0].关联策略 === <span><Icon type="caret-right" />CPU告警</span> ? <a href="/setWarning/CPU_detail">{text}</a> : <a href="/setWarning/warn_detail">{text}</a>,
   width: 20 + '%',
 },
 {
@@ -47,31 +46,48 @@ const data = [{
   描述: 'go work',
   邮箱: 'xxxxxx@163.com',
   创建时间: "2019-1-21-11:01:01",
-  关联策略: <CPUWarn />,
+  关联策略: <span><Icon type="caret-right" />CPU告警</span>,
   操作: <Buttons />
 }];
 
-// rowSelection object indicates the need for row selection
-const rowSelection = {
-  onChange: (selectedRowKeys, selectedRows) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-  },
-  getCheckboxProps: record => ({
-    disabled: record.name === 'Disabled User', // Column configuration not to be checked
-    name: record.name,
-  }),
-};
+
 class InformWarning extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      flag : true
+    }
+  }
   render() {
+    // rowSelection object indicates the need for row selection
+    const rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => {
+        if (selectedRows.length !== 0) {
+          this.setState({
+            flag: false
+          })
+        } else {
+          this.setState({
+            flag: true,
+            cindex: `${selectedRowKeys}`
+          })
+        }
+        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      },
+      getCheckboxProps: record => ({
+        disabled: record.name === 'Disabled User', // Column configuration not to be checked
+        name: record.name,
+      }),
+    };
     return (
       <div className="warning_big_box">
         <New ref="news" />
         <div className="header_box">
           <div className="buttons">
             <Button type="primary" onClick={this.handleNew.bind(this)} ><Icon type="plus" />创建</Button>
-            <Button  onClick={this.handlesx.bind(this)}><Icon type="sync" />刷新</Button>
-            <Button><Icon type="delete" />删除</Button>
-            <Button><Icon type="edit" />修改</Button>
+            <Button onClick={this.handlesx.bind(this)}><Icon type="sync" />刷新</Button>
+            <Button  disabled={this.state.flag ? true : false}><Icon type="delete" />删除</Button>
+            <Button  disabled={this.state.flag ? true : false}><Icon type="edit" />修改</Button>
             <Search
               placeholder="搜索"
               onSearch={value => console.log(value)}
