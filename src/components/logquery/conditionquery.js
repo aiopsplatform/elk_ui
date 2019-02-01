@@ -12,15 +12,15 @@ import Show from "./queryInputs/show"
 import { Button, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import "../../css/query.css"
-import { getData_action } from "../../action/actioncreator"
+import { getData_action ,getData_locast } from "../../action/actioncreator"
 class CondiQuery extends Component {
 
     render() {
-        let { mallNavList } = this.props;
+        let { mallNavList , mallDemoList} = this.props;
         return (
             <div className="big_box">
                 <div className="small_query_box">
-                    <Queryidx />
+                    <Queryidx mallDemoList={mallDemoList} />
                     <Types mallNavList={mallNavList} />
                     <Rank mallNavList={mallNavList} />
                     <StartTime />
@@ -48,6 +48,7 @@ class CondiQuery extends Component {
 
     componentDidMount() {
         this.props.getData();
+        this.props.getList();
     }
 
 
@@ -63,12 +64,16 @@ class CondiQuery extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    mallNavList: state.conditionquery.mallNavList
+    mallNavList: state.conditionquery.mallNavList,
+    mallDemoList : state.conditionquery.mallDemoList
 })
 
 const mapDispatchToProps = (dispatch) => ({
     getData() {
         dispatch(getData_action())
+    },
+    getList(){
+        dispatch(getData_locast())
     }
 })
 

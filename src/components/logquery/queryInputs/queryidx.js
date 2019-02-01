@@ -12,6 +12,8 @@ class Queryidx extends Component {
     }
 
     render() {
+        let {mallDemoList} = this.props;
+        console.log(mallDemoList)
         return (
             <div className="select_box">
                 <span className="spanall">索引 ：</span>
@@ -25,10 +27,12 @@ class Queryidx extends Component {
                     treeDefaultExpandAll
                     dropdownClassName="xxss"
                     onChange={this.onChangeType.bind(this)}
-                >
-                    <TreeNode value="parent 4" title="parent 1" key="0-4">
-
-                    </TreeNode>
+                >  
+                    {
+                        mallDemoList.length > 0? mallDemoList.map((item,i)=>{
+                          return  <TreeNode value={item.value} title={item.title} key={i} />
+                        }) : ''
+                    }
 
                 </TreeSelect>
             </div>

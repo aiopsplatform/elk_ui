@@ -16,10 +16,23 @@ export const getData_action = () => ({
         fetch(url)
             .then(res => res.json())
             .then((data) => {
+                resolve(data)
+            })
+    })
+})
+
+export const getData_locast = () => ({
+    type: "MALL_LOCAST",
+    payload: new Promise(resolve => {
+        let url = "/tail/taillist"
+        fetch(url)
+            .then(res => res.json())
+            .then((data) => {
                 console.log(data)
                 resolve(data)
             })
     })
 })
+
 
 
