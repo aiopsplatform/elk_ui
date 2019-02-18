@@ -57,7 +57,6 @@ export default class RealyTQuery extends Component {
             label: '实例',
             field: 'projects',
             placeholder: '请选择实例',
-            marginTop: 30,
             width: 200,
             list: [
                 { id: '0', name: '实例一' },
@@ -69,9 +68,8 @@ export default class RealyTQuery extends Component {
     render() {
         return (
             <div className="realyT_big_box" >
-                <Card>
+                <Card className="realyT_card">
                     <BaseForm formList={this.formList} filterSubmit={this.handleFilter} />
-                    {/* <Button type="primary" className="buton" >开始</Button> */}
                 </Card>
                 <div className="realtime_cont_box">
                     <div className="realtime_header">

@@ -16,10 +16,13 @@ export default class WarningSet extends Component {
         isVisible: false
     }
 
+    componentWillMount(){
+        console.log(this.state.list)
+    }
+
     componentDidMount() {
         this.requestList();
     }
-
 
     requestList = () => {
         axios.requestList(this, '/table/list', this.params);

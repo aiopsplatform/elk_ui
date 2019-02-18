@@ -8,9 +8,6 @@ class FilterForm extends React.Component {
     handleFilterSubmit = () => {
         let fieldsValue = this.props.form.getFieldsValue();
         this.props.filterSubmit(fieldsValue);
-        this.props.setState({
-            flag:true
-        })
         console.log(fieldsValue)
     }
 
@@ -30,24 +27,6 @@ class FilterForm extends React.Component {
                 let placeholder = item.placeholder;
                 let width = item.width;
                 let marginTop = item.marginTop;
-                // if (item.type == '城市') {
-
-                //     const city = <FormItem label="城市" key={field}>
-                //         {
-                //             getFieldDecorator('city',{
-                //                 initialValue:initialValue
-                //             })(
-                //                 <Select
-                //                     style={{width:80}}
-                //                     placeholder={placeholder}
-                //                 >
-                //                     {Utils.getOptionList([{ id: '0', name: '全部' }, { id: '1', name: '北京' }, { id: '2', name: '上海' }, { id: '3', name: '天津' }, { id: '4', name: '杭州' }])}
-                //                 </Select>
-                //             )
-                //         }
-                //     </FormItem>;
-                //     formItemList.push(city)
-                // }else 
                 if (item.type === '时间查询') {
                     const begin_time = <FormItem label="开始时间" key='begin_time'>
                         {
@@ -141,9 +120,8 @@ class FilterForm extends React.Component {
             <Form layout="inline">
                 {this.initFormList()}
                 <FormItem>
-                    {/* <Button type='primary' icon='search' onClick={this.handleFilterSubmit} style={{marginTop:35}} >立即查询</Button> */}
-                    <Button type="primary" style={{ marginRight: 20,marginTop:35 }} onClick={this.handleFilterSubmit}>查询</Button>
-                    <Button onClick={this.reset} style={{marginTop:35 }} >重置</Button>
+                    <Button type="primary" style={{ marginRight: 20,marginTop:5 }} onClick={this.handleFilterSubmit}>查询</Button>
+                    <Button onClick={this.reset} style={{marginTop:5 }} >重置</Button>
                 </FormItem>
             </Form>
         );

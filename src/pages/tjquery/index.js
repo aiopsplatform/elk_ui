@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Card, Slider, Button , Icon} from 'antd'
+import { Card, Slider, Button, Icon , Modal } from 'antd'
 import BaseForm from "./../../components/BaseForm"
-import axios from "./../../axios"
+// import axios from "./../../axios"
+import axios from "axios"
 import "./index.less"
 export default class TJQuery extends Component {
     state = {
@@ -9,14 +10,33 @@ export default class TJQuery extends Component {
         type: "arrows-alt",
     }
 
-    handleFilter = (params)=>{
+    componentWillMount() {
+        this.request();
+    }
+
+    handleFilter = (params) => {
         this.params = params;
-        this.requestListTwo();
+        this.request();
     }
-    requestListTwo = ()=>{
-        axios.requestListTwo(this,'/tjquery/list',this.params,true)
-        console.log(this.state.list)
+    request = () => {
+        let baseUrl = "https://www.easy-mock.com/mock/5c62af35fe257b0e6ddb1e1b/elk_moni";
+        axios.get(baseUrl + "/tjquery/list").then((res) => {
+            if (res.status === 200 && res.data.code === 0) {
+                this.setState({
+                    inputList: res.data
+                })
+            } else {
+                Modal.info({
+                    title: "提示",
+                    content: res.msg
+                })
+            }
+        })
     }
+    // requestList = () => {
+    //     axios.requestList(this, '/tjquery/list', this.params, true)
+    //     console.log(this.params)
+    // }
     formList = [
         {
             type: 'SELECT',
@@ -56,15 +76,13 @@ export default class TJQuery extends Component {
         },
         {
             type: '时间查询',
-            marginTop: 30,
-            placeholder : '请选择时间'
+            placeholder: '请选择时间'
         },
         {
             type: 'SELECT',
             label: '服务',
             field: 'serve',
             placeholder: '请选择服务',
-            marginTop: 30,
             width: 200,
             list: [
                 { id: '0', name: '服务一' },
@@ -77,7 +95,6 @@ export default class TJQuery extends Component {
             label: '实例',
             field: 'projects',
             placeholder: '请选择实例',
-            marginTop: 30,
             width: 200,
             list: [
                 { id: '0', name: '实例一' },
@@ -90,23 +107,23 @@ export default class TJQuery extends Component {
         this.setState({ disabled });
     }
     render() {
-        let { disabled , type} = this.state;
+        let { disabled, type } = this.state;
         return (
             <div className="tiquery_big_box">
-                <Card>
+                <Card className="tjquery_cards" >
                     <BaseForm formList={this.formList} filterSubmit={this.handleFilter} />
                     <Slider defaultValue={30} disabled={disabled} style={{ marginTop: 30, marginBottom: 20 }} />
                     <Button type='primary' icon="download" style={{ marginLeft: 40 }} >立即下载</Button>
                 </Card>
-                    <div className="cont_box" ref="cont_box">
-                        <div className="cont_box_header">
-                            <span className="data_show_txt">数据展示</span>
-                            <span className="blow_up" onClick={this.handleBlowUp.bind(this)}><Icon type={type} /></span>
-                        </div>
-                        <div className="cont_box_body">
-                    
-                        </div>
+                <div className="cont_box" ref="cont_box">
+                    <div className="cont_box_header">
+                        <span className="data_show_txt">数据展示</span>
+                        <span className="blow_up" onClick={this.handleBlowUp.bind(this)}><Icon type={type} /></span>
                     </div>
+                    <div className="cont_box_body">
+
+                    </div>
+                </div>
             </div>
         )
     }

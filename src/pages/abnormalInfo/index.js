@@ -76,7 +76,6 @@ export default class AbnormalInfo extends Component {
             label: '查询指标',
             field: 'target',
             placeholder: '请选择指标',
-            marginTop: 30,
             width: 200,
             list: [
                 { id: '0', name: '指标一' },
@@ -90,7 +89,6 @@ export default class AbnormalInfo extends Component {
             <div className="abnormall_big_box" >
                 <Card>
                     <BaseForm formList={this.formList} filterSubmit={this.handleFilter} />
-                    {/* <Button type='primary' className="start_btn" >START</Button> */}
                 </Card>
                 <Card>
                     {this.state.flag?  <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 450}} /> : '' }
