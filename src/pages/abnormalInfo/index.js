@@ -91,7 +91,8 @@ export default class AbnormalInfo extends Component {
                     <BaseForm formList={this.formList} filterSubmit={this.handleFilter} />
                 </Card>
                 <Card>
-                    {this.state.flag?  <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 450}} /> : '' }
+                    {/* {this.state.flag?  <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 450}} /> : '' } */}
+                    <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 450}} />
                 </Card>
             </div>
         )

@@ -5,7 +5,7 @@ import "./index.less"
 // import echarts from 'echarts'
 //按需加载
 import echarts from 'echarts/lib/echarts'
-// 导入饼图
+// 导入线形图
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
@@ -78,7 +78,7 @@ export default class ResourcesM extends Component {
                     {/* <Button type="primary" icon="file-search" >立即查询</Button> */}
                 </Card>
                 <Card>
-                    <div ref="box" style={{ width: 1000, height: 480 }}></div>
+                    <div ref="box" style={{ height: 490 }}></div>
                 </Card>
             </div>
         )

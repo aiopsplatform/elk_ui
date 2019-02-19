@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Slider, Button, Icon , Modal } from 'antd'
+import { Card, Slider, Button, Icon, Modal } from 'antd'
 import BaseForm from "./../../components/BaseForm"
 // import axios from "./../../axios"
 import axios from "axios"
@@ -112,7 +112,7 @@ export default class TJQuery extends Component {
             <div className="tiquery_big_box">
                 <Card className="tjquery_cards" >
                     <BaseForm formList={this.formList} filterSubmit={this.handleFilter} />
-                    <Slider defaultValue={30} disabled={disabled} style={{ marginTop: 30, marginBottom: 20 }} />
+                    <Slider defaultValue={30} disabled={disabled} style={{ marginBottom: 20 }} />
                     <Button type='primary' icon="download" style={{ marginLeft: 40 }} >立即下载</Button>
                 </Card>
                 <div className="cont_box" ref="cont_box">
@@ -146,8 +146,8 @@ export default class TJQuery extends Component {
                 type: "arrows-alt"
             })
             this.refs.cont_box.style = `
-                                    width: 96%;
-                                    height: 400px;
+                                    width: 98%;
+                                    height: 60%;
                                 `
         }
     }

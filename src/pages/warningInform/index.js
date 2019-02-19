@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Button, Input, Table, Modal, Form , Icon } from 'antd'
+import { Card, Button, Input, Table, Modal, Form , Icon} from 'antd'
 import axios from "./../../axios"
 import "./index.less"
 const FormItem = Form.Item;
@@ -137,6 +137,7 @@ export default class WarningInform extends Component {
                     style={{ borderRadius: 30 }}
                     visible={this.state.isVisible}
                     onOk={this.handleSubmit}
+                    maskClosable = {false}
                     onCancel={() => {
                         this.userForm.props.form.resetFields();
                         this.setState({

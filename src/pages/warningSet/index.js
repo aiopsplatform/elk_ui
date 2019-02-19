@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Card, Button, Input, Badge, Table, Icon, Modal, Radio, Form, Steps, message, Select, InputNumber } from 'antd'
 import axios from "./../../axios"
 import "./index.less"
+import moment from "moment"
 const FormItem = Form.Item;
-const TextArea = Input.TextArea;
 const RadioGroup = Radio.Group;
 const Step = Steps.Step;
 const Option = Select.Option;
@@ -14,10 +14,6 @@ export default class WarningSet extends Component {
 
     state = {
         isVisible: false
-    }
-
-    componentWillMount(){
-        console.log(this.state.list)
     }
 
     componentDidMount() {
@@ -36,6 +32,9 @@ export default class WarningSet extends Component {
             })
         }
     }
+    handleClname = () =>{
+        this.props.history.push("/setWarning/warn_detail")
+    }
 
     render() {
         const columns = [
@@ -44,8 +43,8 @@ export default class WarningSet extends Component {
                 dataIndex: 'clname',
                 width: 20 + '%',
                 render: (text, item, clname) => {
-                    return <a onClick={(item) => { this.handleDelete(item) }}>
-                        <Icon type='caret-right' />{clname === 1 ? '删除' : '添加'}
+                    return <a onClick={(item) => { this.handleClname(item) }}>
+                        <Icon type='caret-right' />{clname === 1 ? '内存告警' : 'CPU告警'}
                     </a>
                 }
             }, {
@@ -80,6 +79,7 @@ export default class WarningSet extends Component {
                 title: '创建时间',
                 dataIndex: 'startTime',
                 width: 20 + '%',
+                sorter: (a, b) => moment(a.startTime).format('YYYYMMDDHHmmss') - moment(b.startTime).format('YYYYMMDDHHmmss')
             }, {
                 title: '最后修改人',
                 dataIndex: 'lastname',
@@ -127,6 +127,7 @@ export default class WarningSet extends Component {
                     visible={this.state.isVisible}
                     footer={null}
                     onOk={this.handleSubmit}
+                    maskClosable = {false}
                     onCancel={() => {
                         this.userForm.props.form.resetFields();
                         this.setState({
@@ -299,7 +300,7 @@ class UserForm extends React.Component {
                 </p>
                 <FormItem label="告警通知组" {...formItemLayout}>
                     {
-                        getFieldDecorator('period',{
+                        getFieldDecorator('period', {
                             initialValue: 1
                         })(
                             <Select>
