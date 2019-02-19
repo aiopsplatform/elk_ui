@@ -56,7 +56,7 @@ export default class WarningSet extends Component {
                 dataIndex: 'warnobject',
                 width: 10 + '%',
                 render(warnobject) {
-                    return warnobject == 1 ? '男' : '女'
+                    return warnobject === 1 ? '男' : '女'
                 }
             }, {
                 title: '状态',

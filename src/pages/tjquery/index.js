@@ -1,42 +1,26 @@
 import React, { Component } from 'react'
-import { Card, Slider, Button, Icon, Modal } from 'antd'
+import { Card, Slider, Button, Icon } from 'antd'
 import BaseForm from "./../../components/BaseForm"
-// import axios from "./../../axios"
-import axios from "axios"
+import { connect } from "react-redux"
 import "./index.less"
-export default class TJQuery extends Component {
+import { getData_locast } from "./../../action/actioncreator"
+class TJQuery extends Component {
+
     state = {
         disabled: false,
         type: "arrows-alt",
     }
 
-    componentWillMount() {
-        this.request();
+    componentDidMount() {
+        this.props.getList();
+        let { mallDemoList } = this.props;
+        console.log(mallDemoList)
     }
 
     handleFilter = (params) => {
         this.params = params;
-        this.request();
     }
-    request = () => {
-        let baseUrl = "https://www.easy-mock.com/mock/5c62af35fe257b0e6ddb1e1b/elk_moni";
-        axios.get(baseUrl + "/tjquery/list").then((res) => {
-            if (res.status === 200 && res.data.code === 0) {
-                this.setState({
-                    inputList: res.data
-                })
-            } else {
-                Modal.info({
-                    title: "提示",
-                    content: res.msg
-                })
-            }
-        })
-    }
-    // requestList = () => {
-    //     axios.requestList(this, '/tjquery/list', this.params, true)
-    //     console.log(this.params)
-    // }
+    
     formList = [
         {
             type: 'SELECT',
@@ -44,12 +28,14 @@ export default class TJQuery extends Component {
             field: 'indexes',
             placeholder: '请选择索引',
             width: 200,
-            list: [
-                { id: '0', name: '索引一' },
-                { id: '1', name: '索引二' },
-                { id: '2', name: '索引三' },
-                { id: '3', name: '索引四' }]
+            list : this.props.mallDemoList
         },
+        //     list: [
+        //         { id: '0', name: '索引一' },
+        //         { id: '1', name: '索引二' },
+        //         { id: '2', name: '索引三' },
+        //         { id: '3', name: '索引四' }]
+        // },
         {
             type: 'SELECT',
             label: '类型',
@@ -103,10 +89,12 @@ export default class TJQuery extends Component {
                 { id: '3', name: '实例四' }]
         },
     ]
+
     handleDisabledChange = (disabled) => {
         this.setState({ disabled });
     }
     render() {
+        // let { mallDemoList } = this.props;
         let { disabled, type } = this.state;
         return (
             <div className="tiquery_big_box">
@@ -152,3 +140,14 @@ export default class TJQuery extends Component {
         }
     }
 }
+const mapStateToProps = (state) => ({
+    mallDemoList: state.conditionquery.mallDemoList
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    getList() {
+        dispatch(getData_locast())
+    }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TJQuery)

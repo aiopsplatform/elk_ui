@@ -33,7 +33,7 @@ export default class WarningInform extends Component {
 
     // 创建员工提交
     handleSubmit = () => {
-        let type = this.state.type;
+        // let type = this.state.type;
         let data = this.userForm.props.form.getFieldsValue();
         axios.ajax({
             url: '/table/list',
@@ -41,7 +41,7 @@ export default class WarningInform extends Component {
                 params: data
             }
         }).then((res) => {
-            if (res.code == 0) {
+            if (res.code === 0) {
                 this.userForm.props.form.resetFields();
                 this.setState({
                     isVisible: false
