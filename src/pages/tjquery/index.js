@@ -21,7 +21,7 @@ class TJQuery extends Component {
         this.params = params;
     }
 
-    
+
     
     formList = [
         {
@@ -102,8 +102,8 @@ class TJQuery extends Component {
             <div className="tiquery_big_box">
                 <Card className="tjquery_cards" >
                     <BaseForm formList={this.formList} filterSubmit={this.handleFilter} />
-                    <Slider defaultValue={30} disabled={disabled} style={{ marginBottom: 20 }} />
-                    <Button type='primary' icon="download" style={{ marginLeft: 40 }} >立即下载</Button>
+                    {/* <Slider defaultValue={30} disabled={disabled} style={{ marginBottom: 20 }} /> */}
+                    {/* <Button type='primary' icon="download" style={{ marginLeft: 40 }} >立即下载</Button> */}
                 </Card>
                 <div className="cont_box" ref="cont_box">
                     <div className="cont_box_header">
