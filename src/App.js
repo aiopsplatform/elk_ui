@@ -14,8 +14,8 @@ import WarningSet from "./pages/warningSet"
 import WarningRecord from "./pages/warningRecord"
 import WarningInform from "./pages/warningInform"
 import Configure from "./pages/configure"
-// import WarnDetail from "./pages/warnDetail"
-// import CPUDDetail from "./components/warning/warningDetails/CPUDetail"
+import WarnDetail from "./pages/warnDetail"
+import CPUDDetail from "./pages/warnCPU"
 import Analyze from "./pages/analyze"
 import ResourcesM from "./pages/resourcesMonitoring"
 import { Provider } from "react-redux";
@@ -121,8 +121,8 @@ class App extends Component {
                   <Route path="/informWarning" component={WarningInform} />
                   <Route path="/analyze" component={Analyze} />
                   <Route path="/monito" component={ResourcesM} />
-                  {/* <Route path="/setWarning/warn_detail" component={WarnDetail} /> */}
-                  {/* <Route path="/setWarning/CPU_detail" component={CPUDDetail} /> */}
+                  <Route path="/setWarning/warn_detail" component={WarnDetail} />
+                  <Route path="/setWarning/CPU_detail" component={CPUDDetail} />
                   <Redirect from="/" to="/conditionquery" />
                 </Switch>
               </Layout>

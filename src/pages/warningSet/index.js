@@ -32,20 +32,26 @@ export default class WarningSet extends Component {
             })
         }
     }
-    handleClname = () =>{
+    handleClname1 = () =>{
         this.props.history.push("/setWarning/warn_detail")
     }
-
+    handleClname2 = () =>{
+        this.props.history.push("/setWarning/CPU_detail")
+    }
     render() {
         const columns = [
             {
                 title: '策略名称',
                 dataIndex: 'clname',
                 width: 20 + '%',
-                render: (text, item, clname) => {
-                    return <a onClick={(item) => { this.handleClname(item) }}>
-                        <Icon type='caret-right' />{clname === 1 ? '内存告警' : 'CPU告警'}
-                    </a>
+                render: (clname,item) => {
+                    // return <a onClick={(item,claname) => { this.handleClname(item,'claname') }}>
+                    //     <Icon type='caret-right' />{clname === 1 ? '内存告警' : 'CPU告警'}
+                    // </a>
+                    return {
+                        "1" : <a onClick={(item) => { this.handleClname1(item)}}><Icon type='caret-right' />内存告警</a>,
+                        "2" : <a onClick={(item) => { this.handleClname2(item)}}><Icon type='caret-right' />CPU告警</a>,
+                    }[clname]
                 }
             }, {
                 title: '类型',
@@ -88,6 +94,11 @@ export default class WarningSet extends Component {
                 title: '操作',
                 dataIndex: 'operate',
                 width: 10 + '%',
+                // render(){
+                //     return{
+
+                //     }
+                // }
             },
         ]
         const selectedRowKeys = this.state.selectedRowKeys;

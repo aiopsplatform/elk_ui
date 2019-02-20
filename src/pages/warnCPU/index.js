@@ -1,7 +1,6 @@
 import React from 'react'
 import { Card, Button, Icon, Table } from 'antd'
 import axios from "./../../axios"
-import "./index.less"
 import moment from 'moment'
 export default class WarnDetail extends React.Component {
     state = {}
@@ -70,7 +69,7 @@ export default class WarnDetail extends React.Component {
                     <Button type="primary" onClick={this.handleBack} icon="left" >返回</Button>
                 </p>
                 <p className="p_pp"></p>
-                <span className="p_title">告警内存</span>
+                <span className="p_title">CPU告警</span>
             </Card>
             <Card>
                 <div className="leftDetail" >
@@ -80,11 +79,11 @@ export default class WarnDetail extends React.Component {
                     <div className="leftDetail_body">
                         <p className="leftDetail_cont">
                             <span className="span_lable" >策略名称 : </span>
-                            <span>内存告警</span>
+                            <span>CPU告警</span>
                         </p>
                         <p className="leftDetail_cont">
                             <span className="span_lable" >策略名称 : </span>
-                            <span>内存告警</span>
+                            <span>CPU告警</span>
                         </p>
                     </div>
                 </div>
