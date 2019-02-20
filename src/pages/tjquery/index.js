@@ -30,7 +30,7 @@ class TJQuery extends Component {
             field: 'indexes',
             placeholder: '请选择索引',
             width: 200,
-            list : this.props.mallDemoList
+            // list : this.props.mallDemoList
         },
         //     list: [
         //         { id: '0', name: '索引一' },
@@ -96,6 +96,8 @@ class TJQuery extends Component {
         this.setState({ disabled });
     }
     render() {
+        let { mallDemoList } = this.props;
+        console.log(mallDemoList)
         // let { mallDemoList } = this.props;
         let { disabled, type } = this.state;
         return (
@@ -137,7 +139,7 @@ class TJQuery extends Component {
             })
             this.refs.cont_box.style = `
                                     width: 98%;
-                                    height: 60%;
+                                    height: 75%;
                                 `
         }
     }

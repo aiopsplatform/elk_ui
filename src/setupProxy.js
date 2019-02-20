@@ -5,7 +5,7 @@ module.exports = (app) => {
 		target: "https://ticket-api-m.mtime.cn",
 		changeOrigin: true
 	})),
-	app.use("/tail", proxy({
+	app.use("/index", proxy({
 		target: "http://localhost:8080",
 		changeOrigin: true
 	}))

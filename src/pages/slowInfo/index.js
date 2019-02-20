@@ -80,9 +80,7 @@ export default class SlowInfo extends Component {
                     <BaseForm formList={this.formList} filterSubmit={this.handleFilter} />
                     {/* <Button type='primary' className="start_btn" >START</Button> */}
                 </Card>
-                <Card>
                     <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 500, display: 'block' }} />
-                </Card>
             </div>
         )
     }

@@ -10,7 +10,7 @@ export default (state = defaultState, action) => {
 			mallNav.mallNavList = Object.values(action.payload);
 			return mallNav;
 		case "MALL_LOCAST_FULFILLED":
-			let mallDemo = JSON.parse(JSON.stringify(state));
+			let mallDemo = JSON.parse(state);
 			mallDemo.mallDemoList = action.payload;
 			return mallDemo;
 		default:

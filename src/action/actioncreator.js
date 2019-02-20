@@ -15,12 +15,12 @@ export const getData_action = () => ({
 export const getData_locast = () => ({
     type: "MALL_LOCAST",
     payload: new Promise(resolve => {
-        let url = "/tail/getElkLogType"
+        let url = "/index/getElkLogType"
         fetch(url)
             .then(res => res.json())
             .then((data) => {
+                resolve(data)
                 console.log(data)
-                // resolve(data)
             })
     })
 })

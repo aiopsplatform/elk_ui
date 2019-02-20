@@ -100,9 +100,7 @@ class OftenInfo extends Component {
                         </FormItem>
                     </Form>
                 </Card>
-                <Card>
                     <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 500, display: 'block' }} />
-                </Card>
             </div>
         )
     }

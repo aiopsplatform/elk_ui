@@ -108,6 +108,7 @@ export default class Analyze extends Component {
                 >
                     <Tree
                         showLine
+                        draggable
                     >
                         <TreeNode title="parent 1" key="0-0">
                             <TreeNode title="parent 1-0" key="0-0-0">
