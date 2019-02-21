@@ -1,111 +1,180 @@
 import React, { Component } from 'react'
-import { Card, Slider, Button, Icon } from 'antd'
-import BaseForm from "./../../components/BaseForm"
+import { Card, DatePicker, Select, Button, Icon, Form } from 'antd'
+// import BaseForm from "../../components/BaseForm"
+import { fetch } from "whatwg-fetch"
 import { connect } from "react-redux"
 import "./index.less"
-import { getData_locast } from "./../../action/actioncreator"
+import { getData_locast } from "../../action/actioncreator"
+const Option = Select.Option;
+const FormItem = Form.Item;
 class TJQuery extends Component {
+    constructor(props) {
+        super(props)
+    }
 
     state = {
         disabled: false,
         type: "arrows-alt",
+        list: []
     }
 
     componentDidMount() {
         this.props.getList();
-        let { mallDemoList } = this.props;
-        console.log(mallDemoList)
-    }
-
-    handleFilter = (params) => {
-        this.params = params;
     }
 
 
-    
-    formList = [
-        {
-            type: 'SELECT',
-            label: '索引',
-            field: 'indexes',
-            placeholder: '请选择索引',
-            width: 200,
-            // list : this.props.mallDemoList
-        },
-        //     list: [
-        //         { id: '0', name: '索引一' },
-        //         { id: '1', name: '索引二' },
-        //         { id: '2', name: '索引三' },
-        //         { id: '3', name: '索引四' }]
-        // },
-        {
-            type: 'SELECT',
-            label: '类型',
-            field: 'types',
-            placeholder: '请选择类型',
-            width: 200,
-            list: [
-                { id: '0', name: '类型一' },
-                { id: '1', name: '类型二' },
-                { id: '2', name: '类型三' },
-                { id: '3', name: '类型四' }]
-        },
-        {
-            type: 'SELECT',
-            label: '级别',
-            field: 'rank',
-            placeholder: '请选择级别',
-            width: 200,
-            list: [
-                { id: '0', name: '级别一' },
-                { id: '1', name: '级别二' },
-                { id: '2', name: '级别三' },
-                { id: '3', name: '级别四' }]
-        },
-        {
-            type: '时间查询',
-            placeholder: '请选择时间'
-        },
-        {
-            type: 'SELECT',
-            label: '服务',
-            field: 'serve',
-            placeholder: '请选择服务',
-            width: 200,
-            list: [
-                { id: '0', name: '服务一' },
-                { id: '1', name: '服务二' },
-                { id: '2', name: '服务三' },
-                { id: '3', name: '服务四' }]
-        },
-        {
-            type: 'SELECT',
-            label: '实例',
-            field: 'projects',
-            placeholder: '请选择实例',
-            width: 200,
-            list: [
-                { id: '0', name: '实例一' },
-                { id: '1', name: '实例二' },
-                { id: '2', name: '实例三' },
-                { id: '3', name: '实例四' }]
-        },
-    ]
+    handleFilterSubmit = () => {
+        let fieldsValue = this.props.form.getFieldsValue();
+        console.log(fieldsValue)
+        this.requers(fieldsValue);
+        // let url ="/index/selectByIndex"
+        // fetch(url, {
+        //     method: 'post',
+        //     headers: {
+        //       'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(fieldsValue)
+        //   }).then((res)=>{
+        //       this.setState({
+        //         LogContent : res
+        //       })
+        //   }).catch(error => console.log('error is', error));
+    }
+
+    requers =(data) =>{
+        let url ="/index/selectByIndex"
+        fetch(url, {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          }).then((res)=>{
+              this.setState({
+                LogContent : res
+              })
+          }).catch(error => console.log('error is', error));
+    }
+
+    reset = () => {
+        this.props.form.resetFields();
+    }
 
     handleDisabledChange = (disabled) => {
         this.setState({ disabled });
     }
     render() {
         let { mallDemoList } = this.props;
-        console.log(mallDemoList)
-        // let { mallDemoList } = this.props;
-        let { disabled, type } = this.state;
+        // console.log(mallDemoList)
+        let { type } = this.state;
+        const { getFieldDecorator } = this.props.form;
         return (
             <div className="tiquery_big_box">
                 <Card className="tjquery_cards" >
-                    <BaseForm formList={this.formList} filterSubmit={this.handleFilter} />
-                    {/* <Slider defaultValue={30} disabled={disabled} style={{ marginBottom: 20 }} /> */}
-                    {/* <Button type='primary' icon="download" style={{ marginLeft: 40 }} >立即下载</Button> */}
+                    <Form layout="inline">
+                        <FormItem label="索引">
+                            {
+                                getFieldDecorator('indexes')(
+                                    <Select
+                                        placeholder='请选择索引'
+                                        style={{ width: 200 }}
+                                    >
+                                        {
+                                            mallDemoList.length > 0 ? mallDemoList.map((item, i) => {
+                                                return <Option key={i} value={item.id}>{item.name}</Option>
+                                            }) : ""
+                                        }
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
+                        <FormItem label="类型">
+                            {
+                                getFieldDecorator('types')(
+                                    <Select
+                                        placeholder='请选择类型'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='1'>类型一</Option>
+                                        <Option value='2'>类型二</Option>
+                                        <Option value='3'>类型三</Option>
+                                        <Option value='4'>类型四</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
+                        <FormItem label="级别">
+                            {
+                                getFieldDecorator('rank')(
+                                    <Select
+                                        placeholder='请选择级别'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='1'>级别一</Option>
+                                        <Option value='2'>级别二</Option>
+                                        <Option value='3'>级别三</Option>
+                                        <Option value='4'>级别四</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
+                        <FormItem label="开始时间" >
+                            {
+                                getFieldDecorator('begin_time')(
+                                    <DatePicker
+                                        showTime={true}
+                                        placeholder="请选择时间"
+                                        format="YYYY-MM-DD HH:mm:ss"
+                                    />
+                                )
+                            }
+                        </FormItem>
+                        <FormItem label="结束时间" >
+                            {
+                                getFieldDecorator('end_time')(
+                                    <DatePicker
+                                        showTime={true}
+                                        placeholder="请选择时间"
+                                        format="YYYY-MM-DD HH:mm:ss"
+                                    />
+                                )
+                            }
+                        </FormItem>
+                        <FormItem label="服务">
+                            {
+                                getFieldDecorator('serve')(
+                                    <Select
+                                        placeholder='请选择服务'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='1'>服务一</Option>
+                                        <Option value='2'>服务二</Option>
+                                        <Option value='3'>服务三</Option>
+                                        <Option value='4'>服务四</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
+                        <FormItem label="实例">
+                            {
+                                getFieldDecorator('projects')(
+                                    <Select
+                                        placeholder='请选择实例'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='1'>实例一</Option>
+                                        <Option value='2'>实例二</Option>
+                                        <Option value='3'>实例三</Option>
+                                        <Option value='4'>实例四</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
+                        <FormItem>
+                            <Button type="primary" style={{ marginRight: 20, marginTop: 5 }} onClick={this.handleFilterSubmit}>查询</Button>
+                            <Button onClick={this.reset} style={{ marginTop: 5 }} >重置</Button>
+                        </FormItem>
+                    </Form>
                 </Card>
                 <div className="cont_box" ref="cont_box">
                     <div className="cont_box_header">
@@ -113,7 +182,13 @@ class TJQuery extends Component {
                         <span className="blow_up" onClick={this.handleBlowUp.bind(this)}><Icon type={type} /></span>
                     </div>
                     <div className="cont_box_body">
+                            {/* {
+                                this.state.LogContent.length>0? this.state.LogContent.map((item,i)=>{
+                                    return <p key={i}>
 
+                                    </p>
+                                }) : "暂无数据"
+                            } */}
                     </div>
                 </div>
             </div>
@@ -153,5 +228,5 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(getData_locast())
     }
 })
-
+TJQuery = Form.create({})(TJQuery);
 export default connect(mapStateToProps, mapDispatchToProps)(TJQuery)

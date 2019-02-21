@@ -19,4 +19,6 @@ module.exports = (app) => {
 
 //http://localhost:8080/tail/taillist
 
-//http://192.168.43.78:8080/tail/getElkLogType
+//http://localhost:8080/tail/getElkLogType
+
+//http://localhost:8080/index/selectByIndex

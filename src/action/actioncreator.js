@@ -20,7 +20,6 @@ export const getData_locast = () => ({
             .then(res => res.json())
             .then((data) => {
                 resolve(data)
-                console.log(data)
             })
     })
 })
