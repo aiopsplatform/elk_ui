@@ -49,8 +49,8 @@ export default class WarningSet extends Component {
                     //     <Icon type='caret-right' />{clname === 1 ? '内存告警' : 'CPU告警'}
                     // </a>
                     return {
-                        "1" : <a onClick={(item) => { this.handleClname1(item)}}><Icon type='caret-right' />内存告警</a>,
-                        "2" : <a onClick={(item) => { this.handleClname2(item)}}><Icon type='caret-right' />CPU告警</a>,
+                        "1" : <span className="warn_span" onClick={(item) => { this.handleClname1(item)}}><Icon type='caret-right' />内存告警</span>,
+                        "2" : <span className="warn_span" onClick={(item) => { this.handleClname2(item)}}><Icon type='caret-right' />CPU告警</span>,
                     }[clname]
                 }
             }, {

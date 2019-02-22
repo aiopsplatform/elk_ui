@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Card, DatePicker, Select, Button, Icon, Form } from 'antd'
 // import BaseForm from "../../components/BaseForm"
+import moment from "moment"
 import { fetch } from "whatwg-fetch"
 import { connect } from "react-redux"
 import "./index.less"
@@ -8,14 +9,13 @@ import { getData_locast } from "../../action/actioncreator"
 const Option = Select.Option;
 const FormItem = Form.Item;
 class TJQuery extends Component {
-    constructor(props) {
-        super(props)
-    }
 
     state = {
         disabled: false,
         type: "arrows-alt",
-        list: []
+        list: [],
+        startValue: '',
+        endValue: ''
     }
 
     componentDidMount() {
@@ -25,35 +25,26 @@ class TJQuery extends Component {
 
     handleFilterSubmit = () => {
         let fieldsValue = this.props.form.getFieldsValue();
-        console.log(fieldsValue)
+        // console.log(fieldsValue)
         this.requers(fieldsValue);
-        // let url ="/index/selectByIndex"
-        // fetch(url, {
-        //     method: 'post',
-        //     headers: {
-        //       'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(fieldsValue)
-        //   }).then((res)=>{
-        //       this.setState({
-        //         LogContent : res
-        //       })
-        //   }).catch(error => console.log('error is', error));
     }
 
-    requers =(data) =>{
-        let url ="/index/selectByIndex"
+    requers = (datas) => {
+        let url = "/index/selectByIndex"
         fetch(url, {
             method: 'post',
             headers: {
-              'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
-          }).then((res)=>{
-              this.setState({
-                LogContent : res
-              })
-          }).catch(error => console.log('error is', error));
+            body: JSON.stringify(datas)
+        })
+            .then(res => res.json())
+            .then((data) => {
+                console.log(data)
+                this.setState({
+                    LogContent: JSON.parse(JSON.stringify(data))
+                })
+            }).catch(error => console.log('error is', error));
     }
 
     reset = () => {
@@ -63,10 +54,38 @@ class TJQuery extends Component {
     handleDisabledChange = (disabled) => {
         this.setState({ disabled });
     }
+
+    //时间选择范围
+    disabledStartDate = (startValue) => {
+        const endValue = this.state.endValue;
+        if (!startValue || !endValue) {
+            return startValue.valueOf()> new Date().getTime();
+        }
+        return startValue.valueOf() > endValue.valueOf();
+    }
+
+    disabledEndDate = (endValue) => {
+        const startValue = this.state.startValue;
+        if (!endValue || !startValue) {
+            return endValue.valueOf()> new Date().getTime();
+        }
+        return endValue.valueOf() <= startValue.valueOf();
+    }
+    onChange = (fields, value) => {
+        this.setState({
+          [fields]: value,
+        });
+      }
+    onStartChange = (value) => {
+        this.onChange('startValue', value);
+    }
+
+    onEndChange = (value) => {
+        this.onChange('endValue', value);
+    }
     render() {
         let { mallDemoList } = this.props;
-        // console.log(mallDemoList)
-        let { type } = this.state;
+        let { type, startValue, endValue , LogContent } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="tiquery_big_box">
@@ -122,9 +141,12 @@ class TJQuery extends Component {
                             {
                                 getFieldDecorator('begin_time')(
                                     <DatePicker
-                                        showTime={true}
-                                        placeholder="请选择时间"
+                                        placeholder="请选择开始时间"
                                         format="YYYY-MM-DD HH:mm:ss"
+                                        showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
+                                        setFieldsValue={startValue}
+                                        onChange={this.onStartChange}
+                                        disabledDate={this.disabledStartDate}
                                     />
                                 )
                             }
@@ -133,9 +155,12 @@ class TJQuery extends Component {
                             {
                                 getFieldDecorator('end_time')(
                                     <DatePicker
-                                        showTime={true}
-                                        placeholder="请选择时间"
+                                        placeholder="请选择结束时间"
                                         format="YYYY-MM-DD HH:mm:ss"
+                                        showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
+                                        setFieldsValue={endValue}
+                                        onChange={this.onEndChange}
+                                        disabledDate={this.disabledEndDate}
                                     />
                                 )
                             }
@@ -182,13 +207,14 @@ class TJQuery extends Component {
                         <span className="blow_up" onClick={this.handleBlowUp.bind(this)}><Icon type={type} /></span>
                     </div>
                     <div className="cont_box_body">
-                            {/* {
+                        {/* {
                                 this.state.LogContent.length>0? this.state.LogContent.map((item,i)=>{
                                     return <p key={i}>
 
                                     </p>
                                 }) : "暂无数据"
                             } */}
+                            {/* <p style={{color:'red'}} >{LogContent.message}</p> */}
                     </div>
                 </div>
             </div>

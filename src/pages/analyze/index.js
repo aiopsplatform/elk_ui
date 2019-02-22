@@ -63,9 +63,9 @@ export default class Analyze extends Component {
                 dataIndex: 'operation',
                 width: 15 + '%',
                 render: (item, operation) => {
-                    return <a onClick={(item) => { this.handleVisit(item) }}>
+                    return <span className="Link_access" onClick={(item) => { this.handleVisit(item) }}>
                         链路访问
-                    </a>
+                    </span>
                 }
             },
         ]

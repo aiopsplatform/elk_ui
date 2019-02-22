@@ -147,7 +147,7 @@ export default class WarningInform extends Component {
                     width={600}
                 >
                     <UserForm type={this.state.type} userInfo={this.state.userInfo} wrappedComponentRef={(inst) => { this.userForm = inst; }} />
-                    <span className="aAdd"  ><a><Icon type="plus-circle" /> 添加邮箱</a></span> 
+                    <span className="aAdd"  ><span className="wranInform_span" ><Icon type="plus-circle" /> 添加邮箱</span></span> 
                 </Modal>
             </div>
         )

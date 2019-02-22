@@ -24,5 +24,18 @@ export const getData_locast = () => ({
     })
 })
 
+export const getData_normalBar = () => ({
+    type: "EASYMOCK_DATA",
+    payload: new Promise(resolve => {
+        let url = "/data/normalBar"
+        fetch(url)
+            .then(res => res.json())
+            .then((data) => {
+                console.log(data)
+                resolve(data)
+            })
+    })
+})
+
 
 

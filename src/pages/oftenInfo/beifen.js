@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Button, DatePicker, Form, InputNumber } from "antd"
 import "./index.less"
-import moment from "moment"
 //按需加载
 import echarts from 'echarts/lib/echarts'
 // 导入柱形图
@@ -13,10 +12,6 @@ import 'echarts/lib/component/markPoint'
 import ReactEcharts from 'echarts-for-react'
 const FormItem = Form.Item;
 class OftenInfo extends Component {
-    state = {
-        startValue: '',
-        endValue: ''
-    }
     componentWillMount() {
         echarts.registerTheme('Imooc');
     }
@@ -60,36 +55,7 @@ class OftenInfo extends Component {
         };
         return option;
     }
-    //时间选择范围
-    disabledStartDate = (startValue) => {
-        const endValue = this.state.endValue;
-        if (!startValue || !endValue) {
-            return startValue.valueOf() > new Date().getTime();
-        }
-        return startValue.valueOf() > endValue.valueOf();
-    }
-
-    disabledEndDate = (endValue) => {
-        const startValue = this.state.startValue;
-        if (!endValue || !startValue) {
-            return endValue.valueOf() > new Date().getTime();
-        }
-        return endValue.valueOf() <= startValue.valueOf();
-    }
-    onChange = (fields, value) => {
-        this.setState({
-            [fields]: value,
-        });
-    }
-    onStartChange = (value) => {
-        this.onChange('startValue', value);
-    }
-
-    onEndChange = (value) => {
-        this.onChange('endValue', value);
-    }
     render() {
-        let { startValue, endValue } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="often_big_box" >
@@ -99,12 +65,9 @@ class OftenInfo extends Component {
                             {
                                 getFieldDecorator('begin_time')(
                                     <DatePicker
-                                        placeholder="请选择开始时间"
+                                        showTime={true}
+                                        placeholder="请选择时间"
                                         format="YYYY-MM-DD HH:mm:ss"
-                                        showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
-                                        setFieldsValue={startValue}
-                                        onChange={this.onStartChange}
-                                        disabledDate={this.disabledStartDate}
                                     />
                                 )
                             }
@@ -113,12 +76,9 @@ class OftenInfo extends Component {
                             {
                                 getFieldDecorator('end_time')(
                                     <DatePicker
-                                        placeholder="请选择结束时间"
+                                        showTime={true}
+                                        placeholder="请选择时间"
                                         format="YYYY-MM-DD HH:mm:ss"
-                                        showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
-                                        setFieldsValue={endValue}
-                                        onChange={this.onEndChange}
-                                        disabledDate={this.disabledEndDate}
                                     />
                                 )
                             }
@@ -140,7 +100,7 @@ class OftenInfo extends Component {
                         </FormItem>
                     </Form>
                 </Card>
-                <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 500, display: 'block' }} />
+                    <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 500, display: 'block' }} />
             </div>
         )
     }
