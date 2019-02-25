@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
-import { Card, Select, Form , Button } from 'antd'
+import { Card, Select, Form, Button } from 'antd'
 // import BaseForm from "./../../components/BaseForm"
-import { fetch } from "whatwg-fetch"
 import { connect } from "react-redux"
+import Content from "./content"
 import "./index.less"
 import { getData_locast } from "../../action/actioncreator"
 const Option = Select.Option;
 const FormItem = Form.Item;
 class RealyTQuery extends Component {
 
+    state={
+        timer : null
+    }
     //获取input框数据
     componentDidMount() {
         this.props.getList();
@@ -18,36 +21,14 @@ class RealyTQuery extends Component {
     handleFilterSubmit = () => {
         let fieldsValue = this.props.form.getFieldsValue();
         console.log(fieldsValue)
-        // setInterval(this.requers(fieldsValue),1000)
-        this.requers(fieldsValue);
-        // let url ="/index/selectByIndex"
-        // fetch(url, {
-        //     method: 'post',
-        //     headers: {
-        //       'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(fieldsValue)
-        //   }).then((res)=>{
-        //       this.setState({
-        //         LogContent : res
-        //       })
-        //   }).catch(error => console.log('error is', error));
+        this.state.stimer = setInterval(this.refs.content.requers(fieldsValue),1000)
+        // this.refs.content.requers(fieldsValue);
     }
 
-    //向后台发送数据
-    requers = (data) => {
-        let url = "/index/selectByIndex"
-        fetch(url, {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then((res) => {
-            this.setState({
-                LogContent: res
-            })
-        }).catch(error => console.log('error is', error));
+    componentWillUnmount(){
+        if(this.state.timer !== null){
+            clearInterval(this.state.timer);
+        }
     }
 
     //重置
@@ -145,12 +126,7 @@ class RealyTQuery extends Component {
                     </Form>
                 </Card>
                 <div className="realtime_cont_box">
-                    <div className="realtime_header">
-                        <span className="data_show_txt">数据展示</span>
-                    </div>
-                    <div className="realtime_body">
-
-                    </div>
+                    <Content ref={'content'} />
                 </div>
             </div>
         )

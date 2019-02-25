@@ -208,9 +208,9 @@ class TJQuery extends Component {
                     </div>
                     <div className="cont_box_body">
                         {/* {
-                                this.state.LogContent.length>0? this.state.LogContent.map((item,i)=>{
+                                this.state.LogContent ? this.state.LogContent.map((item,i)=>{
                                     return <p key={i}>
-
+                                        {item}
                                     </p>
                                 }) : "暂无数据"
                             } */}

@@ -4,68 +4,28 @@ import { Card, DatePicker, Select, Button, Form } from 'antd'
 import "./index.less"
 import moment from "moment"
 import { connect } from "react-redux"
-//按需加载
-// import echarts from 'echarts/lib/echarts'
-// 导入柱形图
-import 'echarts/lib/chart/bar'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/title'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/component/markPoint'
-import ReactEcharts from 'echarts-for-react'
+import Loading from "./../../components/loading"
+import Bar from "./bar"
 import { getData_normalBar } from "./../../action/actioncreator"
 const Option = Select.Option;
 const FormItem = Form.Item;
 class AbnormalInfo extends Component {
     state = {
         startValue: '',
-        endValue: ''
+        endValue: '',
+        dataX: [],
+        dataY: []
     }
- 
+
     componentDidMount() {
         this.props.getData();
+        if(this.props.dataList.list){
+            this.refs.bar.setData(this.props.dataList.list)
+        }
         console.log(this.props.dataList)
+
     }
-    getOption = () => {
-        let option = {
-            color: ['#3398DB'],
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: ['8~9', '9~10', '10~11', '11~12', '12~13', '13~14', '14~15','16','17','18'],
-                    axisTick: {
-                        alignWithLabel: true
-                    }
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value'
-                }
-            ],
-            series: [
-                {
-                    name: '数量',
-                    type: 'bar',
-                    barWidth: '50%',
-                    data: [10, 50, 300, 155, 130, 150, 260,100,190,200]
-                }
-            ]
-        };
-        return option;
-    }
+
     //点击查询获取数据
     handleFilterSubmit = () => {
         let fieldsValue = this.props.form.getFieldsValue();
@@ -98,7 +58,7 @@ class AbnormalInfo extends Component {
     disabledStartDate = (startValue) => {
         const endValue = this.state.endValue;
         if (!startValue || !endValue) {
-            return startValue.valueOf()> new Date().getTime();
+            return startValue.valueOf() > new Date().getTime();
         }
         return startValue.valueOf() > endValue.valueOf();
     }
@@ -106,15 +66,15 @@ class AbnormalInfo extends Component {
     disabledEndDate = (endValue) => {
         const startValue = this.state.startValue;
         if (!endValue || !startValue) {
-            return endValue.valueOf()> new Date().getTime();
+            return endValue.valueOf() > new Date().getTime();
         }
         return endValue.valueOf() <= startValue.valueOf();
     }
     onChange = (fields, value) => {
         this.setState({
-          [fields]: value,
+            [fields]: value,
         });
-      }
+    }
     onStartChange = (value) => {
         this.onChange('startValue', value);
     }
@@ -193,9 +153,10 @@ class AbnormalInfo extends Component {
                         </FormItem>
                     </Form>
                 </Card>
-                <div>
+                <div className="BarBox" >
                     {/* {this.state.flag?  <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 450}} /> : '' } */}
-                    <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 450 }} />
+                    { this.props.dataList.list ?  <Bar ref={'bar'} /> : <Loading /> }
+                    {/* <Bar ref={'bar'} /> */}
                 </div>
             </div>
         )
