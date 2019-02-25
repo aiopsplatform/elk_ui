@@ -122,6 +122,7 @@ class RealyTQuery extends Component {
                         <FormItem>
                             <Button type="primary" style={{ marginRight: 20, marginTop: 5 }} onClick={this.handleFilterSubmit}>查询</Button>
                             <Button onClick={this.reset} style={{ marginTop: 5 }} >重置</Button>
+                            <Button style={{ marginTop: 5 }} >XXX</Button>
                         </FormItem>
                     </Form>
                 </Card>

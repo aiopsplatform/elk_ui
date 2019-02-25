@@ -154,8 +154,7 @@ class AbnormalInfo extends Component {
                     </Form>
                 </Card>
                 <div className="BarBox" >
-                    {/* {this.state.flag?  <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 450}} /> : '' } */}
-                    { this.props.dataList.list ?  <Bar ref={'bar'} /> : <Loading /> }
+                    { !this.props.dataList.list ? <Loading /> :  <Bar ref={'bar'} />  }
                     {/* <Bar ref={'bar'} /> */}
                 </div>
             </div>
