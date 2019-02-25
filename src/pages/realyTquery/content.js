@@ -6,7 +6,7 @@ export default class Content extends Component {
     }
     //向后台发送数据
     requers = (data) => {
-        let url = "/index/selectByIndex"
+        let url = "/index/selectRealTimeQuery"
         fetch(url, {
             method: 'post',
             headers: {
@@ -21,7 +21,7 @@ export default class Content extends Component {
     }
 
     render() {
-        return (<div>
+        return (<div className="content_box">
             <div className="realtime_header">
                 <span className="data_show_txt">数据展示</span>
             </div>

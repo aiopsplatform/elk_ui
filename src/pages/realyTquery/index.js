@@ -21,7 +21,7 @@ class RealyTQuery extends Component {
     handleFilterSubmit = () => {
         let fieldsValue = this.props.form.getFieldsValue();
         console.log(fieldsValue)
-        this.state.stimer = setInterval(this.refs.content.requers(fieldsValue),1000)
+        this.setState({stimer : setInterval(this.refs.content.requers(fieldsValue),1000)})
         // this.refs.content.requers(fieldsValue);
     }
 
