@@ -1,11 +1,14 @@
 import React, { Component } from "react"
 import { fetch } from "whatwg-fetch"
 export default class Content extends Component {
-    state={
-        LogContent : undefined
+    constructor(props){
+        super(props)
+        this.state = {
+            LogContent : undefined
+        }
     }
     //向后台发送数据
-    requers = (data) => {
+    requers(data){
         let url = "/index/selectRealTimeQuery"
         fetch(url, {
             method: 'post',
@@ -13,7 +16,10 @@ export default class Content extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then((res) => {
+        })
+        .then(res => res.json())
+        .then((res) => {
+            console.log(res)
             this.setState({
                 LogContent: res
             })
@@ -26,7 +32,11 @@ export default class Content extends Component {
                 <span className="data_show_txt">数据展示</span>
             </div>
             <div className="realtime_body">
-
+                {
+                    this.state.LogContent ? this.state.LogContent.map((item,i)=>{
+                        return <p key={i} style={{color:'red'}}>{item}</p>
+                    }) : '正在加载'
+                }
             </div>
         </div>)
     }

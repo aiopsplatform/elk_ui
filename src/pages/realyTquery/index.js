@@ -9,8 +9,8 @@ const Option = Select.Option;
 const FormItem = Form.Item;
 class RealyTQuery extends Component {
 
-    state={
-        timer : null
+    state = {
+        timer: null
     }
     //获取input框数据
     componentDidMount() {
@@ -19,16 +19,18 @@ class RealyTQuery extends Component {
 
     //点击查询按钮
     handleFilterSubmit = () => {
+        let that = this;
         let fieldsValue = this.props.form.getFieldsValue();
         console.log(fieldsValue)
-        this.setState({stimer : setInterval(this.refs.content.requers(fieldsValue),1000)})
-        // this.refs.content.requers(fieldsValue);
+        clearInterval(that.timer)
+        that.timer = setInterval(() => {
+            this.refs.content.requers(fieldsValue)
+        }, 1000)
     }
 
     componentWillUnmount(){
-        if(this.state.timer !== null){
-            clearInterval(this.state.timer);
-        }
+        let that = this;
+        clearInterval(that.timer)
     }
 
     //重置
@@ -122,7 +124,6 @@ class RealyTQuery extends Component {
                         <FormItem>
                             <Button type="primary" style={{ marginRight: 20, marginTop: 5 }} onClick={this.handleFilterSubmit}>查询</Button>
                             <Button onClick={this.reset} style={{ marginTop: 5 }} >重置</Button>
-                            <Button style={{ marginTop: 5 }} >XXX</Button>
                         </FormItem>
                     </Form>
                 </Card>

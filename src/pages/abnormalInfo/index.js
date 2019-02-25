@@ -23,7 +23,6 @@ class AbnormalInfo extends Component {
             this.refs.bar.setData(this.props.dataList.list)
         }
         console.log(this.props.dataList)
-
     }
 
     //点击查询获取数据
@@ -154,7 +153,8 @@ class AbnormalInfo extends Component {
                     </Form>
                 </Card>
                 <div className="BarBox" >
-                    { !this.props.dataList.list ? <Loading /> :  <Bar ref={'bar'} />  }
+                    {/* {this.state.flag?  <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 450}} /> : '' } */}
+                    { this.props.dataList.list ?  <Bar ref={'bar'} /> : <Loading /> }
                     {/* <Bar ref={'bar'} /> */}
                 </div>
             </div>
