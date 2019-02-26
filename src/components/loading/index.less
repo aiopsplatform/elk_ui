@@ -1,5 +1,30 @@
-.Loading{
-    font-size: 30px;
-    color: blue;
-    margin-top: 40px;
-}
+
+      .loader{
+          font-size: 20px;
+          width: 1em;
+          height: 1em;
+          border-radius: 50%;
+          position: relative;
+          text-indent: -9999em;
+          animation: load-effect 1s infinite linear;
+          margin: 0 auto;
+      }
+  
+
+    @keyframes load-effect{
+        0%{
+            box-shadow: -3em 2em 0 0.5em #f9c700,0 2em 0 0 #f9c700,3em 2em 0 -0.5em #f9c700;
+        }
+        25%{
+            box-shadow: -3em 2em 0 0 #f9c700 , 0 2em 0 -0.5em #f9c700,3em 2em 0 0 #f9c700;
+        }
+        50%{
+            box-shadow: -3em 2em 0 -0.5em #f9c700,0 2em 0 0 #f9c700,3em 2em 0 0.5em #f9c700;
+        }
+        75%{
+            box-shadow: -3em 2em 0 0 #f9c700,0 2em 0 0.5em #f9c700,3em 2em 0 0 #f9c700;
+        }
+        100%{
+            box-shadow: -3em 2em 0 0.5em #f9c700,0 2em 0 0 #f9c700,3em 2em 0 -0.5em #f9c700
+        }
+    }

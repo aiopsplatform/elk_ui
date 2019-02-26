@@ -1,5 +1,7 @@
 import React, { Component } from "react"
 import { fetch } from "whatwg-fetch"
+import Loading from "./../../components/loading"
+
 export default class Content extends Component {
     constructor(props){
         super(props)
@@ -35,7 +37,7 @@ export default class Content extends Component {
                 {
                     this.state.LogContent ? this.state.LogContent.map((item,i)=>{
                         return <p key={i} style={{color:'red'}}>{item}</p>
-                    }) : <p style={{color:'red'}} >暂无数据，请查询</p>
+                    }) : <Loading />
                 }
             </div>
         </div>)

@@ -24,7 +24,16 @@ export default class FieldInfo extends Component {
             num: ''
         }
     }
-
+    //重置
+    reset = () => {
+        this.props.form.resetFields();
+        this.setState({
+            flag: false,
+            disabled: true,
+            disabledTwo: false,
+            num: ''
+        })
+    }
     componentWillMount() {
         echarts.registerTheme('Imooc');
     }
@@ -142,10 +151,10 @@ export default class FieldInfo extends Component {
                     <Form layout="horizontal">
                         <FormItem label="查询索引" {...formItemLayout} >
                             {
-                                getFieldDecorator('indexes', {
-                                    initialValue: '1'
-                                })(
-                                    <Select>
+                                getFieldDecorator('indexes')(
+                                    <Select
+                                        placeholder='请选择索引'
+                                    >
                                         <Option value='1'>索引一</Option>
                                         <Option value='2'>索引二</Option>
                                         <Option value='3'>索引三</Option>
@@ -156,10 +165,10 @@ export default class FieldInfo extends Component {
                         </FormItem>
                         <FormItem label="查询指标" {...formItemLayout} >
                             {
-                                getFieldDecorator('target', {
-                                    initialValue: '1'
-                                })(
-                                    <Select>
+                                getFieldDecorator('target')(
+                                    <Select
+                                        placeholder='请选择指标'
+                                    >
                                         <Option value='1'>指标一</Option>
                                         <Option value='2'>指标二</Option>
                                         <Option value='3'>指标三</Option>
@@ -170,10 +179,10 @@ export default class FieldInfo extends Component {
                         </FormItem>
                         <FormItem label="查询字段" {...formItemLayout} >
                             {
-                                getFieldDecorator('field', {
-                                    initialValue: '1'
-                                })(
-                                    <Select>
+                                getFieldDecorator('field')(
+                                    <Select
+                                    placeholder='请选择字段'
+                                    >
                                         <Option value='1'>字段一</Option>
                                         <Option value='2'>字段二</Option>
                                         <Option value='3'>字段三</Option>
@@ -189,6 +198,7 @@ export default class FieldInfo extends Component {
                         </FormItem>
                         <FormItem className="start_buton">
                             <Button type="primary" onClick={this.handleStart} disabled={disabled}>START</Button>
+                            <Button type="primary" onClick={this.reset} style={{marginLeft:20}} >重置</Button>
                         </FormItem>
                     </Form>
                 </div>

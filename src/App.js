@@ -18,6 +18,7 @@ import WarnDetail from "./pages/warnDetail"
 import CPUDDetail from "./pages/warnCPU"
 import Analyze from "./pages/analyze"
 import ResourcesM from "./pages/resourcesMonitoring"
+import AbnormalConfig from "./pages/abnormalConfig"
 import { Provider } from "react-redux";
 import store from "./store"
 import "./style/loading.less"
@@ -103,7 +104,8 @@ class App extends Component {
                     key="sub5"
                     title={<span><Icon type="setting" /><span>配置</span></span>}
                   >
-                    <Menu.Item key="12"><Link onClick={this._click.bind(this, 12, 'sub5')} to='/configure'>配置</Link></Menu.Item>
+                    <Menu.Item key="12"><Link onClick={this._click.bind(this, 12, 'sub5')} to='/configure'>grok规则</Link></Menu.Item>
+                    <Menu.Item key="13"><Link onClick={this._click.bind(this, 13, 'sub5')} to='/abnormalConfig'>异常配置</Link></Menu.Item>
                   </SubMenu>
                 </Menu>
               </Sider>
@@ -121,6 +123,7 @@ class App extends Component {
                   <Route path="/informWarning" component={WarningInform} />
                   <Route path="/analyze" component={Analyze} />
                   <Route path="/monito" component={ResourcesM} />
+                  <Route path="/abnormalConfig" component={AbnormalConfig} />
                   <Route path="/setWarning/warn_detail" component={WarnDetail} />
                   <Route path="/setWarning/CPU_detail" component={CPUDDetail} />
                   <Redirect from="/" to="/conditionquery" />
@@ -170,6 +173,9 @@ class App extends Component {
         break;
       case 12:
         sessionStorage.setItem('name', '12');
+        break;
+        case 13:
+        sessionStorage.setItem('name', '13');
         break;
       default:
         break;

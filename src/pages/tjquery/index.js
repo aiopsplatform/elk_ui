@@ -4,6 +4,7 @@ import moment from "moment"
 import { fetch } from "whatwg-fetch"
 import { connect } from "react-redux"
 import "./index.less"
+import Loading from "../../components/loading"
 import { getData_locast } from "../../action/actioncreator"
 const Option = Select.Option;
 const FormItem = Form.Item;
@@ -215,7 +216,7 @@ class TJQuery extends Component {
                                     return <p key={i} style={{color:'red'}} >
                                         {item}
                                     </p>
-                                }) : <p style={{color:'red'}} >暂无数据，请查询</p>
+                                }) : <Loading />
                             }
                     </div>
                 </div>

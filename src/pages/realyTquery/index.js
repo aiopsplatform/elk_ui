@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Card, Select, Form, Button } from 'antd'
-// import BaseForm from "./../../components/BaseForm"
 import { connect } from "react-redux"
 import Content from "./content"
 import "./index.less"
