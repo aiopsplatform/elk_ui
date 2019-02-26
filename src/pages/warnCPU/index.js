@@ -3,7 +3,10 @@ import { Card, Button, Icon, Table } from 'antd'
 import axios from "./../../axios"
 import moment from 'moment'
 export default class WarnDetail extends React.Component {
-    state = {}
+    constructor(props){
+        super(props);
+        this.state = {}
+    }
     params = {
         page: 1
     }

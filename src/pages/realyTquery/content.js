@@ -35,7 +35,7 @@ export default class Content extends Component {
                 {
                     this.state.LogContent ? this.state.LogContent.map((item,i)=>{
                         return <p key={i} style={{color:'red'}}>{item}</p>
-                    }) : '正在加载'
+                    }) : <p style={{color:'red'}} >暂无数据，请查询</p>
                 }
             </div>
         </div>)

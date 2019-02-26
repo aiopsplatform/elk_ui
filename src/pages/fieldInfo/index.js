@@ -15,11 +15,14 @@ const Option = Select.Option;
 const FormItem = Form.Item;
 
 export default class FieldInfo extends Component {
-    state = {
-        flag: false,
-        disabled: true,
-        disabledTwo: false,
-        num: ''
+    constructor(props) {
+        super(props);
+        this.state = {
+            flag: false,
+            disabled: true,
+            disabledTwo: false,
+            num: ''
+        }
     }
 
     componentWillMount() {

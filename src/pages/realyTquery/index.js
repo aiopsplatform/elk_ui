@@ -8,10 +8,13 @@ import { getData_locast } from "../../action/actioncreator"
 const Option = Select.Option;
 const FormItem = Form.Item;
 class RealyTQuery extends Component {
-
-    state = {
-        timer: null
+    constructor(props){
+        super(props);
+        this.state = {
+            timer: null
+        }
     }
+
     //获取input框数据
     componentDidMount() {
         this.props.getList();
@@ -25,7 +28,7 @@ class RealyTQuery extends Component {
         clearInterval(that.timer)
         that.timer = setInterval(() => {
             this.refs.content.requers(fieldsValue)
-        }, 1000)
+        }, 5000)
     }
 
     componentWillUnmount(){

@@ -1,58 +1,67 @@
 import React, { Component } from 'react'
-// import BaseForm from "./../../components/BaseForm"
 import { Card, DatePicker, Select, Button, Form } from 'antd'
 import "./index.less"
-import moment from "moment"
+import { fetch } from "whatwg-fetch"
 import { connect } from "react-redux"
+import moment from "moment"
 import Loading from "./../../components/loading"
+import { getData_locast } from "../../action/actioncreator"
 import Bar from "./bar"
-import { getData_normalBar } from "./../../action/actioncreator"
 const Option = Select.Option;
 const FormItem = Form.Item;
 class AbnormalInfo extends Component {
-    state = {
-        startValue: '',
-        endValue: '',
-        dataX: [],
-        dataY: []
-    }
-
-    componentDidMount() {
-        this.props.getData();
-        if(this.props.dataList.list){
-            this.refs.bar.setData(this.props.dataList.list)
+    constructor(props) {
+        super(props);
+        this.state = {
+            startValue: '',
+            endValue: '',
+            barData: undefined
         }
-        console.log(this.props.dataList)
     }
-
+    componentDidMount() {
+        this.props.getList();
+    }
     //点击查询获取数据
     handleFilterSubmit = () => {
         let fieldsValue = this.props.form.getFieldsValue();
-        console.log(fieldsValue)
-        // this.requers(fieldsValue);
+        this.props.form.validateFields((err) => {
+            if (!err) {
+                console.log(fieldsValue)
+                this.requers(fieldsValue)
+                if (this.state.barData !== undefined) {
+                    this.refs.bar.setData(this.state.barData)
+                }
+            }
+        })
     }
 
-    // requers = (datas) => {
-    //     let url = "/index/selectByIndex"
-    //     fetch(url, {
-    //         method: 'post',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(datas)
-    //     })
-    //         .then(res => res.json())
-    //         .then((data) => {
-    //             console.log(data)
-    //             this.setState({
-    //                 LogContent: JSON.parse(JSON.stringify(data))
-    //             })
-    //         }).catch(error => console.log('error is', error));
-    // }
+    requers = (datas) => {
+        let url = "/index/exceptionCount"
+        fetch(url, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datas)
+        })
+            .then(res => res.json())
+            .then((data) => {
+                console.log(data)
+                this.setState({
+                    barData: JSON.parse(JSON.stringify(data))
+                })
+            }).catch(error => console.log('error is', error));
+    }
+
     //重置
     reset = () => {
         this.props.form.resetFields();
+        this.setState({
+            startValue: '',
+            endValue: ''
+        })
     }
+
     //时间选择范围
     disabledStartDate = (startValue) => {
         const endValue = this.state.endValue;
@@ -61,13 +70,12 @@ class AbnormalInfo extends Component {
         }
         return startValue.valueOf() > endValue.valueOf();
     }
-
     disabledEndDate = (endValue) => {
         const startValue = this.state.startValue;
         if (!endValue || !startValue) {
             return endValue.valueOf() > new Date().getTime();
         }
-        return endValue.valueOf() <= startValue.valueOf();
+        return endValue.valueOf() <= startValue.valueOf() || endValue.valueOf() > new Date().getTime() ;
     }
     onChange = (fields, value) => {
         this.setState({
@@ -82,30 +90,54 @@ class AbnormalInfo extends Component {
         this.onChange('endValue', value);
     }
     render() {
+        let { mallDemoList } = this.props;
         let { startValue, endValue } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="abnormall_big_box" >
                 <Card>
                     <Form layout="inline">
-                        <FormItem label="查询索引">
+                        <FormItem label="索引">
                             {
                                 getFieldDecorator('indexes')(
                                     <Select
                                         placeholder='请选择索引'
                                         style={{ width: 200 }}
                                     >
-                                        <Option value='1'>索引一</Option>
-                                        <Option value='2'>索引二</Option>
-                                        <Option value='3'>索引三</Option>
-                                        <Option value='4'>索引四</Option>
+                                        {
+                                            mallDemoList.length > 0 ? mallDemoList.map((item, i) => {
+                                                return <Option key={i} value={item.id}>{item.name}</Option>
+                                            }) : ""
+                                        }
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
+                        <FormItem label="类型">
+                            {
+                                getFieldDecorator('types')(
+                                    <Select
+                                        placeholder='请选择类型'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='1'>类型一</Option>
+                                        <Option value='2'>类型二</Option>
+                                        <Option value='3'>类型三</Option>
+                                        <Option value='4'>类型四</Option>
                                     </Select>
                                 )
                             }
                         </FormItem>
                         <FormItem label="开始时间" >
                             {
-                                getFieldDecorator('begin_time')(
+                                getFieldDecorator('begin_time', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '开始时间不能为空'
+                                        }
+                                    ]
+                                })(
                                     <DatePicker
                                         placeholder="请选择开始时间"
                                         format="YYYY-MM-DD HH:mm:ss"
@@ -119,7 +151,14 @@ class AbnormalInfo extends Component {
                         </FormItem>
                         <FormItem label="结束时间" >
                             {
-                                getFieldDecorator('end_time')(
+                                getFieldDecorator('end_time', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '结束时间不能为空'
+                                        }
+                                    ]
+                                })(
                                     <DatePicker
                                         placeholder="请选择结束时间"
                                         format="YYYY-MM-DD HH:mm:ss"
@@ -131,7 +170,7 @@ class AbnormalInfo extends Component {
                                 )
                             }
                         </FormItem>
-                        <FormItem label="查询指标">
+                        <FormItem label="指标">
                             {
                                 getFieldDecorator('target')(
                                     <Select
@@ -153,22 +192,21 @@ class AbnormalInfo extends Component {
                     </Form>
                 </Card>
                 <div className="BarBox" >
-                    {/* {this.state.flag?  <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 450}} /> : '' } */}
-                    { this.props.dataList.list ?  <Bar ref={'bar'} /> : <Loading /> }
-                    {/* <Bar ref={'bar'} /> */}
+                    {this.state.barData ? <Bar ref={'bar'} /> : <Loading />}
                 </div>
             </div>
         )
     }
 }
 const mapStateToProps = (state) => ({
-    dataList: state.conditionquery.dataList
+    mallDemoList: state.conditionquery.mallDemoList
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    getData() {
-        dispatch(getData_normalBar())
+    getList() {
+        dispatch(getData_locast())
     }
 })
+
 AbnormalInfo = Form.create({})(AbnormalInfo);
 export default connect(mapStateToProps, mapDispatchToProps)(AbnormalInfo)

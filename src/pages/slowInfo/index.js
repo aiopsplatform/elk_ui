@@ -2,100 +2,71 @@ import React, { Component } from 'react'
 // import BaseForm from "./../../components/BaseForm"
 import { Card, DatePicker, Select, Button, Form } from 'antd'
 import "./index.less"
+import { fetch } from "whatwg-fetch"
+import { connect } from "react-redux"
 import moment from "moment"
-// import echartTheme from './../../echartTheme'
-//按需加载
-import echarts from 'echarts/lib/echarts'
-// 导入柱形图
-import 'echarts/lib/chart/bar'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/title'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/component/markPoint'
-import ReactEcharts from 'echarts-for-react'
+import Loading from "./../../components/loading"
+import Bar from "./bar"
+import { getData_locast } from "../../action/actioncreator"
 const Option = Select.Option;
 const FormItem = Form.Item;
-export default class SlowInfo extends Component {
-    state = {
-        startValue: '',
-        endValue: ''
-    }
-    componentWillMount() {
-        echarts.registerTheme('Imooc');
-    }
-    getOption = () => {
-        let option = {
-            color: ['#3398DB'],
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: ['8~9', '9~10', '10~11', '11~12', '12~13', '13~14', '14~15'],
-                    axisTick: {
-                        alignWithLabel: true
-                    }
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value'
-                }
-            ],
-            series: [
-                {
-                    name: '数量',
-                    type: 'bar',
-                    barWidth: '60%',
-                    data: [10, 50, 300, 155, 130, 150, 260]
-                }
-            ]
-        };
-        return option;
-    }
-     //点击查询获取数据
-     handleFilterSubmit = () => {
-        let fieldsValue = this.props.form.getFieldsValue();
-        console.log(fieldsValue)
-        // this.requers(fieldsValue);
+class SlowInfo extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            startValue: '',
+            endValue: ''
+        }
     }
 
-    // requers = (datas) => {
-    //     let url = "/index/selectByIndex"
-    //     fetch(url, {
-    //         method: 'post',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(datas)
-    //     })
-    //         .then(res => res.json())
-    //         .then((data) => {
-    //             console.log(data)
-    //             this.setState({
-    //                 LogContent: JSON.parse(JSON.stringify(data))
-    //             })
-    //         }).catch(error => console.log('error is', error));
-    // }
+    componentDidMount() {
+        this.props.getList();
+    }
+    //点击查询获取数据
+    handleFilterSubmit = () => {
+        let fieldsValue = this.props.form.getFieldsValue();
+        this.props.form.validateFields((err) => {
+            if (!err) {
+                console.log(fieldsValue)
+                this.requers(fieldsValue)
+                if (this.state.barData !== undefined) {
+                    this.refs.bar.setData(this.state.barData)
+                }
+            }
+        })
+    }
+
+    requers = (datas) => {
+        let url = "/index/exceptionCount"
+        fetch(url, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datas)
+        })
+            .then(res => res.json())
+            .then((data) => {
+                console.log(data)
+                this.setState({
+                    barData: JSON.parse(JSON.stringify(data))
+                })
+            }).catch(error => console.log('error is', error));
+    }
+
     //重置
     reset = () => {
         this.props.form.resetFields();
+        this.setState({
+            startValue: '',
+            endValue: ''
+        })
     }
     //时间选择范围
     disabledStartDate = (startValue) => {
         const endValue = this.state.endValue;
         if (!startValue || !endValue) {
-            return startValue.valueOf()> new Date().getTime();
+            return startValue.valueOf() > new Date().getTime();
         }
         return startValue.valueOf() > endValue.valueOf();
     }
@@ -103,15 +74,15 @@ export default class SlowInfo extends Component {
     disabledEndDate = (endValue) => {
         const startValue = this.state.startValue;
         if (!endValue || !startValue) {
-            return endValue.valueOf()> new Date().getTime();
+            return endValue.valueOf() > new Date().getTime();
         }
-        return endValue.valueOf() <= startValue.valueOf();
+        return endValue.valueOf() <= startValue.valueOf() || endValue.valueOf() > new Date().getTime() ;
     }
     onChange = (fields, value) => {
         this.setState({
-          [fields]: value,
+            [fields]: value,
         });
-      }
+    }
     onStartChange = (value) => {
         this.onChange('startValue', value);
     }
@@ -120,12 +91,13 @@ export default class SlowInfo extends Component {
         this.onChange('endValue', value);
     }
     render() {
+        let { mallDemoList } = this.props;
         let { startValue, endValue } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="slow_big_box" >
                 <Card className="slow_card">
-                <Form layout="inline">
+                    <Form layout="inline">
                         <FormItem label="查询索引">
                             {
                                 getFieldDecorator('indexes')(
@@ -133,17 +105,25 @@ export default class SlowInfo extends Component {
                                         placeholder='请选择索引'
                                         style={{ width: 200 }}
                                     >
-                                        <Option value='1'>索引一</Option>
-                                        <Option value='2'>索引二</Option>
-                                        <Option value='3'>索引三</Option>
-                                        <Option value='4'>索引四</Option>
+                                        {
+                                            mallDemoList.length > 0 ? mallDemoList.map((item, i) => {
+                                                return <Option key={i} value={item.id}>{item.name}</Option>
+                                            }) : ""
+                                        }
                                     </Select>
                                 )
                             }
                         </FormItem>
                         <FormItem label="开始时间" >
                             {
-                                getFieldDecorator('begin_time')(
+                                getFieldDecorator('begin_time', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '开始时间不能为空'
+                                        }
+                                    ]
+                                })(
                                     <DatePicker
                                         placeholder="请选择开始时间"
                                         format="YYYY-MM-DD HH:mm:ss"
@@ -157,7 +137,14 @@ export default class SlowInfo extends Component {
                         </FormItem>
                         <FormItem label="结束时间" >
                             {
-                                getFieldDecorator('end_time')(
+                                getFieldDecorator('end_time', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '结束时间不能为空'
+                                        }
+                                    ]
+                                })(
                                     <DatePicker
                                         placeholder="请选择结束时间"
                                         format="YYYY-MM-DD HH:mm:ss"
@@ -190,9 +177,21 @@ export default class SlowInfo extends Component {
                         </FormItem>
                     </Form>
                 </Card>
-                    <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 500, display: 'block' }} />
+                <div className="BarBox" >
+                    {this.state.barData ? <Bar ref={'bar'} /> : <Loading />}
+                </div>
             </div>
         )
     }
 }
+const mapStateToProps = (state) => ({
+    mallDemoList: state.conditionquery.mallDemoList
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    getList() {
+        dispatch(getData_locast())
+    }
+})
 SlowInfo = Form.create({})(SlowInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(SlowInfo)

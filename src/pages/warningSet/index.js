@@ -8,12 +8,14 @@ const RadioGroup = Radio.Group;
 const Step = Steps.Step;
 const Option = Select.Option;
 export default class WarningSet extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            isVisible: false
+        }
+    }
     params = {
         page: 1
-    }
-
-    state = {
-        isVisible: false
     }
 
     componentDidMount() {

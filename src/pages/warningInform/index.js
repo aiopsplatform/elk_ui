@@ -5,12 +5,14 @@ import "./index.less"
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 export default class WarningInform extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            isVisible: false
+        }
+    }
     params = {
         page: 1
-    }
-
-    state = {
-        isVisible: false
     }
 
     componentDidMount() {

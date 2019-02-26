@@ -1,65 +1,61 @@
 import React, { Component } from 'react'
 import { Card, Button, DatePicker, Form, InputNumber } from "antd"
 import "./index.less"
+import Bar from "./bar"
+import Loading from "./../../components/loading"
+import { fetch } from "whatwg-fetch"
 import moment from "moment"
-//按需加载
-import echarts from 'echarts/lib/echarts'
-// 导入柱形图
-import 'echarts/lib/chart/bar'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/title'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/component/markPoint'
-import ReactEcharts from 'echarts-for-react'
 const FormItem = Form.Item;
 class OftenInfo extends Component {
-    state = {
-        startValue: '',
-        endValue: ''
+    constructor(props) {
+        super(props);
+        this.state = {
+            startValue: '',
+            endValue: ''
+        }
     }
-    componentWillMount() {
-        echarts.registerTheme('Imooc');
+
+    //重置
+    reset = () => {
+        this.props.form.resetFields();
+        this.setState({
+            startValue: '',
+            endValue: ''
+        })
     }
-    getOption = () => {
-        let option = {
-            color: ['#3398DB'],
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+    //点击统计获取数据
+    handleFilterSubmit = () => {
+        let fieldsValue = this.props.form.getFieldsValue();
+        this.props.form.validateFields((err) => {
+            if (!err) {
+                console.log(fieldsValue)
+                this.requers(fieldsValue)
+                if (this.state.barData !== undefined) {
+                    this.refs.bar.setData(this.state.barData)
                 }
+            }
+        })
+    }
+
+    requers = (datas) => {
+        let url = "/index/exceptionCount"
+        fetch(url, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: ['A', 'B', 'C', 'D', 'E'],
-                    axisTick: {
-                        alignWithLabel: true
-                    }
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value'
-                }
-            ],
-            series: [
-                {
-                    name: '数量',
-                    type: 'bar',
-                    barWidth: '60%',
-                    data: [800, 700, 600, 500, 400]
-                }
-            ]
-        };
-        return option;
+            body: JSON.stringify(datas)
+        })
+            .then(res => res.json())
+            .then((data) => {
+                console.log(data)
+                this.setState({
+                    barData: JSON.parse(JSON.stringify(data))
+                })
+            }).catch(error => console.log('error is', error));
     }
+
+
     //时间选择范围
     disabledStartDate = (startValue) => {
         const endValue = this.state.endValue;
@@ -74,7 +70,7 @@ class OftenInfo extends Component {
         if (!endValue || !startValue) {
             return endValue.valueOf() > new Date().getTime();
         }
-        return endValue.valueOf() <= startValue.valueOf();
+        return endValue.valueOf() <= startValue.valueOf() || endValue.valueOf() > new Date().getTime();
     }
     onChange = (fields, value) => {
         this.setState({
@@ -136,11 +132,14 @@ class OftenInfo extends Component {
                             }
                         </FormItem>
                         <FormItem >
-                            <Button style={{ marginLeft: 20 }} type="primary">统计</Button>
+                            <Button style={{ marginLeft: 20 }} type="primary" onClick={this.handleFilterSubmit} >统计</Button>
+                            <Button style={{ marginLeft: 20 }} type="primary" onClick={this.reset} >重置</Button>
                         </FormItem>
                     </Form>
                 </Card>
-                <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 500, display: 'block' }} />
+                <div className="BarBox" >
+                    {this.state.barData ? <Bar ref={'bar'} /> : <Loading />}
+                </div>
             </div>
         )
     }

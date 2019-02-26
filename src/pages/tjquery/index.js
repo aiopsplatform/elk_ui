@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Card, DatePicker, Select, Button, Icon, Form } from 'antd'
-// import BaseForm from "../../components/BaseForm"
 import moment from "moment"
 import { fetch } from "whatwg-fetch"
 import { connect } from "react-redux"
@@ -9,13 +8,14 @@ import { getData_locast } from "../../action/actioncreator"
 const Option = Select.Option;
 const FormItem = Form.Item;
 class TJQuery extends Component {
-
-    state = {
-        disabled: false,
-        type: "arrows-alt",
-        list: [],
-        startValue: '',
-        endValue: ''
+    constructor(props){
+        super(props);
+        this.state = {
+            disabled: false,
+            type: "arrows-alt",
+            startValue: '',
+            endValue: ''
+        }
     }
 
     componentDidMount() {
@@ -25,7 +25,6 @@ class TJQuery extends Component {
 
     handleFilterSubmit = () => {
         let fieldsValue = this.props.form.getFieldsValue();
-        // console.log(fieldsValue)
         this.requers(fieldsValue);
     }
 
@@ -49,6 +48,10 @@ class TJQuery extends Component {
 
     reset = () => {
         this.props.form.resetFields();
+        this.setState({
+            startValue: '',
+            endValue: ''
+        })
     }
 
     handleDisabledChange = (disabled) => {
@@ -59,7 +62,7 @@ class TJQuery extends Component {
     disabledStartDate = (startValue) => {
         const endValue = this.state.endValue;
         if (!startValue || !endValue) {
-            return startValue.valueOf()> new Date().getTime();
+            return startValue.valueOf() > new Date().getTime();
         }
         return startValue.valueOf() > endValue.valueOf();
     }
@@ -67,9 +70,9 @@ class TJQuery extends Component {
     disabledEndDate = (endValue) => {
         const startValue = this.state.startValue;
         if (!endValue || !startValue) {
-            return endValue.valueOf()> new Date().getTime();
+            return endValue.valueOf() > new Date().getTime();
         }
-        return endValue.valueOf() <= startValue.valueOf();
+        return endValue.valueOf() <= startValue.valueOf() || endValue.valueOf() > new Date().getTime() ;
     }
     onChange = (fields, value) => {
         this.setState({
@@ -85,7 +88,7 @@ class TJQuery extends Component {
     }
     render() {
         let { mallDemoList } = this.props;
-        let { type, startValue, endValue , LogContent } = this.state;
+        let { type, startValue, endValue  } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="tiquery_big_box">
@@ -207,14 +210,13 @@ class TJQuery extends Component {
                         <span className="blow_up" onClick={this.handleBlowUp.bind(this)}><Icon type={type} /></span>
                     </div>
                     <div className="cont_box_body">
-                        {/* {
+                        {
                                 this.state.LogContent ? this.state.LogContent.map((item,i)=>{
-                                    return <p key={i}>
+                                    return <p key={i} style={{color:'red'}} >
                                         {item}
                                     </p>
-                                }) : "暂无数据"
-                            } */}
-                            {/* <p style={{color:'red'}} >{LogContent.message}</p> */}
+                                }) : <p style={{color:'red'}} >暂无数据，请查询</p>
+                            }
                     </div>
                 </div>
             </div>
