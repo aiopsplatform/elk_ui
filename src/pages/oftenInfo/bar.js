@@ -50,7 +50,7 @@ export default class Bar extends React.Component {
             xAxis: [
                 {
                     type: 'category',
-                    data: ['A', 'B', 'C', 'D', 'E'],
+                    data:xArr,
                     axisTick: {
                         alignWithLabel: true
                     }
@@ -66,7 +66,7 @@ export default class Bar extends React.Component {
                     name: '数量',
                     type: 'bar',
                     barWidth: '60%',
-                    data: [800, 700, 600, 500, 400]
+                    data: yArr
                 }
             ]
         };

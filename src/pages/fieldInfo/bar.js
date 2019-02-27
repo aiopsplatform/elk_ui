@@ -2,17 +2,17 @@ import React from 'react';
 import echarts from 'echarts';
 
 export default class Bar extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            data: undefined
-        }
-    }
-    setData(data) {
-        this.setState({
-            data: data
-        })
-    }
+    // constructor(props) {
+    //     super(props)
+    //     this.state = {
+    //         data: undefined
+    //     }
+    // }
+    // setData(data) {
+    //     this.setState({
+    //         data: data
+    //     })
+    // }
     componentDidMount(){
         this.addBar()
     }
@@ -22,14 +22,14 @@ export default class Bar extends React.Component {
     addBar() {
         let myChart = echarts.init(this.refs.box);
 
-        let xArr = [];
-        let yArr = [];
-        if (this.state.data) {
-            for (let i = 0; i < this.state.data.length; i++) {
-                xArr.push(this.state.data[i].name);
-                yArr.push(this.state.data[i].val);
-            }
-        }
+        // let xArr = [];
+        // let yArr = [];
+        // if (this.state.data) {
+        //     for (let i = 0; i < this.state.data.length; i++) {
+        //         xArr.push(this.state.data[i].name);
+        //         yArr.push(this.state.data[i].val);
+        //     }
+        // }
 
 
 
@@ -50,7 +50,7 @@ export default class Bar extends React.Component {
             xAxis: [
                 {
                     type: 'category',
-                    data: xArr,
+                    data: ['字段A', '字段B', '字段C', '字段D', '字段E', '字段F', '字段G'],
                     axisTick: {
                         alignWithLabel: true
                     }
@@ -63,19 +63,17 @@ export default class Bar extends React.Component {
             ],
             series: [
                 {
-                    name: '直接访问',
+                    name: '数量',
                     type: 'bar',
                     barWidth: '60%',
-                    data: yArr
+                    data: [200, 70, 150, 155, 330, 40, 150]
                 }
             ]
         };
-
-
         myChart.setOption(option)
     }
     render() {
-        return (<div ref={'box'} style={{ height: '450px' }}>
+        return (<div ref={'box'} style={{ height: '600px' }}>
 
         </div>)
     }

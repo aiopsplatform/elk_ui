@@ -1,16 +1,8 @@
 import React, { Component } from 'react'
 import { Select, Form, Button } from 'antd'
 import "./index.less"
-//按需加载
-import echarts from 'echarts/lib/echarts'
-// 导入柱形图和饼图
-import 'echarts/lib/chart/bar'
-import 'echarts/lib/chart/pie'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/title'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/component/markPoint'
-import ReactEcharts from 'echarts-for-react'
+import Bar from "./bar"
+import Pie from "./pie"
 const Option = Select.Option;
 const FormItem = Form.Item;
 
@@ -34,91 +26,7 @@ export default class FieldInfo extends Component {
             num: ''
         })
     }
-    componentWillMount() {
-        echarts.registerTheme('Imooc');
-    }
-    getOption = () => {
-        let option = {
-            color: ['#3398DB'],
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: ['字段A', '字段B', '字段C', '字段D', '字段E', '字段F', '字段G'],
-                    axisTick: {
-                        alignWithLabel: true
-                    }
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value'
-                }
-            ],
-            series: [
-                {
-                    name: '数量',
-                    type: 'bar',
-                    barWidth: '60%',
-                    data: [200, 70, 150, 155, 330, 40, 150]
-                }
-            ]
-        };
-        return option;
-    }
-    getOptionPie = () => {
-        let option = {
-            title: {
-                text: '某站点用户访问来源',
-                subtext: '纯属虚构',
-                x: 'center'
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
-            },
-            legend: {
-                orient: 'vertical',
-                left: 'left',
-                data: ['字段A', '字段B', '字段C', '字段D', '字段E', '字段F']
-            },
-            series: [
-                {
-                    name: '字段值',
-                    type: 'pie',
-                    radius: '55%',
-                    center: ['50%', '60%'],
-                    data: [
-                        { value: 200, name: '字段A' },
-                        { value: 70, name: '字段B' },
-                        { value: 150, name: '字段C' },
-                        { value: 155, name: '字段D' },
-                        { value: 330, name: '字段E' },
-                        { value: 150, name: '字段F' }
-                    ],
-                    itemStyle: {
-                        emphasis: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    }
-                }
-            ]
-        };
-        return option;
-    }
+
     handlePie = () => {
         this.setState({
             num: 1,
@@ -203,7 +111,7 @@ export default class FieldInfo extends Component {
                     </Form>
                 </div>
                 <div className="right_box" >
-                    {num === 2 && flag ? <ReactEcharts option={this.getOption()} theme="Imooc" style={{ height: 600 }} /> : num === 1 && flag ? <ReactEcharts option={this.getOptionPie()} theme="Imooc" style={{ height: 600 }} /> : ''}
+                    {num === 2 && flag ? <Bar /> : num === 1 && flag ? <Pie /> : ''}
                 </div>
             </div>
         )
