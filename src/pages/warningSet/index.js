@@ -7,8 +7,9 @@ const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const Step = Steps.Step;
 const Option = Select.Option;
+const Search = Input.Search;
 export default class WarningSet extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             isVisible: false
@@ -27,32 +28,78 @@ export default class WarningSet extends Component {
     }
 
     handleOperate = (type) => {
+        let item = this.state.selectedRowKeys;
+        let _this = this;
         if (type === 'create') {
             this.setState({
                 type,
                 isVisible: true
             })
+        } else if (type === 'refresh') {
+            this.requestList();
+        } else if (type === 'delete') {
+            if (item === [] || item === undefined) {
+                Modal.info({
+                    title: '提示',
+                    content: '请先选择一条数据'
+                })
+                return
+            } else {
+                Modal.confirm({
+                    title: '确认删除',
+                    onOk() {
+                        _this.requestList();
+                        _this.setState({
+                            isVisible: false,
+                            selectedRowKeys: [],
+                            selectedRows: []
+                        })
+                    }
+                })
+            }
+        } else if (type === 'startUsing') {
+            if (item === [] || item === undefined) {
+                Modal.info({
+                    title: '提示',
+                    content: '请先选择一条数据'
+                })
+            }
+        } else if (type === 'stopUsing') {
+            if (item === [] || item === undefined) {
+                Modal.info({
+                    title: '提示',
+                    content: '请先选择一条数据'
+                })
+            }
         }
     }
-    handleClname1 = () =>{
+    handleClname1 = () => {
         this.props.history.push("/setWarning/warn_detail")
     }
-    handleClname2 = () =>{
+    handleClname2 = () => {
         this.props.history.push("/setWarning/CPU_detail")
     }
+    handleEdit = () => {
+        alert("编辑")
+    }
+    componentDidUpdate() {
+        console.log(this.state.selectedRowKeys)
+        console.log(this.state.selectedRows)
+    }
     render() {
+        let _this = this;
         const columns = [
             {
                 title: '策略名称',
                 dataIndex: 'clname',
                 width: 20 + '%',
-                render: (clname,item) => {
+                render: (clname, item) => {
                     // return <a onClick={(item,claname) => { this.handleClname(item,'claname') }}>
                     //     <Icon type='caret-right' />{clname === 1 ? '内存告警' : 'CPU告警'}
                     // </a>
                     return {
-                        "1" : <span className="warn_span" onClick={(item) => { this.handleClname1(item)}}><Icon type='caret-right' />内存告警</span>,
-                        "2" : <span className="warn_span" onClick={(item) => { this.handleClname2(item)}}><Icon type='caret-right' />CPU告警</span>,
+                        "1": <span className="warn_span" onClick={(item) => { this.handleClname1(item) }}><Icon type='caret-right' />内存告警</span>,
+                        "2": <span className="warn_span" onClick={(item) => { this.handleClname2(item) }}><Icon type='caret-right' />CPU告警</span>,
                     }[clname]
                 }
             }, {
@@ -96,22 +143,20 @@ export default class WarningSet extends Component {
                 title: '操作',
                 dataIndex: 'operate',
                 width: 10 + '%',
-                // render(){
-                //     return{
-
-                //     }
-                // }
+                render() {
+                    return <span className="warnSet_edit" onClick={_this.handleEdit} >编辑</span>
+                }
             },
         ]
         const selectedRowKeys = this.state.selectedRowKeys;
         const rowCheckSelection = {
-            type: 'checkbox',
             selectedRowKeys,
             onChange: (selectedRowKeys, selectedRows) => {
                 this.setState({
                     selectedRowKeys,
                     selectedRows
                 })
+
             }
         }
         return (
@@ -122,8 +167,11 @@ export default class WarningSet extends Component {
                     <Button type="primary" icon="close-square" onClick={() => this.handleOperate('stopUsing')} >停用</Button>
                     <Button type="primary" icon="sync" onClick={() => this.handleOperate('refresh')} >刷新</Button>
                     <Button type="primary" icon="delete" onClick={() => this.handleOperate('delete')} >删除</Button>
-                    <Input placeholder="搜索" style={{ width: 200 }} />
-                    <Button type="primary" icon="search" >搜索</Button>
+                    <Search
+                        placeholder="搜索"
+                        onSearch={value => console.log(value)}
+                        style={{ width: 200 }}
+                    />
                 </Card>
                 <Card>
                     <Table
@@ -140,7 +188,7 @@ export default class WarningSet extends Component {
                     visible={this.state.isVisible}
                     footer={null}
                     onOk={this.handleSubmit}
-                    maskClosable = {false}
+                    maskClosable={false}
                     onCancel={() => {
                         this.userForm.props.form.resetFields();
                         this.setState({

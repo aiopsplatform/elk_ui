@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { Card, Button, Input, Table, Modal, Form , Icon} from 'antd'
+import { Card, Button, Input, Table, Modal, Form, Icon } from 'antd'
 import axios from "./../../axios"
 import "./index.less"
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
+const Search = Input.Search;
 export default class WarningInform extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             isVisible: false
@@ -122,8 +123,11 @@ export default class WarningInform extends Component {
                     <Button type="primary" icon="sync" onClick={() => this.handleOperate('refresh')} >刷新</Button>
                     <Button type="primary" icon="delete" onClick={() => this.handleOperate('delete')} >删除</Button>
                     <Button type="primary" icon="edit" onClick={() => this.handleOperate('edit')} >修改</Button>
-                    <Input placeholder="搜索" style={{ width: 200 }} />
-                    <Button type="primary" icon="search" >搜索</Button>
+                    <Search
+                        placeholder="搜索"
+                        onSearch={value => console.log(value)}
+                        style={{ width: 200 }}
+                    />
                 </Card>
                 <Card>
                     <Table
@@ -139,7 +143,7 @@ export default class WarningInform extends Component {
                     style={{ borderRadius: 30 }}
                     visible={this.state.isVisible}
                     onOk={this.handleSubmit}
-                    maskClosable = {false}
+                    maskClosable={false}
                     onCancel={() => {
                         this.userForm.props.form.resetFields();
                         this.setState({
@@ -149,7 +153,7 @@ export default class WarningInform extends Component {
                     width={600}
                 >
                     <UserForm type={this.state.type} userInfo={this.state.userInfo} wrappedComponentRef={(inst) => { this.userForm = inst; }} />
-                    <span className="aAdd"  ><span className="wranInform_span" ><Icon type="plus-circle" /> 添加邮箱</span></span> 
+                    <span className="aAdd"  ><span className="wranInform_span" ><Icon type="plus-circle" /> 添加邮箱</span></span>
                 </Modal>
             </div>
         )

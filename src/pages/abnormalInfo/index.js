@@ -36,7 +36,7 @@ class AbnormalInfo extends Component {
     }
 
     requers = (datas) => {
-        let url = "/index/exceptionCount"
+        let url = "/index/slowRequestCount"
         fetch(url, {
             method: 'post',
             headers: {
@@ -95,7 +95,7 @@ class AbnormalInfo extends Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="abnormall_big_box" >
-                <Card>
+                <Card className="abnormall_card" >
                     <Form layout="inline">
                         <FormItem label="索引">
                             {

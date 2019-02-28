@@ -1,67 +1,114 @@
 import React, { Component } from 'react'
-import BaseForm from "./../../components/BaseForm"
-import { Card , Table} from "antd"
+import { Card, DatePicker, Table, Form, Button, Select , Modal } from "antd"
 import axios from "./../../axios"
+import moment from "moment"
 import "./index.less"
-
+const Option = Select.Option;
+const FormItem = Form.Item;
 
 export default class WarningRecord extends Component {
-
-    formList = [
-        {
-            type: 'SELECT',
-            label: '告警策略',
-            field: 'tactics',
-            placeholder: '请选择告警策略',
-            width: 98,
-            list: [
-                { id: '0', name: '全部' },
-                { id: '1', name: '内存告警' },
-            ]
-        },
-        {
-            type: 'SELECT',
-            label: '类型',
-            field: 'types',
-            placeholder: '请选择类型',
-            width: 98,
-            list: [
-                { id: '0', name: '全部' },
-                { id: '1', name: '服务' },
-                { id: '2', name: '节点' },]
-        },
-        {
-            type: 'SELECT',
-            label: '告警对象',
-            field: 'object',
-            placeholder: '请选择告警对象',
-            width: 98,
-            list: [
-                { id: '0', name: '全部 ' },
-                { id: '1', name: 'k8s-master-1' },]
-        },
-        {
-            type: '时间查询',
-            placeholder: '请选择时间'
+    constructor(props) {
+        super(props);
+        this.state = {
+            isVisible: false,
+            startValue: '',
+            endValue: ''
         }
-    ]
-    params = {
-        page: 1
     }
 
-    state = {
-        isVisible: false
+    params = {
+        page: 1
     }
 
     componentDidMount() {
         this.requestList();
     }
 
-
     requestList = () => {
         axios.requestList(this, '/table/list', this.params);
     }
+    //重置
+    reset = () => {
+        this.props.form.resetFields();
+        this.setState({
+            startValue: '',
+            endValue: ''
+        })
+    }
+    //时间选择范围
+    disabledStartDate = (startValue) => {
+        const endValue = this.state.endValue;
+        if (!startValue || !endValue) {
+            return startValue.valueOf() > new Date().getTime();
+        }
+        return startValue.valueOf() > endValue.valueOf();
+    }
+
+    disabledEndDate = (endValue) => {
+        const startValue = this.state.startValue;
+        if (!endValue || !startValue) {
+            return endValue.valueOf() > new Date().getTime();
+        }
+        return endValue.valueOf() <= startValue.valueOf() || endValue.valueOf() > new Date().getTime();
+    }
+    onChange = (fields, value) => {
+        this.setState({
+            [fields]: value,
+        });
+    }
+    onStartChange = (value) => {
+        this.onChange('startValue', value);
+    }
+
+    onEndChange = (value) => {
+        this.onChange('endValue', value);
+    }
+    handleOperate = (type) => {
+        let item = this.state.selectedRowKeys;
+        let _this = this;
+        if (type === 'refresh') {
+            this.requestList();
+        } else if (type === 'delete') {
+            if (item === [] || item === undefined) {
+                Modal.info({
+                    title: '提示',
+                    content: '请先选择一条数据'
+                })
+                return
+            } else {
+                Modal.confirm({
+                    title: '确认删除',
+                    onOk() {
+                        _this.requestList();
+                        _this.setState({
+                            isVisible: false,
+                            selectedRowKeys: [],
+                            selectedRows: []
+                        })
+                    }
+                })
+            }
+        } else if (type === 'startUsing') {
+            if (item === [] || item === undefined) {
+                Modal.info({
+                    title: '提示',
+                    content: '请先选择一条数据'
+                })
+            }
+        } else if (type === 'stopUsing') {
+            if (item === [] || item === undefined) {
+                Modal.info({
+                    title: '提示',
+                    content: '请先选择一条数据'
+                })
+            }
+        }
+    }
+    handleEdit = () =>{
+        alert("编辑")
+    }
     render() {
+        let _this = this;
         const columns = [
             {
                 title: '策略名称',
@@ -107,13 +154,18 @@ export default class WarningRecord extends Component {
                 title: '操作',
                 dataIndex: 'operate',
                 width: 10 + '%',
+                render() {
+                    return <span className="warnSet_edit" onClick={_this.handleEdit} >编辑</span>
+                }
             },
         ]
         const selectedRowKeys = this.state.selectedRowKeys;
+        const { getFieldDecorator } = this.props.form;
+        let { startValue, endValue } = this.state;
         const rowCheckSelection = {
             type: 'checkbox',
             selectedRowKeys,
-            onChange:(selectedRowKeys,selectedRows)=>{
+            onChange: (selectedRowKeys, selectedRows) => {
                 this.setState({
                     selectedRowKeys,
                     selectedRows
@@ -123,12 +175,91 @@ export default class WarningRecord extends Component {
         return (
             <div className="warnrecord_bigBox" >
                 <Card className="warnrecord_btns" >
-                    <BaseForm formList={this.formList} filterSubmit={this.handleFilter} />
-                    {/* <Button type="primary" icon="file-search" >立即查询</Button>
-                    <Button type="primary" icon="delete" >清空记录</Button> */}
+                    <Form layout="inline">
+                        <FormItem label="告警策略">
+                            {
+                                getFieldDecorator('tactics')(
+                                    <Select
+                                        placeholder='请选择告警策略'
+                                        style={{ width: 180 }}
+                                    >
+                                        <Option value='1'>全部</Option>
+                                        <Option value='2'>内存告警</Option>
+                                        <Option value='3'>CPU告警</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
+                        <FormItem label="类型">
+                            {
+                                getFieldDecorator('types')(
+                                    <Select
+                                        placeholder='请选择类型'
+                                        style={{ width: 180 }}
+                                    >
+                                        <Option value='1'>类型一</Option>
+                                        <Option value='2'>类型二</Option>
+                                        <Option value='3'>类型三</Option>
+                                        <Option value='4'>类型四</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
+                        <FormItem label="告警对象">
+                            {
+                                getFieldDecorator('object')(
+                                    <Select
+                                        placeholder='请选择告警对象'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='1'>全部</Option>
+                                        <Option value='2'>k8s-master-1</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
+                        <FormItem label="开始时间" >
+                            {
+                                getFieldDecorator('begin_time')(
+                                    <DatePicker
+                                        placeholder="请选择开始时间"
+                                        format="YYYY-MM-DD HH:mm:ss"
+                                        showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
+                                        setFieldsValue={startValue}
+                                        onChange={this.onStartChange}
+                                        disabledDate={this.disabledStartDate}
+                                    />
+                                )
+                            }
+                        </FormItem>
+                        <FormItem label="结束时间" >
+                            {
+                                getFieldDecorator('end_time')(
+                                    <DatePicker
+                                        placeholder="请选择结束时间"
+                                        format="YYYY-MM-DD HH:mm:ss"
+                                        showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
+                                        setFieldsValue={endValue}
+                                        onChange={this.onEndChange}
+                                        disabledDate={this.disabledEndDate}
+                                    />
+                                )
+                            }
+                        </FormItem>
+                        <FormItem>
+                            <Button type="primary" style={{ marginRight: 20, marginTop: 5 }} onClick={this.handleFilterSubmit}>查询</Button>
+                            <Button onClick={this.reset} style={{ marginTop: 5 }} >重置</Button>
+                        </FormItem>
+                    </Form>
                 </Card>
-                <Card>
-                <Table
+                <Card className="tableBox" >
+                    <div className="buttonsBox" >
+                        <Button type="primary" icon="caret-right" onClick={() => this.handleOperate('startUsing')} >启用</Button>
+                        <Button type="primary" icon="close-square" onClick={() => this.handleOperate('stopUsing')} >停用</Button>
+                        <Button type="primary" icon="sync" onClick={() => this.handleOperate('refresh')} >刷新</Button>
+                        <Button type="primary" icon="delete" onClick={() => this.handleOperate('delete')} >删除</Button>
+                    </div>
+                    <Table
                         rowSelection={rowCheckSelection}
                         columns={columns}
                         dataSource={this.state.list}
@@ -139,3 +270,4 @@ export default class WarningRecord extends Component {
         )
     }
 }
+WarningRecord = Form.create({})(WarningRecord);

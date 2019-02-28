@@ -1,28 +1,20 @@
 import React, { Component } from 'react'
-import { Card, Table, Modal, Tree} from 'antd'
+import { Card, Table, Modal, Tree, Form, Select, Button } from 'antd'
 import axios from "./../../axios"
-import BaseForm from "./../../components/BaseForm"
 import "./index.less"
 const { TreeNode } = Tree;
+const Option = Select.Option;
+const FormItem = Form.Item;
 export default class Analyze extends Component {
-    formList = [
-        {
-            type: 'SELECT',
-            label: '查询指标',
-            field: 'indexes',
-            placeholder: '请选择查询指标',
-            width: 200,
-            list: [
-                { id: '0', name: '全部' },
-                { id: '1', name: '内存告警' },]
+    constructor(props){
+        super(props);
+        this.state = {
+            isVisible: false
         }
-    ]
-    params = {
-        page: 1
     }
 
-    state = {
-        isVisible: false
+    params = {
+        page: 1
     }
 
     componentDidMount() {
@@ -70,6 +62,7 @@ export default class Analyze extends Component {
             },
         ]
         const selectedRowKeys = this.state.selectedRowKeys;
+        const { getFieldDecorator } = this.props.form;
         const rowCheckSelection = {
             type: 'checkbox',
             selectedRowKeys,
@@ -83,7 +76,26 @@ export default class Analyze extends Component {
         return (
             <div className="analyze_bigBox" >
                 <Card className="analyze_card" >
-                    <BaseForm formList={this.formList} filterSubmit={this.handleFilter} />
+                    <Form layout="inline">
+                        <FormItem label="查询指标">
+                            {
+                                getFieldDecorator('index')(
+                                    <Select
+                                        placeholder='请选择查询指标'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='1'>全部</Option>
+                                        <Option value='2'>内存告警</Option>
+                                        <Option value='3'>CPU告警</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
+                        <FormItem>
+                            <Button type="primary" style={{ marginRight: 20, marginTop: 5 }} onClick={this.handleFilterSubmit}>查询</Button>
+                            <Button onClick={this.reset} style={{ marginTop: 5 }} >重置</Button>
+                        </FormItem>
+                    </Form>
                 </Card>
                 <Card>
                     <Table
@@ -131,3 +143,4 @@ export default class Analyze extends Component {
         )
     }
 }
+Analyze = Form.create({})(Analyze);

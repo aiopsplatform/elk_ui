@@ -89,7 +89,7 @@ class OftenInfo extends Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="often_big_box" >
-                <Card>
+                <Card className="often_card">
                     <Form layout="inline">
                         <FormItem label="开始时间" >
                             {

@@ -47,6 +47,16 @@ export default class AbnormalConfig extends Component {
             }
         })
     }
+    handleDelete = () =>{
+        let item = this.state.selectedRowKeys;
+        if (item === [] || item === undefined) {
+            Modal.info({
+                title: '提示',
+                content: '请先选择一条数据'
+            })
+            return
+    }
+}
     render() {
         const columns = [
             {
