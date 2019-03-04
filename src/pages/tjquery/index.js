@@ -15,7 +15,8 @@ class TJQuery extends Component {
             disabled: false,
             type: "arrows-alt",
             startValue: '',
-            endValue: ''
+            endValue: '',
+            loadind : false
         }
     }
 
@@ -31,6 +32,9 @@ class TJQuery extends Component {
 
     requers = (datas) => {
         let url = "/index/selectByIndex"
+        this.setState({
+            loadind : true
+        })
         fetch(url, {
             method: 'post',
             headers: {
@@ -40,9 +44,9 @@ class TJQuery extends Component {
         })
             .then(res => res.json())
             .then((data) => {
-                console.log(data)
                 this.setState({
-                    LogContent: JSON.parse(JSON.stringify(data))
+                    LogContent: JSON.parse(JSON.stringify(data)),
+                    loadind : false
                 })
             }).catch(error => console.log('error is', error));
     }
@@ -89,7 +93,7 @@ class TJQuery extends Component {
     }
     render() {
         let { mallDemoList } = this.props;
-        let { type, startValue, endValue  } = this.state;
+        let { type, startValue, endValue , loadind , LogContent } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="tiquery_big_box">
@@ -212,11 +216,11 @@ class TJQuery extends Component {
                     </div>
                     <div className="cont_box_body">
                         {
-                                this.state.LogContent ? this.state.LogContent.map((item,i)=>{
-                                    return <p key={i} style={{color:'red'}} >
+                                LogContent ? LogContent.map((item,i)=>{
+                                    return <p key={i} style={{color:'black'}} >
                                         {item}
                                     </p>
-                                }) : <Loading />
+                                }) : loadind ? <Loading /> : <p className="noneData" >暂无数据，请查询...</p>
                             }
                     </div>
                 </div>

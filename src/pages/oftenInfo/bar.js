@@ -31,8 +31,6 @@ export default class Bar extends React.Component {
             }
         }
 
-
-
         let option = {
             color: ['#3398DB'],
             tooltip: {
@@ -74,8 +72,6 @@ export default class Bar extends React.Component {
         myChart.setOption(option)
     }
     render() {
-        return (<div ref={'box'} style={{ height: '450px' }}>
-
-        </div>)
+        return (<div ref={'box'} style={{ height: '450px' }}></div>)
     }
 }

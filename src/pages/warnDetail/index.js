@@ -110,7 +110,6 @@ export default class WarnDetail extends React.Component {
                             pagination={this.state.pagination}
                         />
                     </div>
-
                 </div>
             </Card>
         </div>)

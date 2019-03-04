@@ -29,6 +29,7 @@ export default class AbnormalConfig extends Component {
             isVisible: true
         })
     }
+
     // 创建员工提交
     handleSubmit = () => {
         let data = this.userForm.props.form.getFieldsValue();
@@ -47,6 +48,7 @@ export default class AbnormalConfig extends Component {
             }
         })
     }
+    
     handleDelete = () =>{
         let item = this.state.selectedRowKeys;
         if (item === [] || item === undefined) {

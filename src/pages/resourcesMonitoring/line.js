@@ -52,9 +52,7 @@ export default class Line extends Component{
     }
     render(){
         return(
-            <div ref={'box'} style={{ height: '480px' }}>
-
-            </div>
+            <div ref={'box'} style={{ height: '480px' }}></div>
         )
     }
 }

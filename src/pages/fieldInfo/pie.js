@@ -65,9 +65,7 @@ export default class Pie extends Component {
     }
     render() {
         return (
-            <div ref={'box'} style={{ height: '600px' }}>
-
-            </div>
+            <div ref={'box'} style={{ height: '600px' }}></div>
         )
     }
 }

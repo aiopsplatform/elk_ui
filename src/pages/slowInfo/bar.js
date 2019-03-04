@@ -20,18 +20,18 @@ export default class Bar extends React.Component {
         this.addBar()
     }
     addBar() {
+
         let myChart = echarts.init(this.refs.box);
 
         let xArr = [];
         let yArr = [];
+
         if (this.state.data) {
             for (let i = 0; i < this.state.data.length; i++) {
                 xArr.push(this.state.data[i].name);
                 yArr.push(this.state.data[i].val);
             }
         }
-
-
 
         let option = {
             color: ['#3398DB'],
@@ -75,8 +75,6 @@ export default class Bar extends React.Component {
         myChart.setOption(option)
     }
     render() {
-        return (<div ref={'box'} style={{ height: '450px' }}>
-
-        </div>)
+        return (<div ref={'box'} style={{ height: '450px' }}></div>)
     }
 }

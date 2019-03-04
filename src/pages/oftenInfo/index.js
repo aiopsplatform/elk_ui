@@ -11,7 +11,8 @@ class OftenInfo extends Component {
         super(props);
         this.state = {
             startValue: '',
-            endValue: ''
+            endValue: '',
+            loading : false
         }
     }
 
@@ -23,22 +24,28 @@ class OftenInfo extends Component {
             endValue: ''
         })
     }
+
+    componentDidUpdate(){
+        if (this.state.barData) {
+            this.refs.bar.setData(this.state.barData)
+        }
+    }
+
     //点击统计获取数据
     handleFilterSubmit = () => {
         let fieldsValue = this.props.form.getFieldsValue();
         this.props.form.validateFields((err) => {
             if (!err) {
-                console.log(fieldsValue)
                 this.requers(fieldsValue)
-                if (this.state.barData !== undefined) {
-                    this.refs.bar.setData(this.state.barData)
-                }
             }
         })
     }
 
     requers = (datas) => {
         let url = "/index/exceptionCount"
+        this.setState({
+            loadind : true
+        })
         fetch(url, {
             method: 'post',
             headers: {
@@ -50,7 +57,8 @@ class OftenInfo extends Component {
             .then((data) => {
                 console.log(data)
                 this.setState({
-                    barData: JSON.parse(JSON.stringify(data))
+                    barData: JSON.parse(JSON.stringify(data)),
+                    loading : false
                 })
             }).catch(error => console.log('error is', error));
     }
@@ -85,7 +93,7 @@ class OftenInfo extends Component {
         this.onChange('endValue', value);
     }
     render() {
-        let { startValue, endValue } = this.state;
+        let { startValue, endValue , loading } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="often_big_box" >
@@ -138,7 +146,7 @@ class OftenInfo extends Component {
                     </Form>
                 </Card>
                 <div className="BarBox" >
-                    {this.state.barData ? <Bar ref={'bar'} /> : <Loading />}
+                    {this.state.barData ? <Bar ref={'bar'} /> : loading ? <Loading /> : <p className="noneData" >暂无统计数据...</p>}
                 </div>
             </div>
         )

@@ -29,8 +29,6 @@ export default class Axios {
         });
     }
 
-
-
     static ajax(options) {
         let loading;
         if (options.data && options.data.isShowLoading !== false) {
@@ -72,25 +70,4 @@ export default class Axios {
             })
         });
     }
-    // static ajax(options) {
-    //     let loading;
-    //     if (options.data && options.data.isShowLoading !== false) {
-    //         loading = document.getElementById('ajaxLoading');
-    //         loading.style.display = 'block';
-    //     }
-    //     return new Promise(resolve => {
-    //         fetch(options.url,{
-    //             timeout: 50000,
-    //             params: (options.data && options.data.params) || ''
-    //         })
-    //         .then(res => res.json())
-    //         .then((response) => {
-    //                 resolve(response.data);
-    //             if (options.data && options.data.isShowLoading !== false) {
-    //                 loading = document.getElementById('ajaxLoading');
-    //                 loading.style.display = 'none';
-    //             }                     
-    //         }).catch(error => console.log('error is', error));
-    //     })
-    // }
 }

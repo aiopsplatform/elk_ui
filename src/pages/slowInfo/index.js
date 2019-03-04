@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import BaseForm from "./../../components/BaseForm"
 import { Card, DatePicker, Select, Button, Form } from 'antd'
 import "./index.less"
 import { fetch } from "whatwg-fetch"
@@ -15,29 +14,36 @@ class SlowInfo extends Component {
         super(props);
         this.state = {
             startValue: '',
-            endValue: ''
+            endValue: '',
+            loading : false
         }
     }
 
     componentDidMount() {
         this.props.getList();
     }
+
+    componentDidUpdate(){
+        if (this.state.barData) {
+            this.refs.bar.setData(this.state.barData)
+        }
+    }
+
     //点击查询获取数据
     handleFilterSubmit = () => {
         let fieldsValue = this.props.form.getFieldsValue();
         this.props.form.validateFields((err) => {
             if (!err) {
-                console.log(fieldsValue)
                 this.requers(fieldsValue)
-                if (this.state.barData !== undefined) {
-                    this.refs.bar.setData(this.state.barData)
-                }
             }
         })
     }
 
     requers = (datas) => {
-        let url = "/index/exceptionCount"
+        let url = "/index/slowRequestCount"
+        this.setState({
+            loadind : true
+        })
         fetch(url, {
             method: 'post',
             headers: {
@@ -49,7 +55,8 @@ class SlowInfo extends Component {
             .then((data) => {
                 console.log(data)
                 this.setState({
-                    barData: JSON.parse(JSON.stringify(data))
+                    barData: JSON.parse(JSON.stringify(data)),
+                    loading : false
                 })
             }).catch(error => console.log('error is', error));
     }
@@ -62,6 +69,7 @@ class SlowInfo extends Component {
             endValue: ''
         })
     }
+
     //时间选择范围
     disabledStartDate = (startValue) => {
         const endValue = this.state.endValue;
@@ -78,11 +86,13 @@ class SlowInfo extends Component {
         }
         return endValue.valueOf() <= startValue.valueOf() || endValue.valueOf() > new Date().getTime() ;
     }
+
     onChange = (fields, value) => {
         this.setState({
             [fields]: value,
         });
     }
+
     onStartChange = (value) => {
         this.onChange('startValue', value);
     }
@@ -90,9 +100,10 @@ class SlowInfo extends Component {
     onEndChange = (value) => {
         this.onChange('endValue', value);
     }
+
     render() {
         let { mallDemoList } = this.props;
-        let { startValue, endValue } = this.state;
+        let { startValue, endValue , loading} = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="slow_big_box" >
@@ -178,11 +189,12 @@ class SlowInfo extends Component {
                     </Form>
                 </Card>
                 <div className="BarBox" >
-                    {this.state.barData ? <Bar ref={'bar'} /> : <Loading />}
+                    {this.state.barData ? <Bar ref={'bar'} /> : loading ? <Loading /> : <p className="noneData" >暂无统计数据...</p>}
                 </div>
             </div>
         )
     }
+
 }
 const mapStateToProps = (state) => ({
     mallDemoList: state.conditionquery.mallDemoList

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Card, DatePicker, Select, Button, Form } from 'antd'
 import "./index.less"
-import { fetch } from "whatwg-fetch"
+// import { fetch } from "whatwg-fetch"
 import { connect } from "react-redux"
+import fetch from "./../../fetch"
 import moment from "moment"
 import Loading from "./../../components/loading"
 import { getData_locast } from "../../action/actioncreator"
@@ -15,43 +16,51 @@ class AbnormalInfo extends Component {
         this.state = {
             startValue: '',
             endValue: '',
-            barData: undefined
+            barData: undefined,
+            loading : false
         }
     }
+
     componentDidMount() {
         this.props.getList();
     }
+
+    componentDidUpdate() {
+        if (this.state.barData) {
+            this.refs.bar.setData(this.state.barData)
+        }
+    }
+
     //点击查询获取数据
     handleFilterSubmit = () => {
         let fieldsValue = this.props.form.getFieldsValue();
         this.props.form.validateFields((err) => {
             if (!err) {
-                console.log(fieldsValue)
-                this.requers(fieldsValue)
-                if (this.state.barData !== undefined) {
-                    this.refs.bar.setData(this.state.barData)
-                }
+                fetch.requers(fieldsValue,"/index/exceptionCount")
             }
         })
     }
 
-    requers = (datas) => {
-        let url = "/index/slowRequestCount"
-        fetch(url, {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(datas)
-        })
-            .then(res => res.json())
-            .then((data) => {
-                console.log(data)
-                this.setState({
-                    barData: JSON.parse(JSON.stringify(data))
-                })
-            }).catch(error => console.log('error is', error));
-    }
+    // requers = (datas) => {
+    //     let url = "/index/exceptionCount"
+    //     this.setState({
+    //         loading : true
+    //     })
+    //     fetch(url, {
+    //         method: 'post',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(datas)
+    //     })
+    //         .then(res => res.json())
+    //         .then((data) => {
+    //             this.setState({
+    //                 barData: JSON.parse(JSON.stringify(data)),
+    //                 loading : false
+    //             })
+    //         }).catch(error => console.log('error is', error));
+    // }
 
     //重置
     reset = () => {
@@ -70,18 +79,21 @@ class AbnormalInfo extends Component {
         }
         return startValue.valueOf() > endValue.valueOf();
     }
+
     disabledEndDate = (endValue) => {
         const startValue = this.state.startValue;
         if (!endValue || !startValue) {
             return endValue.valueOf() > new Date().getTime();
         }
-        return endValue.valueOf() <= startValue.valueOf() || endValue.valueOf() > new Date().getTime() ;
+        return endValue.valueOf() <= startValue.valueOf() || endValue.valueOf() > new Date().getTime();
     }
+
     onChange = (fields, value) => {
         this.setState({
             [fields]: value,
         });
     }
+
     onStartChange = (value) => {
         this.onChange('startValue', value);
     }
@@ -89,9 +101,10 @@ class AbnormalInfo extends Component {
     onEndChange = (value) => {
         this.onChange('endValue', value);
     }
+
     render() {
         let { mallDemoList } = this.props;
-        let { startValue, endValue } = this.state;
+        let { startValue, endValue , barData , loading } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="abnormall_big_box" >
@@ -192,7 +205,7 @@ class AbnormalInfo extends Component {
                     </Form>
                 </Card>
                 <div className="BarBox" >
-                    {this.state.barData ? <Bar ref={'bar'} /> : <Loading />}
+                    {barData ? <Bar ref={'bar'} /> : loading ? <Loading /> : <p className="noneData" >暂无统计数据...</p>}
                 </div>
             </div>
         )
