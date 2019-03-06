@@ -22,7 +22,7 @@ export default class Fetch {
                     _this.setState({
                         loading: true
                     })
-                    return  res = res.json()
+                    return res.json()
                 }
             })
             .then((data) => {

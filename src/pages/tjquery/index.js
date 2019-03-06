@@ -9,6 +9,7 @@ import { getData_locast } from "../../action/actioncreator"
 const Option = Select.Option;
 const FormItem = Form.Item;
 class TJQuery extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -235,7 +236,7 @@ class TJQuery extends Component {
                                 `
         }
     }
-    
+
 }
 const mapStateToProps = (state) => ({
     inputBoxData: state.query.inputBoxData

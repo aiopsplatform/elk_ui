@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import { Select, Form, DatePicker, Button, Icon, Input } from 'antd'
 import "./index.less"
 import moment from "moment"
+import { connect } from "react-redux"
+import { getData_locast } from "../../action/actioncreator"
 import Bar from "./bar"
 import Pie from "./pie"
 const Option = Select.Option;
 const FormItem = Form.Item;
 let id = 0;
-export default class FieldInfo extends Component {
+class FieldInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,6 +20,9 @@ export default class FieldInfo extends Component {
             startValue: '',
             endValue: ''
         }
+    }
+    componentDidMount() {
+        this.props.getList();
     }
     //重置
     reset = () => {
@@ -100,6 +105,7 @@ export default class FieldInfo extends Component {
     }
     render() {
         const { getFieldDecorator, getFieldValue } = this.props.form;
+        let { inputBoxData } = this.props;
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
@@ -209,16 +215,17 @@ export default class FieldInfo extends Component {
                                 )
                             }
                         </FormItem>
-                        <FormItem label="查询指标" {...formItemLayout} >
-                            {
-                                getFieldDecorator('target')(
+                        <FormItem label="查询索引" {...formItemLayout} >
+                        {
+                                getFieldDecorator('indexes')(
                                     <Select
-                                        placeholder='请选择指标'
+                                        placeholder='请选择索引'
                                     >
-                                        <Option value='1'>指标一</Option>
-                                        <Option value='2'>指标二</Option>
-                                        <Option value='3'>指标三</Option>
-                                        <Option value='4'>指标四</Option>
+                                        {
+                                            inputBoxData.length > 0 ? inputBoxData.map((item, i) => {
+                                                return <Option key={i} value={item.id}>{item.name}</Option>
+                                            }) : ""
+                                        }
                                     </Select>
                                 )
                             }
@@ -268,4 +275,14 @@ export default class FieldInfo extends Component {
         )
     }
 }
+const mapStateToProps = (state) => ({
+    inputBoxData: state.query.inputBoxData
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    getList() {
+        dispatch(getData_locast())
+    }
+})
 FieldInfo = Form.create({ name: 'dynamic_form_item' })(FieldInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(FieldInfo)
