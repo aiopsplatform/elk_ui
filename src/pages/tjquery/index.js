@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Card, DatePicker, Select, Button, Icon, Form } from 'antd'
 import moment from "moment"
-import { fetch } from "whatwg-fetch"
+import fetch from "./../../fetch"
 import { connect } from "react-redux"
 import "./index.less"
 import Loading from "../../components/loading"
@@ -9,14 +9,15 @@ import { getData_locast } from "../../action/actioncreator"
 const Option = Select.Option;
 const FormItem = Form.Item;
 class TJQuery extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             disabled: false,
             type: "arrows-alt",
             startValue: '',
             endValue: '',
-            loadind : false
+            Loading: false,
+            dataList : ''
         }
     }
 
@@ -26,29 +27,11 @@ class TJQuery extends Component {
 
 
     handleFilterSubmit = () => {
-        let fieldsValue = this.props.form.getFieldsValue();
-        this.requers(fieldsValue);
-    }
-
-    requers = (datas) => {
-        let url = "/index/selectByIndex"
         this.setState({
-            loadind : true
+            loading: true
         })
-        fetch(url, {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(datas)
-        })
-            .then(res => res.json())
-            .then((data) => {
-                this.setState({
-                    LogContent: JSON.parse(JSON.stringify(data)),
-                    loadind : false
-                })
-            }).catch(error => console.log('error is', error));
+        let fieldsValue = this.props.form.getFieldsValue();
+        fetch.requers(this,"/index/selectByIndex",fieldsValue);
     }
 
     reset = () => {
@@ -77,13 +60,15 @@ class TJQuery extends Component {
         if (!endValue || !startValue) {
             return endValue.valueOf() > new Date().getTime();
         }
-        return endValue.valueOf() <= startValue.valueOf() || endValue.valueOf() > new Date().getTime() ;
+        return endValue.valueOf() <= startValue.valueOf() || endValue.valueOf() > new Date().getTime();
     }
+
     onChange = (fields, value) => {
         this.setState({
-          [fields]: value,
+            [fields]: value,
         });
-      }
+    }
+
     onStartChange = (value) => {
         this.onChange('startValue', value);
     }
@@ -91,9 +76,10 @@ class TJQuery extends Component {
     onEndChange = (value) => {
         this.onChange('endValue', value);
     }
+
     render() {
-        let { mallDemoList } = this.props;
-        let { type, startValue, endValue , loadind , LogContent } = this.state;
+        let { inputBoxData } = this.props;
+        let { type, startValue, endValue, loading, dataList } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="tiquery_big_box">
@@ -107,7 +93,7 @@ class TJQuery extends Component {
                                         style={{ width: 200 }}
                                     >
                                         {
-                                            mallDemoList.length > 0 ? mallDemoList.map((item, i) => {
+                                            inputBoxData.length > 0 ? inputBoxData.map((item, i) => {
                                                 return <Option key={i} value={item.id}>{item.name}</Option>
                                             }) : ""
                                         }
@@ -215,13 +201,11 @@ class TJQuery extends Component {
                         <span className="blow_up" onClick={this.handleBlowUp.bind(this)}><Icon type={type} /></span>
                     </div>
                     <div className="cont_box_body">
-                        {
-                                LogContent ? LogContent.map((item,i)=>{
-                                    return <p key={i} style={{color:'black'}} >
-                                        {item}
-                                    </p>
-                                }) : loadind ? <Loading /> : <p className="noneData" >暂无数据，请查询...</p>
-                            }
+                        {dataList.length>0 ? dataList.map((item, i) => {
+                            return <p key={i} style={{ color: 'black' }} >
+                                {item}
+                            </p>
+                        }) : loading ? <Loading /> : <p className="noneData" >暂无数据，请查询...</p>}
                     </div>
                 </div>
             </div>
@@ -251,9 +235,10 @@ class TJQuery extends Component {
                                 `
         }
     }
+    
 }
 const mapStateToProps = (state) => ({
-    mallDemoList: state.conditionquery.mallDemoList
+    inputBoxData: state.query.inputBoxData
 })
 
 const mapDispatchToProps = (dispatch) => ({

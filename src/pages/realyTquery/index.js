@@ -21,9 +21,11 @@ class RealyTQuery extends Component {
 
     //点击查询按钮
     handleFilterSubmit = () => {
+        this.refs.content.setState({
+            loading : true
+        })
         let that = this;
         let fieldsValue = this.props.form.getFieldsValue();
-        console.log(fieldsValue)
         clearInterval(that.timer)
         that.timer = setInterval(() => {
             this.refs.content.requers(fieldsValue)
@@ -38,10 +40,12 @@ class RealyTQuery extends Component {
     //重置
     reset = () => {
         this.props.form.resetFields();
+        let that = this;
+        clearInterval(that.timer)
     }
 
     render() {
-        let { mallDemoList } = this.props;
+        let { inputBoxData } = this.props;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="realyT_big_box" >
@@ -55,7 +59,7 @@ class RealyTQuery extends Component {
                                         style={{ width: 200 }}
                                     >
                                         {
-                                            mallDemoList.length > 0 ? mallDemoList.map((item, i) => {
+                                            inputBoxData.length > 0 ? inputBoxData.map((item, i) => {
                                                 return <Option key={i} value={item.id}>{item.name}</Option>
                                             }) : ""
                                         }
@@ -137,7 +141,7 @@ class RealyTQuery extends Component {
     }
 }
 const mapStateToProps = (state) => ({
-    mallDemoList: state.conditionquery.mallDemoList
+    inputBoxData: state.query.inputBoxData
 })
 
 const mapDispatchToProps = (dispatch) => ({

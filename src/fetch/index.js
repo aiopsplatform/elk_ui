@@ -1,12 +1,9 @@
-import {fetch} from "whatwg-fetch"
-
+import { fetch } from "whatwg-fetch"
+import { Modal } from 'antd'
 export default class Fetch {
 
-    static requers = (datas , urls) => {
+    static requers = (_this, urls , datas) => {
         let url = urls
-        this.setState({
-            loading : true
-        })
         fetch(url, {
             method: 'post',
             headers: {
@@ -14,12 +11,30 @@ export default class Fetch {
             },
             body: JSON.stringify(datas)
         })
-            .then(res => res.json())
+            .then((res) =>{
+                if(res.status !== 200){
+                    Modal.info({
+                        title :  res.status ,
+                        content : res.status
+                    })
+                    return 
+                }else{
+                    _this.setState({
+                        loading: true
+                    })
+                    return  res = res.json()
+                }
+            })
             .then((data) => {
-                this.setState({
-                    barData: JSON.parse(JSON.stringify(data)),
+                    _this.setState({
+                        dataList: JSON.parse(JSON.stringify(data)),
+                        loading: false
+                    })
+            }).catch(error => {
+                console.log('error is' , error)
+                _this.setState({
                     loading : false
                 })
-            }).catch(error => console.log('error is', error));
+            });
     }
 }

@@ -3,7 +3,7 @@ import { Card, Button, DatePicker, Form, InputNumber } from "antd"
 import "./index.less"
 import Bar from "./bar"
 import Loading from "./../../components/loading"
-import { fetch } from "whatwg-fetch"
+import fetch from "./../../fetch"
 import moment from "moment"
 const FormItem = Form.Item;
 class OftenInfo extends Component {
@@ -12,7 +12,8 @@ class OftenInfo extends Component {
         this.state = {
             startValue: '',
             endValue: '',
-            loading : false
+            loading : false,
+            dataList : ''
         }
     }
 
@@ -21,13 +22,14 @@ class OftenInfo extends Component {
         this.props.form.resetFields();
         this.setState({
             startValue: '',
-            endValue: ''
+            endValue: '',
+            loading : false
         })
     }
 
     componentDidUpdate(){
-        if (this.state.barData) {
-            this.refs.bar.setData(this.state.barData)
+        if (this.state.dataList) {
+            this.refs.bar.setData(this.state.dataList)
         }
     }
 
@@ -36,31 +38,9 @@ class OftenInfo extends Component {
         let fieldsValue = this.props.form.getFieldsValue();
         this.props.form.validateFields((err) => {
             if (!err) {
-                this.requers(fieldsValue)
+                fetch.requers(this,"/index/exceptionCount",fieldsValue)
             }
         })
-    }
-
-    requers = (datas) => {
-        let url = "/index/exceptionCount"
-        this.setState({
-            loadind : true
-        })
-        fetch(url, {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(datas)
-        })
-            .then(res => res.json())
-            .then((data) => {
-                console.log(data)
-                this.setState({
-                    barData: JSON.parse(JSON.stringify(data)),
-                    loading : false
-                })
-            }).catch(error => console.log('error is', error));
     }
 
 
@@ -93,7 +73,7 @@ class OftenInfo extends Component {
         this.onChange('endValue', value);
     }
     render() {
-        let { startValue, endValue , loading } = this.state;
+        let { startValue, endValue , dataList , loading } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="often_big_box" >
@@ -101,7 +81,14 @@ class OftenInfo extends Component {
                     <Form layout="inline">
                         <FormItem label="开始时间" >
                             {
-                                getFieldDecorator('begin_time')(
+                                getFieldDecorator('begin_time', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '开始时间不能为空'
+                                        }
+                                    ]
+                                })(
                                     <DatePicker
                                         placeholder="请选择开始时间"
                                         format="YYYY-MM-DD HH:mm:ss"
@@ -115,7 +102,14 @@ class OftenInfo extends Component {
                         </FormItem>
                         <FormItem label="结束时间" >
                             {
-                                getFieldDecorator('end_time')(
+                                getFieldDecorator('end_time', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '结束时间不能为空'
+                                        }
+                                    ]
+                                })(
                                     <DatePicker
                                         placeholder="请选择结束时间"
                                         format="YYYY-MM-DD HH:mm:ss"
@@ -146,7 +140,7 @@ class OftenInfo extends Component {
                     </Form>
                 </Card>
                 <div className="BarBox" >
-                    {this.state.barData ? <Bar ref={'bar'} /> : loading ? <Loading /> : <p className="noneData" >暂无统计数据...</p>}
+                    {dataList.length>0 ? <Bar ref={'bar'} /> : loading ? <Loading /> : <p className="noneData" >暂无统计数据...</p>}
                 </div>
             </div>
         )

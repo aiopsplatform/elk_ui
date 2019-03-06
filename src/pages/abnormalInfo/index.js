@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Card, DatePicker, Select, Button, Form } from 'antd'
 import "./index.less"
-// import { fetch } from "whatwg-fetch"
 import { connect } from "react-redux"
 import fetch from "./../../fetch"
 import moment from "moment"
@@ -16,7 +15,7 @@ class AbnormalInfo extends Component {
         this.state = {
             startValue: '',
             endValue: '',
-            barData: undefined,
+            dataList: '',
             loading : false
         }
     }
@@ -26,8 +25,8 @@ class AbnormalInfo extends Component {
     }
 
     componentDidUpdate() {
-        if (this.state.barData) {
-            this.refs.bar.setData(this.state.barData)
+        if (this.state.dataList) {
+            this.refs.bar.setData(this.state.dataList)
         }
     }
 
@@ -36,38 +35,19 @@ class AbnormalInfo extends Component {
         let fieldsValue = this.props.form.getFieldsValue();
         this.props.form.validateFields((err) => {
             if (!err) {
-                fetch.requers(fieldsValue,"/index/exceptionCount")
+                fetch.requers(this,"/index/exceptionCount",fieldsValue)
             }
         })
     }
 
-    // requers = (datas) => {
-    //     let url = "/index/exceptionCount"
-    //     this.setState({
-    //         loading : true
-    //     })
-    //     fetch(url, {
-    //         method: 'post',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(datas)
-    //     })
-    //         .then(res => res.json())
-    //         .then((data) => {
-    //             this.setState({
-    //                 barData: JSON.parse(JSON.stringify(data)),
-    //                 loading : false
-    //             })
-    //         }).catch(error => console.log('error is', error));
-    // }
 
     //重置
     reset = () => {
         this.props.form.resetFields();
         this.setState({
             startValue: '',
-            endValue: ''
+            endValue: '',
+            loading : false
         })
     }
 
@@ -103,8 +83,8 @@ class AbnormalInfo extends Component {
     }
 
     render() {
-        let { mallDemoList } = this.props;
-        let { startValue, endValue , barData , loading } = this.state;
+        let { inputBoxData } = this.props;
+        let { startValue, endValue , dataList , loading } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="abnormall_big_box" >
@@ -118,7 +98,7 @@ class AbnormalInfo extends Component {
                                         style={{ width: 200 }}
                                     >
                                         {
-                                            mallDemoList.length > 0 ? mallDemoList.map((item, i) => {
+                                            inputBoxData.length > 0 ? inputBoxData.map((item, i) => {
                                                 return <Option key={i} value={item.id}>{item.name}</Option>
                                             }) : ""
                                         }
@@ -205,14 +185,14 @@ class AbnormalInfo extends Component {
                     </Form>
                 </Card>
                 <div className="BarBox" >
-                    {barData ? <Bar ref={'bar'} /> : loading ? <Loading /> : <p className="noneData" >暂无统计数据...</p>}
+                    {dataList.length>0 ? <Bar ref={'bar'} /> : loading ? <Loading /> : <p className="noneData" >暂无统计数据...</p>}
                 </div>
             </div>
         )
     }
 }
 const mapStateToProps = (state) => ({
-    mallDemoList: state.conditionquery.mallDemoList
+    inputBoxData: state.query.inputBoxData
 })
 
 const mapDispatchToProps = (dispatch) => ({

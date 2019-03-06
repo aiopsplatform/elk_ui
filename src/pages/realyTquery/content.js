@@ -1,21 +1,19 @@
 import React, { Component } from "react"
+import {Modal} from 'antd'
 import { fetch } from "whatwg-fetch"
 import Loading from "./../../components/loading"
 
 export default class Content extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            LogContent : undefined,
-            loading : false
+            LogContent: '',
+            loading: false
         }
     }
     //向后台发送数据
-    requers(data){
+    requers(data) {
         let url = "/index/selectRealTimeQuery"
-        this.setState({
-            loadind : true
-        })
         fetch(url, {
             method: 'post',
             headers: {
@@ -23,25 +21,43 @@ export default class Content extends Component {
             },
             body: JSON.stringify(data)
         })
-        .then(res => res.json())
-        .then((data) => {
-            this.setState({
-                LogContent: JSON.parse(JSON.stringify(data)),
-                loadind : false
+            .then((res) => {
+                if (res.status !== 200) {
+                    Modal.info({
+                        title: res.status,
+                        content: res.status
+                    })
+                    return
+                } else {
+                    this.setState({
+                        loading: true
+                    })
+                    return res = res.json()
+                }
             })
-        }).catch(error => console.log('error is', error));
+            .then((data) => {
+                this.setState({
+                    LogContent: JSON.parse(JSON.stringify(data)),
+                    loading: false
+                })
+            }).catch(error => {
+                console.log('error is', error)
+                this.setState({
+                    loading: false
+                })
+            });
     }
 
     render() {
-        let { LogContent , loading } = this.state;
+        let { LogContent, loading } = this.state;
         return (<div className="content_box">
             <div className="realtime_header">
                 <span className="data_show_txt">数据展示</span>
             </div>
             <div className="realtime_body">
                 {
-                    LogContent ? LogContent.map((item,i)=>{
-                        return <p key={i} style={{color:'red'}}>{item}</p>
+                    LogContent.length > 0 ? LogContent.map((item, i) => {
+                        return <p key={i} style={{ color: 'red' }}>{item}</p>
                     }) : loading ? <Loading /> : <p className="noneData" >暂无数据，请查询...</p>
                 }
             </div>
