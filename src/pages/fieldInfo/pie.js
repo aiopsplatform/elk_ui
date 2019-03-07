@@ -32,8 +32,8 @@ export default class Pie extends Component {
 
         let option = {
             title: {
-                text: '某站点用户访问来源',
-                subtext: '纯属虚构',
+                text: '字段统计内容x',
+                subtext: '字段统计',
                 x: 'center'
             },
             tooltip: {

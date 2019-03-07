@@ -28,9 +28,11 @@ class FieldInfo extends Component {
             loading: false
         }
     }
+
     componentDidMount() {
         this.props.getList();
     }
+
     //重置
     reset = () => {
         this.props.form.resetFields();
@@ -300,6 +302,12 @@ class FieldInfo extends Component {
                                 )
                             }
                         </FormItem>
+                        {formItems}
+                        <FormItem {...formItemLayoutWithOutLabel}>
+                            <Button type="primary" onClick={this.add} style={{ width: '60%' }}>
+                                <Icon type="plus" /> 添加查询条件
+                            </Button>
+                        </FormItem>
                         <FormItem label="统计字段" {...formItemLayout} >
                             {
                                 getFieldDecorator('field', {
@@ -322,13 +330,6 @@ class FieldInfo extends Component {
                                 )
                             }
                         </FormItem>
-                        {formItems}
-                        <FormItem {...formItemLayoutWithOutLabel}>
-                            <Button type="primary" onClick={this.add} style={{ width: '60%' }}>
-                                <Icon type="plus" /> 添加查询条件
-                            </Button>
-                        </FormItem>
-
                         <FormItem label="分段规则" {...formItemLayout} >
                             {
                                 getFieldDecorator('rule')(
