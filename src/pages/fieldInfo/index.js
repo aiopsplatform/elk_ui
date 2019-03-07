@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import { Select, Form, DatePicker, Button, Icon, Input } from 'antd'
+import { Select, Form, DatePicker, Button, Icon, Input, Empty } from 'antd'
 import "./index.less"
 import moment from "moment"
 import { connect } from "react-redux"
+import { fetch } from "whatwg-fetch"
+import fetchChart from "./../../fetch"
+import Loading from "./../../components/loading"
 import { getData_locast } from "../../action/actioncreator"
 import Bar from "./bar"
 import Pie from "./pie"
@@ -16,9 +19,13 @@ class FieldInfo extends Component {
             flag: false,
             disabled: true,
             disabledTwo: false,
-            num: '',
+            ChartType: '',
             startValue: '',
-            endValue: ''
+            endValue: '',
+            fieldsId: '',
+            fieldsList: '',
+            dataList: '',
+            loading: false
         }
     }
     componentDidMount() {
@@ -31,35 +38,59 @@ class FieldInfo extends Component {
             flag: false,
             disabled: true,
             disabledTwo: false,
-            num: ''
+            ChartType: ''
         })
     }
 
     handlePie = () => {
         this.setState({
-            num: 1,
+            ChartType: 0,
             disabled: false
         })
     }
+
     handleBar = () => {
         this.setState({
-            num: 2,
+            ChartType: 1,
             disabled: false
         })
     }
+
+    componentDidUpdate() {
+        let { dataList, ChartType } = this.state;
+        if (dataList.length > 0) {
+            if (ChartType === 0) {
+                this.refs.pie.setData(this.state.dataList)
+            } else if (ChartType === 1) {
+                this.refs.bar.setData(this.state.dataList)
+            }
+        }
+    }
+
     handleStart = () => {
+        let { ChartType } = this.state;
         let fieldsValue = this.props.form.getFieldsValue();
-        console.log(fieldsValue)
+        this.props.form.validateFields((err) => {
+            if (!err) {
+                console.log(fieldsValue)
+                if (ChartType === 0) {
+                    fetchChart.requers(this, "/index/fieldStatistics", fieldsValue);
+                } else if (ChartType === 1) {
+                    fetchChart.requers(this, "/index/fieldStatistics", fieldsValue);
+                }
+            }
+        })
         this.setState({
             flag: true,
             disabled: true,
             disabledTwo: true
         })
     }
+
     remove = (k) => {
         const { form } = this.props;
         const keys = form.getFieldValue('keys');
-        if (keys.length === 1) {
+        if (keys.length === 0) {
             return;
         }
 
@@ -76,6 +107,7 @@ class FieldInfo extends Component {
             keys: nextKeys,
         });
     }
+
     disabledStartDate = (startValue) => {
         const endValue = this.state.endValue;
         if (!startValue || !endValue) {
@@ -91,11 +123,13 @@ class FieldInfo extends Component {
         }
         return endValue.valueOf() <= startValue.valueOf() || endValue.valueOf() > new Date().getTime();
     }
+
     onChange = (fields, value) => {
         this.setState({
             [fields]: value,
         });
     }
+
     onStartChange = (value) => {
         this.onChange('startValue', value);
     }
@@ -103,6 +137,28 @@ class FieldInfo extends Component {
     onEndChange = (value) => {
         this.onChange('endValue', value);
     }
+
+    handleGetFields = (i) => {
+        let url = "/index/getIndexMetaData"
+        this.setState({
+            fieldsId: i
+        })
+        fetch(url, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.state.fieldsId)
+        })
+            .then(res => res.json())
+            .then((data) => {
+                this.setState({
+                    fieldsList: JSON.parse(JSON.stringify(data))
+                })
+            })
+            .catch(error => { console.log('error is', error) });
+    }
+
     render() {
         const { getFieldDecorator, getFieldValue } = this.props.form;
         let { inputBoxData } = this.props;
@@ -124,72 +180,94 @@ class FieldInfo extends Component {
         };
         getFieldDecorator('keys', { initialValue: [] });
         const keys = getFieldValue('keys');
-        let { num, disabled, flag, disabledTwo, startValue, endValue } = this.state;
+        let { ChartType, disabled, flag, disabledTwo, startValue, endValue, fieldsList, loading } = this.state;
         const formItems = keys.map((k, index) => (
-                <FormItem
-                    {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                    label={index === 0 ? '查询条件' : ''}
-                    required={false}
-                    key={k}
-                >
-                    {getFieldDecorator(`names[${k}]+indexes`, {
-                        validateTrigger: ['onChange', 'onBlur']
-                    })(
+            <FormItem
+                {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                label={index === 0 ? '查询条件' : ''}
+                required={false}
+                key={k}
+            >
+                {getFieldDecorator(`queryCondition[${k}]fields`, {
+                    validateTrigger: ['onChange', 'onBlur']
+                })(
+                    <Select
+                        placeholder='请选择字段'
+                        style={{ width: 130, marginRight: 20 }}
+                    >
+                        {
+                            fieldsList.length > 0 ? fieldsList.map((item, i) => {
+                                return <Option key={i} value={item.id}>{item.name}</Option>
+                            }) : ""
+                        }
+                    </Select>
+                )}
+                {
+                    getFieldDecorator(`queryCondition[${k}]symbol`)(
                         <Select
-                            placeholder='请选择索引'
-                            style={{ width: 130 }}
+                            style={{ width: 60, marginRight: 20 }}
                         >
-                            <Option value='1'>索引一</Option>
-                            <Option value='2'>索引二</Option>
-                            <Option value='3'>索引三</Option>
-                            <Option value='4'>索引四</Option>
+                            <Option value='1'>=</Option>
+                            <Option value='2'><Icon type="left" /></Option>
+                            <Option value='3'><Icon type="right" /></Option>
+                            <Option value='4'>≤</Option>
+                            <Option value='5'>≥</Option>
                         </Select>
-                    )}
-                    {
-                        getFieldDecorator(`names[${k}]+symbol`)(
-                            <Select
-                                style={{ width: 60 }}
-                            >
-                                <Option value='1'>=</Option>
-                                <Option value='2'><Icon type="left" /></Option>
-                                <Option value='3'><Icon type="right" /></Option>
-                                <Option value='4'>≤</Option>
-                                <Option value='5'>≥</Option>
-                            </Select>
-                        )
-                    }
-                    {
-                        getFieldDecorator(`names[${k}]+number`)(
-                            <Input style={{ width: 80 }} />
-                        )
-                    }
-                    {
-                        getFieldDecorator(`names[${k}]+orAnd`)(
-                            <Select
-                                style={{ width: 80 }}
-                            >
-                                <Option value='1'>or</Option>
-                                <Option value='2'>and</Option>
-                            </Select>
-                        )
-                    }
-                    {keys.length > 1 ? (
-                        <Icon
-                            className="dynamic-delete-button"
-                            type="minus-circle-o"
-                            disabled={keys.length === 1}
-                            onClick={() => this.remove(k)}
-                        />
-                    ) : null}
-                </FormItem>
+                    )
+                }
+                {
+                    getFieldDecorator(`queryCondition[${k}]number`)(
+                        <Input style={{ width: 80, marginRight: 20 }} />
+                    )
+                }
+                {keys.length > 0 ? (
+                    <Icon
+                        className="dynamic-delete-button"
+                        type="minus-circle-o"
+                        // disabled={keys.length === 1}
+                        onClick={() => this.remove(k)}
+                    />
+                ) : null}
+            </FormItem>
         ));
         return (
             <div className="field_big_box">
                 <div className="left_box">
                     <Form layout="horizontal">
+                        <FormItem label="查询索引" {...formItemLayout} >
+                            {
+                                getFieldDecorator('indexes', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '索引不能为空'
+                                        }
+                                    ]
+                                })(
+                                    <Select
+                                        placeholder='请选择索引'
+                                        style={{ width: 200 }}
+                                        onChange={this.handleGetFields}
+                                    >
+                                        {
+                                            inputBoxData.length > 0 ? inputBoxData.map((item, i) => {
+                                                return <Option key={i} value={item.id}>{item.name}</Option>
+                                            }) : ""
+                                        }
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
                         <FormItem label="开始时间" {...formItemLayout} >
                             {
-                                getFieldDecorator('begin_time')(
+                                getFieldDecorator('begin_time', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '开始时间不能为空'
+                                        }
+                                    ]
+                                })(
                                     <DatePicker
                                         placeholder="请选择开始时间"
                                         format="YYYY-MM-DD HH:mm:ss"
@@ -203,7 +281,14 @@ class FieldInfo extends Component {
                         </FormItem>
                         <FormItem label="结束时间" {...formItemLayout} >
                             {
-                                getFieldDecorator('end_time')(
+                                getFieldDecorator('end_time', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '结束时间不能为空'
+                                        }
+                                    ]
+                                })(
                                     <DatePicker
                                         placeholder="请选择结束时间"
                                         format="YYYY-MM-DD HH:mm:ss"
@@ -215,39 +300,25 @@ class FieldInfo extends Component {
                                 )
                             }
                         </FormItem>
-                        <FormItem label="查询索引" {...formItemLayout} >
-                        {
-                                getFieldDecorator('indexes')(
+                        <FormItem label="统计字段" {...formItemLayout} >
+                            {
+                                getFieldDecorator('field', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '字段不能为空'
+                                        }
+                                    ]
+                                })(
                                     <Select
-                                        placeholder='请选择索引'
+                                        placeholder='请选择字段'
                                     >
                                         {
-                                            inputBoxData.length > 0 ? inputBoxData.map((item, i) => {
+                                            fieldsList.length > 0 ? fieldsList.map((item, i) => {
                                                 return <Option key={i} value={item.id}>{item.name}</Option>
                                             }) : ""
                                         }
                                     </Select>
-                                )
-                            }
-                        </FormItem>
-                        <FormItem label="统计字段" {...formItemLayout} >
-                            {
-                                getFieldDecorator('field')(
-                                    <Select
-                                        placeholder='请选择字段'
-                                    >
-                                        <Option value='1'>字段一</Option>
-                                        <Option value='2'>字段二</Option>
-                                        <Option value='3'>字段三</Option>
-                                        <Option value='4'>字段四</Option>
-                                    </Select>
-                                )
-                            }
-                        </FormItem>
-                        <FormItem label="分段规则" {...formItemLayout} >
-                            {
-                                getFieldDecorator('rule')(
-                                    <Input placeholder="请选择分段规则" />
                                 )
                             }
                         </FormItem>
@@ -257,19 +328,28 @@ class FieldInfo extends Component {
                                 <Icon type="plus" /> 添加查询条件
                             </Button>
                         </FormItem>
+
+                        <FormItem label="分段规则" {...formItemLayout} >
+                            {
+                                getFieldDecorator('rule')(
+                                    <Input placeholder="请选择分段规则" />
+                                )
+                            }
+                        </FormItem>
+
                         <FormItem className="butons">
                             <span>选择图形 : </span>
                             <Button type="primary" onClick={this.handlePie} disabled={disabledTwo} icon="pie-chart" style={{ marginLeft: 15 }} >饼状图</Button>
                             <Button type="primary" onClick={this.handleBar} disabled={disabledTwo} icon="bar-chart" style={{ marginLeft: 30 }} >柱状图</Button>
                         </FormItem>
                         <FormItem className="start_buton">
-                            <Button type="primary" onClick={this.handleStart} disabled={disabled}>START</Button>
+                            <Button title="请先选择需要展示的图表类型" type="primary" onClick={this.handleStart} disabled={disabled}>开始统计</Button>
                             <Button type="primary" onClick={this.reset} style={{ marginLeft: 20 }} >重置</Button>
                         </FormItem>
                     </Form>
                 </div>
                 <div className="right_box" >
-                    {num === 2 && flag ? <Bar /> : num === 1 && flag ? <Pie /> : ''}
+                    {ChartType === 2 && flag ? <Bar ref={'bar'} /> : ChartType === 1 && flag ? <Pie ref={'pie'} /> : loading ? <Loading /> : <Empty className="emptyStyle" description='暂无数据，请查询...' />}
                 </div>
             </div>
         )

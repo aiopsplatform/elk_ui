@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, DatePicker, Select, Button, Icon, Form } from 'antd'
+import { Card, DatePicker, Select, Button, Icon, Form , Empty } from 'antd'
 import moment from "moment"
 import fetch from "./../../fetch"
 import { connect } from "react-redux"
@@ -9,7 +9,7 @@ import { getData_locast } from "../../action/actioncreator"
 const Option = Select.Option;
 const FormItem = Form.Item;
 class TJQuery extends Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -18,7 +18,7 @@ class TJQuery extends Component {
             startValue: '',
             endValue: '',
             Loading: false,
-            dataList : ''
+            dataList: ''
         }
     }
 
@@ -32,7 +32,7 @@ class TJQuery extends Component {
             loading: true
         })
         let fieldsValue = this.props.form.getFieldsValue();
-        fetch.requers(this,"/index/selectByIndex",fieldsValue);
+        fetch.requers(this, "/index/selectByIndex", fieldsValue);
     }
 
     reset = () => {
@@ -202,11 +202,14 @@ class TJQuery extends Component {
                         <span className="blow_up" onClick={this.handleBlowUp.bind(this)}><Icon type={type} /></span>
                     </div>
                     <div className="cont_box_body">
-                        {dataList.length>0 ? dataList.map((item, i) => {
-                            return <p key={i} style={{ color: 'black' }} >
-                                {item}
-                            </p>
-                        }) : loading ? <Loading /> : <p className="noneData" >暂无数据，请查询...</p>}
+                        <div className="cont_box_body_cont">
+                            {dataList.length > 0 ? dataList.map((item, i) => {
+                                return <p key={i} style={{ color: 'black' }} >
+                                    {item}
+                                </p>
+                            }) : loading ? <Loading /> : <Empty className="emptyStyle" description= '暂无数据，请查询...' />}
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -231,8 +234,8 @@ class TJQuery extends Component {
                 type: "arrows-alt"
             })
             this.refs.cont_box.style = `
-                                    width: 98%;
-                                    height: 75%;
+                                    width: 100%;
+                                    height: 69%;
                                 `
         }
     }

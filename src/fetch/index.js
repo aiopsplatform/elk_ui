@@ -3,6 +3,9 @@ import { Modal } from 'antd'
 export default class Fetch {
 
     static requers = (_this, urls , datas) => {
+        _this.setState({
+            loading: true
+        })
         let url = urls
         fetch(url, {
             method: 'post',
@@ -19,9 +22,6 @@ export default class Fetch {
                     })
                     return 
                 }else{
-                    _this.setState({
-                        loading: true
-                    })
                     return res.json()
                 }
             })

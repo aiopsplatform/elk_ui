@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import {Modal} from 'antd'
+import {Modal , Empty} from 'antd'
 import { fetch } from "whatwg-fetch"
 import Loading from "./../../components/loading"
 
@@ -32,7 +32,7 @@ export default class Content extends Component {
                     this.setState({
                         loading: true
                     })
-                    return res = res.json()
+                    return res.json()
                 }
             })
             .then((data) => {
@@ -58,7 +58,7 @@ export default class Content extends Component {
                 {
                     LogContent.length > 0 ? LogContent.map((item, i) => {
                         return <p key={i} style={{ color: 'red' }}>{item}</p>
-                    }) : loading ? <Loading /> : <p className="noneData" >暂无数据，请查询...</p>
+                    }) : loading ? <Loading /> : <Empty className="emptyStyle" description= '暂无数据，请查询...' />
                 }
             </div>
         </div>)

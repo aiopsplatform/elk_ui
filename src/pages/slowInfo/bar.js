@@ -5,7 +5,7 @@ export default class Bar extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            data: undefined
+            data: ''
         }
     }
     setData(data) {
@@ -26,7 +26,7 @@ export default class Bar extends React.Component {
         let xArr = [];
         let yArr = [];
 
-        if (this.state.data) {
+        if (this.state.data.length>0) {
             for (let i = 0; i < this.state.data.length; i++) {
                 xArr.push(this.state.data[i].name);
                 yArr.push(this.state.data[i].val);
@@ -75,6 +75,6 @@ export default class Bar extends React.Component {
         myChart.setOption(option)
     }
     render() {
-        return (<div ref={'box'} style={{ height: '450px' }}></div>)
+        return (<div ref={'box'} style={{ height: '500px' }}></div>)
     }
 }

@@ -2,25 +2,33 @@ import React, { Component } from 'react'
 import echarts from 'echarts';
 
 export default class Pie extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            data : ''
+        }
+    }
     componentDidMount() {
         this.addPie()
     }
     componentDidUpdate() {
         this.addPie()
     }
+    setData(data) {
+        this.setState({
+            data: data
+        })
+    }
     addPie() {
         let myChart = echarts.init(this.refs.box);
 
-        // let xArr = [];
-        // let yArr = [];
-        // if (this.state.data) {
-        //     for (let i = 0; i < this.state.data.length; i++) {
-        //         xArr.push(this.state.data[i].name);
-        //         yArr.push(this.state.data[i].val);
-        //     }
-        // }
-
-
+        let legendData = [];
+        // let seriesData = [];
+        if (this.state.data.length>0) {
+            for (let i = 0; i < this.state.data.length; i++) {
+                legendData.push(this.state.data[i].name);
+            }
+        }
 
         let option = {
             title: {
@@ -35,7 +43,7 @@ export default class Pie extends Component {
             legend: {
                 orient: 'vertical',
                 left: 'left',
-                data: ['字段A', '字段B', '字段C', '字段D', '字段E', '字段F']
+                data: legendData
             },
             series: [
                 {
@@ -43,14 +51,7 @@ export default class Pie extends Component {
                     type: 'pie',
                     radius: '55%',
                     center: ['50%', '60%'],
-                    data: [
-                        { value: 200, name: '字段A' },
-                        { value: 70, name: '字段B' },
-                        { value: 150, name: '字段C' },
-                        { value: 155, name: '字段D' },
-                        { value: 330, name: '字段E' },
-                        { value: 150, name: '字段F' }
-                    ],
+                    data: this.state.data,
                     itemStyle: {
                         emphasis: {
                             shadowBlur: 10,

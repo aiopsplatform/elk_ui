@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, DatePicker, Select, Button, Form } from 'antd'
+import { Card, DatePicker, Select, Button, Form , Empty} from 'antd'
 import "./index.less"
 import { connect } from "react-redux"
 import fetch from "./../../fetch"
@@ -185,7 +185,7 @@ class AbnormalInfo extends Component {
                     </Form>
                 </Card>
                 <div className="BarBox" >
-                    {dataList.length>0 ? <Bar ref={'bar'} /> : loading ? <Loading /> : <p className="noneData" >暂无统计数据...</p>}
+                    {dataList.length>0 ? <Bar ref={'bar'} /> : loading ? <Loading /> : <Empty className="emptyStyle" description= '暂无数据，请查询...' />}
                 </div>
             </div>
         )

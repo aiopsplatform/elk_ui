@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Button, DatePicker, Form, InputNumber } from "antd"
+import { Card, Button, DatePicker, Form, InputNumber , Empty} from "antd"
 import "./index.less"
 import Bar from "./bar"
 import Loading from "./../../components/loading"
@@ -140,7 +140,7 @@ class OftenInfo extends Component {
                     </Form>
                 </Card>
                 <div className="BarBox" >
-                    {dataList.length>0 ? <Bar ref={'bar'} /> : loading ? <Loading /> : <p className="noneData" >暂无统计数据...</p>}
+                    {dataList.length>0 ? <Bar ref={'bar'} /> : loading ? <Loading /> : <Empty className="emptyStyle" description= '暂无数据，请查询...' />}
                 </div>
             </div>
         )
