@@ -149,21 +149,22 @@ class FieldInfo extends Component {
             fieldsIdList: {
                 indexes: i
             }
-        })
-        fetch(url, {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(this.state.fieldsIdList)
-        })
-            .then(res => res.json())
-            .then((data) => {
-                this.setState({
-                    fieldsList: JSON.parse(JSON.stringify(data))
-                })
+        }, () => {
+            fetch(url, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.state.fieldsIdList)
             })
-            .catch(error => { console.log('error is', error) });
+                .then(res => res.json())
+                .then((data) => {
+                    this.setState({
+                        fieldsList: JSON.parse(JSON.stringify(data))
+                    })
+                })
+                .catch(error => { console.log('error is', error) });
+        })
     }
 
     render() {
