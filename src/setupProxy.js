@@ -2,7 +2,7 @@ const proxy = require("http-proxy-middleware");
 
 module.exports = (app) => {
 	app.use("/index", proxy({
-		target: "http://192.168.1.100:8080",
+		target: "http://192.168.1.102:8080",
 		changeOrigin: true
 	})),
 	app.use("/data", proxy({

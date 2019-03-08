@@ -4,6 +4,7 @@ import "./index.less"
 import { connect } from "react-redux"
 import fetch from "./../../fetch"
 import moment from "moment"
+// import Times from "./../../components/times"
 import Loading from "./../../components/loading"
 import { getData_locast } from "../../action/actioncreator"
 import Bar from "./bar"
@@ -33,6 +34,7 @@ class AbnormalInfo extends Component {
     //点击查询获取数据
     handleFilterSubmit = () => {
         let fieldsValue = this.props.form.getFieldsValue();
+        console.log(fieldsValue)
         this.props.form.validateFields((err) => {
             if (!err) {
                 fetch.requers(this,"/index/exceptionCount",fieldsValue)
@@ -121,6 +123,7 @@ class AbnormalInfo extends Component {
                                 )
                             }
                         </FormItem>
+                        {/* <Times /> */}
                         <FormItem label="开始时间" >
                             {
                                 getFieldDecorator('begin_time', {

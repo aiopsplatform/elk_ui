@@ -22,7 +22,9 @@ class FieldInfo extends Component {
             ChartType: '',
             startValue: '',
             endValue: '',
-            fieldsId: '',
+            fieldsIdList: {
+                indexes: ''
+            },
             fieldsList: '',
             dataList: '',
             loading: false
@@ -140,17 +142,20 @@ class FieldInfo extends Component {
         this.onChange('endValue', value);
     }
 
+
     handleGetFields = (i) => {
         let url = "/index/getIndexMetaData"
         this.setState({
-            fieldsId: i
+            fieldsIdList: {
+                indexes: i
+            }
         })
         fetch(url, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(this.state.fieldsId)
+            body: JSON.stringify(this.state.fieldsIdList)
         })
             .then(res => res.json())
             .then((data) => {
@@ -338,8 +343,7 @@ class FieldInfo extends Component {
                             }
                         </FormItem>
 
-                        <FormItem className="butons">
-                            <span>选择图形 : </span>
+                        <FormItem label="选择图形" {...formItemLayout} >
                             <Button type="primary" onClick={this.handlePie} disabled={disabledTwo} icon="pie-chart" style={{ marginLeft: 15 }} >饼状图</Button>
                             <Button type="primary" onClick={this.handleBar} disabled={disabledTwo} icon="bar-chart" style={{ marginLeft: 30 }} >柱状图</Button>
                         </FormItem>
@@ -350,7 +354,7 @@ class FieldInfo extends Component {
                     </Form>
                 </div>
                 <div className="right_box" >
-                    {ChartType === 2 && flag ? <Bar ref={'bar'} /> : ChartType === 1 && flag ? <Pie ref={'pie'} /> : loading ? <Loading /> : <Empty className="emptyStyle" description='暂无数据，请查询...' />}
+                    {ChartType === 2 && flag ? <Bar ref={'bar'} /> : ChartType === 1 && flag ? <Pie ref={'pie'} /> : loading ? <Loading /> : <Empty className="fieldEmptyStyle" description='暂无数据，请查询...' />}
                 </div>
             </div>
         )
