@@ -70,7 +70,7 @@ export default class SystemPrediction extends Component {
                 title: '时间',
                 dataIndex: 'time',
                 width: 25 + '%',
-                sorter: (a, b) => moment(a.startTime).format('YYYYMMDDHHmmss') - moment(b.startTime).format('YYYYMMDDHHmmss')
+                sorter: (a, b) => moment(a.time).format('YYYYMMDDHHmmss') - moment(b.time).format('YYYYMMDDHHmmss')
             }, {
                 title: '服务',
                 dataIndex: 'service',

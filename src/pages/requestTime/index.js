@@ -5,7 +5,7 @@ import axios from "./../../axios"
 import "./index.less"
 const Option = Select.Option;
 const FormItem = Form.Item;
-export default class CallLinkPrediction extends Component {
+export default class RequestTime extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,7 +21,7 @@ export default class CallLinkPrediction extends Component {
     }
 
     requestList = () => {
-        axios.requestList(this, '/systemPrediction/datalist', this.params);
+        axios.requestList(this, '/requestTime/list', this.params);
     }
    
     //重置
@@ -31,6 +31,9 @@ export default class CallLinkPrediction extends Component {
             startValue: '',
             endValue: ''
         })
+    }
+    refresh = () =>{
+        this.requestList();
     }
     //时间选择范围
     disabledStartDate = (startValue) => {
@@ -67,27 +70,33 @@ export default class CallLinkPrediction extends Component {
         const { getFieldDecorator } = this.props.form;
         const columns = [
             {
-                title: '时间',
-                dataIndex: 'time',
+                title: '请求名称',
+                dataIndex: 'requestName',
                 width: 25 + '%',
-                sorter: (a, b) => moment(a.time).format('YYYYMMDDHHmmss') - moment(b.time).format('YYYYMMDDHHmmss')
+                render(requestName) {
+                    return {
+                        '0': 'login',
+                        '1': 'register',
+                        '2': 'Cancellation',
+                    }[requestName]
+                }
             }, {
                 title: '服务',
                 dataIndex: 'service',
                 width: 25 + '%',
             }, {
-                title: '参数',
-                dataIndex: 'parameter',
+                title: '预测执行时长',
+                dataIndex: 'dorecastDuration',
                 width: 25 + '%',
+                render(dorecastDuration){
+                    return dorecastDuration + "ms"
+                }
             }, {
-                title: '状态',
-                dataIndex: 'state',
+                title: '预测区间',
+                dataIndex: 'predictionInterval',
                 width: 25 + '%',
-                render(state) {
-                    return {
-                        '0': <Badge status="success" text="正常" />,
-                        '1': <Badge status="warning" text="告警" />
-                    }[state]
+                render(predictionInterval){
+                    return predictionInterval + "ms"
                 }
             },
         ]
@@ -178,7 +187,8 @@ export default class CallLinkPrediction extends Component {
                         </FormItem>
                         <FormItem>
                             <Button type="primary" style={{ marginRight: 20, marginTop: 5 }} onClick={this.handleFilterSubmit}>查询</Button>
-                            <Button onClick={this.reset} style={{ marginTop: 5 }} >重置</Button>
+                            <Button onClick={this.reset} style={{ marginRight: 20, marginTop: 5 }} >重置</Button>
+                            <Button type="primary" onClick={this.refresh} style={{ marginTop: 5 }} >刷新</Button>
                         </FormItem>
                     </Form>
                 </Card>
@@ -195,4 +205,4 @@ export default class CallLinkPrediction extends Component {
     }
 }
 
-CallLinkPrediction = Form.create({})(CallLinkPrediction);
+RequestTime = Form.create({})(RequestTime);
