@@ -90,8 +90,8 @@ export default class LogTraffic extends Component {
                     return averageCapacity + "GB"
                 }
             }, {
-                title: '数据(每天)',
-                dataIndex: 'data',
+                title: '平均数据(每天)',
+                dataIndex: 'averageData',
                 width: 25 + '%',
                 render(data){
                     return data + "万"
