@@ -164,8 +164,8 @@ class SlowInfo extends Component {
                             }
                         </FormItem>
                         <FormItem>
-                            <Button type="primary" style={{ marginRight: 20, marginTop: 5 }} onClick={this.handleFilterSubmit}>查询</Button>
-                            <Button onClick={this.reset} style={{ marginTop: 5 }} >重置</Button>
+                            <Button type="primary" style={{ marginRight: 20}} onClick={this.handleFilterSubmit}>查询</Button>
+                            <Button onClick={this.reset}>重置</Button>
                         </FormItem>
                     </Form>
                 </Card>

@@ -104,7 +104,7 @@ export default class CallLinkPrediction extends Component {
         }
         return (
             <div>
-                <Card className="SystemPrediction_cards" >
+                <Card className="IntelligentPrediction_cards" >
                     <Form layout="inline">
                         <FormItem label="开始时间" >
                             {
@@ -177,8 +177,8 @@ export default class CallLinkPrediction extends Component {
                             }
                         </FormItem>
                         <FormItem>
-                            <Button type="primary" style={{ marginRight: 20, marginTop: 5 }} onClick={this.handleFilterSubmit}>查询</Button>
-                            <Button onClick={this.reset} style={{ marginTop: 5 }} >重置</Button>
+                            <Button type="primary" style={{ marginRight: 20}} onClick={this.handleFilterSubmit}>查询</Button>
+                            <Button onClick={this.reset} >重置</Button>
                         </FormItem>
                     </Form>
                 </Card>

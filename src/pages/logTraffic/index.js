@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { Card, DatePicker, Select, Button, Form, Table } from 'antd'
 import moment from "moment"
 import axios from "./../../axios"
+import "./index.less"
 const Option = Select.Option;
 const FormItem = Form.Item;
 export default class LogTraffic extends Component {
@@ -111,7 +112,7 @@ export default class LogTraffic extends Component {
         }
         return (
             <div>
-                <Card className="SystemPrediction_cards" >
+                <Card className="logTraffic_cards" >
                     <Form layout="inline">
                         <FormItem label="开始时间" >
                             {
@@ -171,8 +172,8 @@ export default class LogTraffic extends Component {
                             }
                         </FormItem>
                         <FormItem>
-                            <Button type="primary" style={{ marginRight: 20, marginTop: 5 }} onClick={this.handleFilterSubmit}>统计</Button>
-                            <Button onClick={this.reset} style={{ marginTop: 5 }} >重置</Button>
+                            <Button type="primary" style={{ marginRight: 20}} onClick={this.handleFilterSubmit}>统计</Button>
+                            <Button onClick={this.reset}>重置</Button>
                         </FormItem>
                     </Form>
                 </Card>

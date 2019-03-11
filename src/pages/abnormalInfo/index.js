@@ -4,7 +4,6 @@ import "./index.less"
 import { connect } from "react-redux"
 import fetch from "./../../fetch"
 import moment from "moment"
-// import Times from "./../../components/times"
 import Loading from "./../../components/loading"
 import { getData_locast } from "../../action/actioncreator"
 import Bar from "./bar"
@@ -182,8 +181,8 @@ class AbnormalInfo extends Component {
                             }
                         </FormItem>
                         <FormItem>
-                            <Button type="primary" style={{ marginRight: 20, marginTop: 5 }} onClick={this.handleFilterSubmit}>查询</Button>
-                            <Button onClick={this.reset} style={{ marginTop: 5 }} >重置</Button>
+                            <Button type="primary" style={{ marginRight: 20}} onClick={this.handleFilterSubmit}>查询</Button>
+                            <Button onClick={this.reset}  >重置</Button>
                         </FormItem>
                     </Form>
                 </Card>
