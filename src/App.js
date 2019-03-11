@@ -17,6 +17,8 @@ import Configure from "./pages/configure"
 import WarnDetail from "./pages/warnDetail"
 import CPUDDetail from "./pages/warnCPU"
 import Analyze from "./pages/analyze"
+import SystemPrediction from "./pages/systemPrediction"
+import CallLinkPrediction from "./pages/callLinkPrediction"
 import ResourcesM from "./pages/resourcesMonitoring"
 import AbnormalConfig from "./pages/abnormalConfig"
 import { Provider } from "react-redux";
@@ -97,15 +99,22 @@ class App extends Component {
                     key="sub4"
                     title={<span><Icon type="cluster" /><span>问题分析</span></span>}
                   >
-                    <Menu.Item key="10"><Link onClick={this._click.bind(this, 10, 'sub4')} to='/analyze'>问题分析</Link></Menu.Item>
+                    <Menu.Item key="10"><Link onClick={this._click.bind(this, 10, 'sub4')} to='/analyze'>链路分析</Link></Menu.Item>
                     <Menu.Item key="11"><Link onClick={this._click.bind(this, 11, 'sub4')} to='/monito'>资源监控</Link></Menu.Item>
                   </SubMenu>
                   <SubMenu
                     key="sub5"
+                    title={<span><Icon type="crown" /><span>智能预测</span></span>}
+                  >
+                    <Menu.Item key="12"><Link onClick={this._click.bind(this, 12, 'sub5')} to='/systemPrediction'>系统资源预测</Link></Menu.Item>
+                    <Menu.Item key="13"><Link onClick={this._click.bind(this, 13, 'sub5')} to='/callLinkPrediction'>调用链路预测</Link></Menu.Item>
+                  </SubMenu>
+                  <SubMenu
+                    key="sub6"
                     title={<span><Icon type="setting" /><span>配置</span></span>}
                   >
-                    <Menu.Item key="12"><Link onClick={this._click.bind(this, 12, 'sub5')} to='/configure'>grok规则</Link></Menu.Item>
-                    <Menu.Item key="13"><Link onClick={this._click.bind(this, 13, 'sub5')} to='/abnormalConfig'>异常配置</Link></Menu.Item>
+                    <Menu.Item key="14"><Link onClick={this._click.bind(this, 14, 'sub6')} to='/configure'>grok规则</Link></Menu.Item>
+                    <Menu.Item key="15"><Link onClick={this._click.bind(this, 15, 'sub6')} to='/abnormalConfig'>异常配置</Link></Menu.Item>
                   </SubMenu>
                 </Menu>
               </Sider>
@@ -123,6 +132,8 @@ class App extends Component {
                   <Route path="/informWarning" component={WarningInform} />
                   <Route path="/analyze" component={Analyze} />
                   <Route path="/monito" component={ResourcesM} />
+                  <Route path="/systemPrediction" component={SystemPrediction} />
+                  <Route path="/callLinkPrediction" component={CallLinkPrediction} />
                   <Route path="/abnormalConfig" component={AbnormalConfig} />
                   <Route path="/setWarning/warn_detail" component={WarnDetail} />
                   <Route path="/setWarning/CPU_detail" component={CPUDDetail} />
@@ -176,6 +187,12 @@ class App extends Component {
         break;
         case 13:
         sessionStorage.setItem('name', '13');
+        break;
+        case 14:
+        sessionStorage.setItem('name', '14');
+        break;
+        case 15:
+        sessionStorage.setItem('name', '15');
         break;
       default:
         break;
