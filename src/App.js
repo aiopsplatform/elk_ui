@@ -10,6 +10,7 @@ import FieldInfo from "./pages/fieldInfo"
 import AbnormalInfo from "./pages/abnormalInfo"
 import SlowInfo from "./pages/slowInfo"
 import OftenInfo from "./pages/oftenInfo"
+import LogTraffic from "./pages/logTraffic"
 import WarningSet from "./pages/warningSet"
 import WarningRecord from "./pages/warningRecord"
 import WarningInform from "./pages/warningInform"
@@ -87,36 +88,37 @@ class App extends Component {
                     <Menu.Item key="4"><Link onClick={this._click.bind(this, 4, 'sub2')} to='/abnormal'>异常统计</Link></Menu.Item>
                     <Menu.Item key="5"><Link onClick={this._click.bind(this, 5, 'sub2')} to='/slowrequest'>慢请求统计</Link></Menu.Item>
                     <Menu.Item key="6"><Link onClick={this._click.bind(this, 6, 'sub2')} to='/most'>最频繁请求统计</Link></Menu.Item>
+                    <Menu.Item key="7"><Link onClick={this._click.bind(this, 7, 'sub2')} to='/logTraffic'>日志容量统计</Link></Menu.Item>
                   </SubMenu>
                   <SubMenu
                     key="sub3"
                     title={<span><Icon type="alert" /><span>告警处理</span></span>}
                   >
-                    <Menu.Item key="7"><Link onClick={this._click.bind(this, 7, 'sub3')} to='/setWarning'>告警设置</Link></Menu.Item>
-                    <Menu.Item key="8"><Link onClick={this._click.bind(this, 8, 'sub3')} to='/recordWarning'>告警记录</Link></Menu.Item>
-                    <Menu.Item key="9"><Link onClick={this._click.bind(this, 9, 'sub3')} to='/informWarning'>告警通知组</Link></Menu.Item>
+                    <Menu.Item key="8"><Link onClick={this._click.bind(this, 8, 'sub3')} to='/setWarning'>告警设置</Link></Menu.Item>
+                    <Menu.Item key="9"><Link onClick={this._click.bind(this, 9, 'sub3')} to='/recordWarning'>告警记录</Link></Menu.Item>
+                    <Menu.Item key="10"><Link onClick={this._click.bind(this, 10, 'sub3')} to='/informWarning'>告警通知组</Link></Menu.Item>
                   </SubMenu>
                   <SubMenu
                     key="sub4"
                     title={<span><Icon type="cluster" /><span>问题分析</span></span>}
                   >
-                    <Menu.Item key="10"><Link onClick={this._click.bind(this, 10, 'sub4')} to='/analyze'>链路分析</Link></Menu.Item>
-                    <Menu.Item key="11"><Link onClick={this._click.bind(this, 11, 'sub4')} to='/monito'>资源监控</Link></Menu.Item>
+                    <Menu.Item key="11"><Link onClick={this._click.bind(this, 11, 'sub4')} to='/analyze'>链路分析</Link></Menu.Item>
+                    <Menu.Item key="12"><Link onClick={this._click.bind(this, 12, 'sub4')} to='/monito'>资源监控</Link></Menu.Item>
                   </SubMenu>
                   <SubMenu
                     key="sub5"
                     title={<span><Icon type="crown" /><span>智能预测</span></span>}
                   >
-                    <Menu.Item key="12"><Link onClick={this._click.bind(this, 12, 'sub5')} to='/systemPrediction'>系统资源预测</Link></Menu.Item>
-                    <Menu.Item key="13"><Link onClick={this._click.bind(this, 13, 'sub5')} to='/callLinkPrediction'>调用链路预测</Link></Menu.Item>
-                    <Menu.Item key="14"><Link onClick={this._click.bind(this, 14, 'sub5')} to='/requestTime'>请求耗时预测</Link></Menu.Item>
+                    <Menu.Item key="13"><Link onClick={this._click.bind(this, 13, 'sub5')} to='/systemPrediction'>系统资源预测</Link></Menu.Item>
+                    <Menu.Item key="14"><Link onClick={this._click.bind(this, 14, 'sub5')} to='/callLinkPrediction'>调用链路预测</Link></Menu.Item>
+                    <Menu.Item key="15"><Link onClick={this._click.bind(this, 15, 'sub5')} to='/requestTime'>请求耗时预测</Link></Menu.Item>
                   </SubMenu>
                   <SubMenu
                     key="sub6"
                     title={<span><Icon type="setting" /><span>配置</span></span>}
                   >
-                    <Menu.Item key="15"><Link onClick={this._click.bind(this, 15, 'sub6')} to='/configure'>grok规则</Link></Menu.Item>
-                    <Menu.Item key="16"><Link onClick={this._click.bind(this, 16, 'sub6')} to='/abnormalConfig'>异常配置</Link></Menu.Item>
+                    <Menu.Item key="16"><Link onClick={this._click.bind(this, 16, 'sub6')} to='/configure'>grok规则</Link></Menu.Item>
+                    <Menu.Item key="17"><Link onClick={this._click.bind(this, 17, 'sub6')} to='/abnormalConfig'>异常配置</Link></Menu.Item>
                   </SubMenu>
                 </Menu>
               </Sider>
@@ -129,6 +131,7 @@ class App extends Component {
                   <Route path="/abnormal" component={AbnormalInfo} />
                   <Route path="/slowrequest" component={SlowInfo} />
                   <Route path="/most" component={OftenInfo} />
+                  <Route path="/logTraffic" component={LogTraffic} />
                   <Route path="/setWarning" exact component={WarningSet} />
                   <Route path="/recordWarning" component={WarningRecord} />
                   <Route path="/informWarning" component={WarningInform} />
@@ -199,6 +202,9 @@ class App extends Component {
         break;
         case 16:
         sessionStorage.setItem('name', '16');
+        break;
+        case 17:
+        sessionStorage.setItem('name', '17');
         break;
       default:
         break;

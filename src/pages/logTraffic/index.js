@@ -1,11 +1,10 @@
 import React, { Component } from "react"
-import { Card, DatePicker, Select, Button, Form, Table , Badge} from 'antd'
+import { Card, DatePicker, Select, Button, Form, Table } from 'antd'
 import moment from "moment"
 import axios from "./../../axios"
-import "./index.less"
 const Option = Select.Option;
 const FormItem = Form.Item;
-export default class SystemPrediction extends Component {
+export default class LogTraffic extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,9 +20,9 @@ export default class SystemPrediction extends Component {
     }
 
     requestList = () => {
-        axios.requestList(this, '/systemPrediction/datalist', this.params);
+        axios.requestList(this, '/logTraffic/datalist', this.params);
     }
-   
+
     //重置
     reset = () => {
         this.props.form.resetFields();
@@ -67,27 +66,35 @@ export default class SystemPrediction extends Component {
         const { getFieldDecorator } = this.props.form;
         const columns = [
             {
-                title: '时间',
-                dataIndex: 'time',
+                title: '日志类型',
+                dataIndex: 'logTypes',
                 width: 25 + '%',
-                sorter: (a, b) => moment(a.time).format('YYYYMMDDHHmmss') - moment(b.time).format('YYYYMMDDHHmmss')
-            }, {
-                title: '服务',
-                dataIndex: 'service',
-                width: 25 + '%',
-            }, {
-                title: '参数',
-                dataIndex: 'parameter',
-                width: 25 + '%',
-            }, {
-                title: '状态',
-                dataIndex: 'state',
-                width: 25 + '%',
-                render(state) {
+                render(logTypes) {
                     return {
-                        '0': <Badge status="success" text="正常" />,
-                        '1': <Badge status="warning" text="告警" />
-                    }[state]
+                        '0': 'linux',
+                        '1': 'tomcat',
+                    }[logTypes]
+                }
+            }, {
+                title: '当前容量',
+                dataIndex: 'currentCapacity',
+                width: 25 + '%',
+                render(currentCapacity){
+                    return currentCapacity + "GB"
+                }
+            }, {
+                title: '平均容量(每天)',
+                dataIndex: 'averageCapacity',
+                width: 25 + '%',
+                render(averageCapacity){
+                    return averageCapacity + "GB"
+                }
+            }, {
+                title: '数据(每天)',
+                dataIndex: 'data',
+                width: 25 + '%',
+                render(data){
+                    return data + "万"
                 }
             },
         ]
@@ -148,36 +155,23 @@ export default class SystemPrediction extends Component {
                                 )
                             }
                         </FormItem>
-                        <FormItem label="状态">
+                        <FormItem label="类型">
                             {
-                                getFieldDecorator('state')(
+                                getFieldDecorator('types')(
                                     <Select
-                                        placeholder='请选择状态'
+                                        placeholder='请选择类型'
                                         style={{ width: 200 }}
                                     >
-                                        <Option value='1'>正常</Option>
-                                        <Option value='2'>告警</Option>
-                                    </Select>
-                                )
-                            }
-                        </FormItem>
-                        <FormItem label="服务">
-                            {
-                                getFieldDecorator('serve')(
-                                    <Select
-                                        placeholder='请选择服务'
-                                        style={{ width: 200 }}
-                                    >
-                                        <Option value='1'>服务一</Option>
-                                        <Option value='2'>服务二</Option>
-                                        <Option value='3'>服务三</Option>
-                                        <Option value='4'>服务四</Option>
+                                        <Option value='1'>类型一</Option>
+                                        <Option value='2'>类型二</Option>
+                                        <Option value='3'>类型三</Option>
+                                        <Option value='4'>类型四</Option>
                                     </Select>
                                 )
                             }
                         </FormItem>
                         <FormItem>
-                            <Button type="primary" style={{ marginRight: 20, marginTop: 5 }} onClick={this.handleFilterSubmit}>查询</Button>
+                            <Button type="primary" style={{ marginRight: 20, marginTop: 5 }} onClick={this.handleFilterSubmit}>统计</Button>
                             <Button onClick={this.reset} style={{ marginTop: 5 }} >重置</Button>
                         </FormItem>
                     </Form>
@@ -195,4 +189,4 @@ export default class SystemPrediction extends Component {
     }
 }
 
-SystemPrediction = Form.create({})(SystemPrediction);
+LogTraffic = Form.create({})(LogTraffic);
