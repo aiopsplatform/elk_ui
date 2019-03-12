@@ -13,10 +13,10 @@ export default class Bar extends React.Component {
             data: data
         })
     }
-    componentDidMount(){
+    componentDidMount() {
         this.addBar()
     }
-    componentDidUpdate(){
+    componentDidUpdate() {
         this.addBar()
     }
     addBar() {
@@ -26,7 +26,9 @@ export default class Bar extends React.Component {
         let xArr = [];
         let yArr = [];
 
-        if (this.state.data.length>0) {
+        if (!this.state.data.length) {
+            return
+        } else {
             for (let i = 0; i < this.state.data.length; i++) {
                 xArr.push(this.state.data[i].name);
                 yArr.push(this.state.data[i].val);

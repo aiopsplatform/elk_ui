@@ -9,9 +9,9 @@ import Loading from "./../../components/loading"
 import { getData_locast } from "../../action/actioncreator"
 import Bar from "./bar"
 import Pie from "./pie"
-const Option = Select.Option;
-const FormItem = Form.Item;
-let id = 0;
+const Option = Select.Option
+const FormItem = Form.Item
+let id = 0
 class FieldInfo extends Component {
     constructor(props) {
         super(props);
@@ -42,7 +42,8 @@ class FieldInfo extends Component {
             flag: false,
             disabled: true,
             disabledTwo: false,
-            ChartType: ''
+            ChartType: '',
+            dataList: ''
         })
     }
 
@@ -62,30 +63,25 @@ class FieldInfo extends Component {
 
     componentDidUpdate() {
         let { dataList, ChartType } = this.state;
-        if (dataList.length > 0) {
+        if (!dataList.length) {
+            return
+        } else {
             if (ChartType === 0) {
-                this.refs.pie.setData(this.state.dataList)
+                this.refs.pie.setData(dataList)
             } else if (ChartType === 1) {
-                this.refs.bar.setData(this.state.dataList)
+                this.refs.bar.setData(dataList)
             }
         }
     }
 
     handleStart = () => {
-        let { ChartType } = this.state;
         let fieldsValue = this.props.form.getFieldsValue();
         this.props.form.validateFields((err) => {
             if (!err) {
-                console.log(fieldsValue)
-                if (ChartType === 0) {
-                    fetchChart.requers(this, "/index/fieldStatistics", fieldsValue);
-                } else if (ChartType === 1) {
-                    fetchChart.requers(this, "/index/fieldStatistics", fieldsValue);
-                }
+                fetchChart.requers(this, "/index/fieldStatistics", fieldsValue);
             }
         })
         this.setState({
-            flag: true,
             disabled: true,
             disabledTwo: true
         })
@@ -225,7 +221,7 @@ class FieldInfo extends Component {
                 }
                 {
                     getFieldDecorator(`queryCondition[${k}]number`)(
-                        <Input style={{ width: 80, marginRight: 20 }} />
+                        <Input type="number" style={{ width: 80, marginRight: 20 }} />
                     )
                 }
                 {keys.length > 0 ? (
@@ -355,7 +351,7 @@ class FieldInfo extends Component {
                     </Form>
                 </div>
                 <div className="right_box" >
-                    {ChartType === 2 && flag ? <Bar ref={'bar'} /> : ChartType === 1 && flag ? <Pie ref={'pie'} /> : loading ? <Loading /> : <Empty className="fieldEmptyStyle" description='暂无数据，请查询...' />}
+                    {ChartType === 1 && flag ? <Bar ref={'bar'} /> : ChartType === 0 && flag ? <Pie ref={'pie'} /> : loading ? <p className="loadingBox" > <Loading /> </p> : <Empty className="fieldEmptyStyle" description='暂无数据，请查询...' />}
                 </div>
             </div>
         )

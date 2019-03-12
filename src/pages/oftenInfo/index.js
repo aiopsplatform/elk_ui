@@ -28,7 +28,9 @@ class OftenInfo extends Component {
     }
 
     componentDidUpdate(){
-        if (this.state.dataList) {
+        if (!this.state.dataList.length) {
+           return
+        }else{
             this.refs.bar.setData(this.state.dataList)
         }
     }
@@ -140,7 +142,7 @@ class OftenInfo extends Component {
                     </Form>
                 </Card>
                 <div className="BarBox" >
-                    {dataList.length>0 ? <Bar ref={'bar'} /> : loading ? <Loading /> : <Empty className="emptyStyle" description= '暂无数据，请查询...' />}
+                    {dataList.length > 0 ? <Bar ref={'bar'} /> : loading ? <Loading /> : <Empty className="emptyStyle" description= '暂无数据，请查询...' />}
                 </div>
             </div>
         )

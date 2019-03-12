@@ -25,7 +25,7 @@ class SlowInfo extends Component {
     }
 
     componentDidUpdate(){
-        if (this.state.dataList) {
+        if (this.state.dataList.length>0) {
             this.refs.bar.setData(this.state.dataList)
         }
     }

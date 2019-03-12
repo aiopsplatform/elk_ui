@@ -28,7 +28,8 @@ export default class Fetch {
             .then((data) => {
                     _this.setState({
                         dataList: JSON.parse(JSON.stringify(data)),
-                        loading: false
+                        loading: false,
+                        flag : true
                     })
             }).catch(error => {
                 console.log('error is' , error)

@@ -25,7 +25,7 @@ class AbnormalInfo extends Component {
     }
 
     componentDidUpdate() {
-        if (this.state.dataList) {
+        if (this.state.dataList.length>0) {
             this.refs.bar.setData(this.state.dataList)
         }
     }
@@ -33,7 +33,6 @@ class AbnormalInfo extends Component {
     //点击查询获取数据
     handleFilterSubmit = () => {
         let fieldsValue = this.props.form.getFieldsValue();
-        console.log(fieldsValue)
         this.props.form.validateFields((err) => {
             if (!err) {
                 fetch.requers(this,"/index/exceptionCount",fieldsValue)

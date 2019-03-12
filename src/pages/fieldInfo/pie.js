@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import echarts from 'echarts';
 
 export default class Pie extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            data : ''
+        this.state = {
+            data: ''
         }
     }
     componentDidMount() {
@@ -24,7 +24,9 @@ export default class Pie extends Component {
 
         let legendData = [];
         // let seriesData = [];
-        if (this.state.data.length>0) {
+        if (!this.state.data.length) {
+            return
+        } else {
             for (let i = 0; i < this.state.data.length; i++) {
                 legendData.push(this.state.data[i].name);
             }
