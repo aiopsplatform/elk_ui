@@ -5,8 +5,8 @@ module.exports = (app) => {
 		target: "http://192.168.1.102:8080",
 		changeOrigin: true
 	})),
-	app.use("/data", proxy({
-		target: " https://www.easy-mock.com/mock/5c62af35fe257b0e6ddb1e1b/elk_moni",
+	app.use("/table", proxy({
+		target: "https://www.easy-mock.com/mock/5c62af35fe257b0e6ddb1e1b/elk_moni",
 		changeOrigin: true
 	}))
 }

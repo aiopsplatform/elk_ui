@@ -1,14 +1,31 @@
 import React, { Component } from 'react'
-import { Card, Form, Button, Select } from "antd"
+import { Card, Form, Button, Select , Empty} from "antd"
 // import Loading from "./../../components/loading"
 import "./index.less"
 import Line from "./line"
 const FormItem = Form.Item;
 const Option = Select.Option;
 class ResourcesM extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            loading : false
+        }
+    }
+
+    handleFilterSubmit = () =>{
+        this.setState({
+            loading : true
+        })
+    }
+
+    reset = () =>{
+        this.props.form.resetFields();
+    }
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        let { loading } = this.state;
         return (
             <div className="resourcesm_bigBox" >
                 <Card className="resourcesm_card" >
@@ -50,7 +67,7 @@ class ResourcesM extends Component {
                     </Form>
                 </Card>
                 <div>
-                    <Line />
+                {loading ? <Line /> : <Empty className="emptyStyle" description='暂无数据，请查询...' />}
                 </div>
             </div>
         )

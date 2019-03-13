@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Card, Table, Modal, Tree, Form, Select, Button } from 'antd'
+import { Card, Table, Modal, Tree, Form, Select, Button , Icon } from 'antd'
 import axios from "./../../axios"
 import "./index.less"
+import Graph from "./graph"
 const { TreeNode } = Tree;
 const Option = Select.Option;
 const FormItem = Form.Item;
@@ -9,7 +10,9 @@ export default class Analyze extends Component {
     constructor(props){
         super(props);
         this.state = {
-            isVisible: false
+            isVisibleDetails: false,
+            isVisibleTrack: false
+            
         }
     }
 
@@ -26,12 +29,16 @@ export default class Analyze extends Component {
         axios.requestList(this, '/analyze/list', this.params);
     }
 
-    handleVisit = () => {
+    handleVisitDetails = () => {
         this.setState({
-            isVisible: true
+            isVisibleDetails: true
         })
     }
-
+    handleVisitTrack = () =>{
+        this.setState({
+            isVisibleTrack : true
+        })
+    }
     render() {
         const columns = [
             {
@@ -49,17 +56,24 @@ export default class Analyze extends Component {
             }, {
                 title: '异常',
                 dataIndex: 'abnormal',
-                width: 20 + '%',
+                width: 15 + '%',
             }, {
                 title: '操作',
                 dataIndex: 'operation',
-                width: 15 + '%',
+                width:  10+ '%',
                 render: (item, operation) => {
-                    return <span className="Link_access" onClick={(item) => { this.handleVisit(item) }}>
+                    return <span className="Link_access" onClick={(item) => { this.handleVisitDetails(item) }}>
                         链路访问
                     </span>
                 }
-            },
+            }, {
+                width: 10 + '%',
+                render: (item, operation) => {
+                    return <span className="Link_access" onClick={(item) => { this.handleVisitTrack(item) }}>
+                        链路查询
+                    </span>
+                }
+            }
         ]
         const selectedRowKeys = this.state.selectedRowKeys;
         const { getFieldDecorator } = this.props.form;
@@ -108,21 +122,21 @@ export default class Analyze extends Component {
                 <Modal
                     title="login链路详情"
                     style={{ borderRadius: 30 }}
-                    visible={this.state.isVisible}
+                    visible={this.state.isVisibleDetails}
                     footer={null}
                     maskClosable={false}
                     onCancel={() => {
                         this.setState({
-                            isVisible: false
+                            isVisibleDetails: false
                         })
                     }}
                     width={600}
                 >
                     <Tree
-                        showLine
-                        draggable
+                        showIcon
+                        switcherIcon={<Icon type="down" />}
                     >
-                        <TreeNode title="parent 1" key="0-0">
+                        <TreeNode title="parent 1" key="0-0" >
                             <TreeNode title="parent 1-0" key="0-0-0">
                                 <TreeNode title="leaf" key="0-0-0-0" />
                                 <TreeNode title="leaf" key="0-0-0-1" />
@@ -138,6 +152,21 @@ export default class Analyze extends Component {
                             </TreeNode>
                         </TreeNode>
                     </Tree>
+                </Modal>
+                <Modal
+                    title="login调用链路跟踪"
+                    style={{ borderRadius: 30 , top : 20 }}
+                    visible={this.state.isVisibleTrack}
+                    footer={null}
+                    maskClosable={false}
+                    onCancel={() => {
+                        this.setState({
+                            isVisibleTrack: false
+                        })
+                    }}
+                    width={700}
+                >
+                   <Graph />
                 </Modal>
             </div>
         )

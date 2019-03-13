@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Card, Form, Button, Select , DatePicker } from "antd"
+import { Card, Form, Button, Select, DatePicker, Empty } from "antd"
 import moment from "moment"
 import Line from "./line"
 import { connect } from "react-redux"
@@ -8,11 +8,12 @@ import { getData_locast } from "../../action/actioncreator"
 const FormItem = Form.Item;
 const Option = Select.Option;
 class LogTrend extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state={
+        this.state = {
             startValue: '',
-            endValue: ''
+            endValue: '',
+            loading: false
         }
     }
     //时间选择范围
@@ -45,13 +46,30 @@ class LogTrend extends Component {
     onEndChange = (value) => {
         this.onChange('endValue', value);
     }
+    handleFilterSubmit = () => {
+        this.props.form.validateFields((err) => {
+            if (!err) {
+                this.setState({
+                    loading: true
+                })
+            }
+        })
+    }
+    reset = () => {
+        this.props.form.resetFields();
+        this.setState({
+            startValue: '',
+            endValue: '',
+            loading: false
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         let { inputBoxData } = this.props;
-        let { startValue, endValue } = this.state;
+        let { startValue, endValue, loading } = this.state;
         return (
             <div>
-                <Card  className="logTrend_cards" >
+                <Card className="logTrend_cards" >
                     <Form layout="inline">
                         <FormItem label="索引">
                             {
@@ -86,7 +104,14 @@ class LogTrend extends Component {
                         </FormItem>
                         <FormItem label="开始时间" >
                             {
-                                getFieldDecorator('begin_time')(
+                                getFieldDecorator('begin_time', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '开始时间不能为空'
+                                        }
+                                    ]
+                                })(
                                     <DatePicker
                                         placeholder="请选择开始时间"
                                         format="YYYY-MM-DD HH:mm:ss"
@@ -100,7 +125,14 @@ class LogTrend extends Component {
                         </FormItem>
                         <FormItem label="结束时间" >
                             {
-                                getFieldDecorator('end_time')(
+                                getFieldDecorator('end_time', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '结束时间不能为空'
+                                        }
+                                    ]
+                                })(
                                     <DatePicker
                                         placeholder="请选择结束时间"
                                         format="YYYY-MM-DD HH:mm:ss"
@@ -119,7 +151,7 @@ class LogTrend extends Component {
                     </Form>
                 </Card>
                 <div>
-                    <Line />
+                    {loading ? <Line /> : <Empty className="emptyStyle" description='暂无数据，请查询...' />}
                 </div>
             </div>
         )
