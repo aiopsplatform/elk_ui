@@ -23,8 +23,8 @@ export default class Line extends Component{
 
         let option = {
             title: {
-                text : '资源监控',
-                x : 'center'
+                text: '日志趋势',
+                x: 'center'
             },
             xAxis: {
                 type: 'category',
@@ -56,7 +56,7 @@ export default class Line extends Component{
     }
     render(){
         return(
-            <div ref={'box'} style={{marginTop:20 , width:1200,height: 530 }}></div>
+            <div ref={'box'} style={{ marginTop:20 , width:1200, height: 480 }}></div>
         )
     }
 }

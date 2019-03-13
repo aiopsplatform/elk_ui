@@ -13,7 +13,7 @@ class ResourcesM extends Component {
             <div className="resourcesm_bigBox" >
                 <Card className="resourcesm_card" >
                     <Form layout="inline">
-                        <FormItem label="服务名s">
+                        <FormItem label="服务名">
                             {
                                 getFieldDecorator('servicename')(
                                     <Select
