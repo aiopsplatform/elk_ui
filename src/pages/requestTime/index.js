@@ -84,6 +84,9 @@ export default class RequestTime extends Component {
                 title: '服务',
                 dataIndex: 'service',
                 width: 25 + '%',
+                render(service){
+                    return 'service' + service
+                }
             }, {
                 title: '预测执行时长',
                 dataIndex: 'dorecastDuration',
