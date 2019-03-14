@@ -75,6 +75,9 @@ export default class SystemPrediction extends Component {
                 title: '服务',
                 dataIndex: 'service',
                 width: 25 + '%',
+                render(service){
+                    return 'service' + service
+                }
             }, {
                 title: '参数',
                 dataIndex: 'parameter',
