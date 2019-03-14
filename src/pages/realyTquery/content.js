@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Modal, Empty, Icon } from 'antd'
+import { Empty, Icon } from 'antd'
 import { fetch } from "whatwg-fetch"
 import Loading from "./../../components/loading"
 
@@ -24,10 +24,6 @@ export default class Content extends Component {
         })
             .then((res) => {
                 if (res.status !== 200) {
-                    // Modal.info({
-                    //     title: res.status,
-                    //     content: res.status
-                    // })
                     return
                 } else {
                     this.setState({

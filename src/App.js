@@ -48,7 +48,7 @@ class App extends Component {
       openKeys: [sessionStorage.getItem('name1')] || ['sub1'],
     };
   }
-  rootSubmenuKeys = ['sub1', 'sub2', 'sub3', 'sub4', 'sub5'];
+  rootSubmenuKeys = ['sub1', 'sub2', 'sub3', 'sub4', 'sub5','sub6','sub7'];
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
   }
@@ -102,7 +102,7 @@ class App extends Component {
                   </SubMenu>
                   <SubMenu
                     key="sub4"
-                    title={<span><Icon type="alert" /><span>告警处理</span></span>}
+                    title={<span><Icon type="alert" /><span>告警管理</span></span>}
                   >
                     <Menu.Item key="10"><Link onClick={this._click.bind(this, 10, 'sub4')} to='/setWarning'>告警设置</Link></Menu.Item>
                     <Menu.Item key="11"><Link onClick={this._click.bind(this, 11, 'sub4')} to='/recordWarning'>告警记录</Link></Menu.Item>

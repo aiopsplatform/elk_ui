@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { Modal } from 'antd'
 import Utils from './../utils/utils'
-// import {fetch} from "whatwg-fetch"
 export default class Axios {
 
     static requestList(_this, url, params, isMock) {
