@@ -9,9 +9,7 @@ const FormItem = Form.Item;
 class RealyTQuery extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            timer: null
-        }
+        this.state = { }
     }
 
     //获取input框数据
@@ -21,12 +19,12 @@ class RealyTQuery extends Component {
 
     //点击查询按钮
     handleFilterSubmit = () => {
+        let that = this;
+        clearInterval(that.timer)
         this.refs.content.setState({
             loading : true
         })
-        let that = this;
         let fieldsValue = this.props.form.getFieldsValue();
-        clearInterval(that.timer)
         that.timer = setInterval(() => {
             this.refs.content.requers(fieldsValue)
         }, 5000)
