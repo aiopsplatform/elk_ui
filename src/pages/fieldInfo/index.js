@@ -310,6 +310,29 @@ class FieldInfo extends Component {
                                 <Icon type="plus" /> 添加查询条件
                             </Button>
                         </FormItem>
+                        <FormItem label="操作类型" {...formItemLayout} >
+                            {
+                                getFieldDecorator('operationType', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '操作类型不能为空'
+                                        }
+                                    ],
+                                    initialValue: "1"
+                                })(
+                                    <Select
+                                        placeholder='请选择操作类型'
+                                    >
+                                        <Option value='1'>COUNT</Option>
+                                        <Option value='2'>SUM</Option>
+                                        <Option value='3'>AVEKAGE</Option>
+                                        <Option value='4'>MAX</Option>
+                                        <Option value='5'>MIN</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
                         <FormItem label="统计字段" {...formItemLayout} >
                             {
                                 getFieldDecorator('field', {
