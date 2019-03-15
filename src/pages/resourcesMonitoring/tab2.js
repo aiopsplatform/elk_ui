@@ -11,7 +11,7 @@ export default class Tab2 extends Component {
     }
 
     requestList = () => {
-        axios.requestList(this, '/tabs2/dataList', this.params);
+        axios.requestList(this, '/tabs2/dataList');
     }
     render() {
         const columns = [
@@ -41,6 +41,7 @@ export default class Tab2 extends Component {
                 title: 'CPU使用情况',
                 dataIndex: 'CPUSituation',
                 width: 20 + '%',
+                align : 'center',
                 render(CPUSituation){
                     return CPUSituation + '%'
                 }
@@ -48,6 +49,7 @@ export default class Tab2 extends Component {
                 title: '内存使用率',
                 dataIndex: 'memoryUtilization',
                 width: 20 + '%',
+                align : 'center',
                 render(memoryUtilization){
                     return memoryUtilization + '%'
                 }
@@ -55,30 +57,24 @@ export default class Tab2 extends Component {
                 title: '磁盘使用率',
                 dataIndex: 'diskUtilization',
                 width: 20 + '%',
+                align : 'center',
                 render(diskUtilization){
                     return diskUtilization + '%'
                 }
             }
         ]
-        const selectedRowKeys = this.state.selectedRowKeys;
-        const rowCheckSelection = {
-            selectedRowKeys,
-            onChange: (selectedRowKeys, selectedRows) => {
-                this.setState({
-                    selectedRowKeys,
-                    selectedRows
-                })
-
-            }
-        }
+        
         return (
                 <Card>
                     <Table
-                        rowSelection={rowCheckSelection}
+                        rowSelection={null}
                         columns={columns}
                         dataSource={this.state.list}
                         pagination={false}
                     />
+                    <div className="nums" >
+                        共<span> 10 </span>条数据
+                    </div>
                 </Card>
         )
     }
