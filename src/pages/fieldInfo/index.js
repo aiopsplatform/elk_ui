@@ -27,7 +27,9 @@ class FieldInfo extends Component {
             },
             fieldsList: '',
             dataList: '',
-            loading: false
+            loading: false,
+            operationType: 0,
+            showOrNo: ''
         }
     }
 
@@ -139,6 +141,22 @@ class FieldInfo extends Component {
     }
 
 
+    handleOperationType = (i) => {
+        this.setState({
+            operationType: i
+        }, () => {
+            if (this.state.operationType == 0) {
+                this.setState({
+                    showOrNo: false
+                })
+            }else{
+                this.setState({
+                    showOrNo: true
+                })
+            }
+        })
+    }
+
     handleGetFields = (i) => {
         let url = "/index/getIndexMetaData"
         this.setState({
@@ -176,12 +194,14 @@ class FieldInfo extends Component {
                 sm: { span: 20 },
             },
         };
+
         const formItemLayoutWithOutLabel = {
             wrapperCol: {
                 xs: { span: 24, offset: 0 },
                 sm: { span: 20, offset: 4 },
             },
         };
+
         getFieldDecorator('keys', { initialValue: [] });
         const keys = getFieldValue('keys');
         let { ChartType, disabled, flag, disabledTwo, startValue, endValue, fieldsList, loading } = this.state;
@@ -211,11 +231,11 @@ class FieldInfo extends Component {
                         <Select
                             style={{ width: 60, marginRight: 20 }}
                         >
-                            <Option value='1'>=</Option>
-                            <Option value='2'><Icon type="left" /></Option>
-                            <Option value='3'><Icon type="right" /></Option>
-                            <Option value='4'>≤</Option>
-                            <Option value='5'>≥</Option>
+                            <Option value='0'>=</Option>
+                            <Option value='1'><Icon type="left" /></Option>
+                            <Option value='2'><Icon type="right" /></Option>
+                            <Option value='3'>≤</Option>
+                            <Option value='4'>≥</Option>
                         </Select>
                     )
                 }
@@ -234,6 +254,7 @@ class FieldInfo extends Component {
                 ) : null}
             </FormItem>
         ));
+
         return (
             <div className="field_big_box">
                 <div className="left_box">
@@ -319,16 +340,17 @@ class FieldInfo extends Component {
                                             message: '操作类型不能为空'
                                         }
                                     ],
-                                    initialValue: "1"
+                                    initialValue: "0"
                                 })(
                                     <Select
                                         placeholder='请选择操作类型'
+                                        onChange={this.handleOperationType}
                                     >
-                                        <Option value='1'>COUNT</Option>
-                                        <Option value='2'>SUM</Option>
-                                        <Option value='3'>AVEKAGE</Option>
-                                        <Option value='4'>MAX</Option>
-                                        <Option value='5'>MIN</Option>
+                                        <Option value='0'>COUNT</Option>
+                                        <Option value='1'>SUM</Option>
+                                        <Option value='2'>AVEKAGE</Option>
+                                        <Option value='3'>MAX</Option>
+                                        <Option value='4'>MIN</Option>
                                     </Select>
                                 )
                             }
@@ -355,13 +377,40 @@ class FieldInfo extends Component {
                                 )
                             }
                         </FormItem>
-                        <FormItem label="分段规则" {...formItemLayout} >
-                            {
-                                getFieldDecorator('rule')(
-                                    <Input placeholder="请选择分段规则" />
-                                )
-                            }
-                        </FormItem>
+                        {
+                            this.state.showOrNo ?
+
+                                <FormItem
+                                    label="时间分段" {...formItemLayout}
+                                >
+                                    {
+                                        getFieldDecorator('timeSegmentation')(
+                                            <Select
+                                                placeholder='请选择时间分段'
+                                                onChange={this.handleOperationType}
+
+                                            >
+                                                <Option value='0'>1</Option>
+                                                <Option value='1'>5</Option>
+                                                <Option value='2'>25</Option>
+                                                <Option value='3'>50</Option>
+                                            </Select>
+                                        )
+                                    }
+                                </FormItem>
+                                :
+                                <FormItem
+                                    label="分段规则" {...formItemLayout}
+                                >
+                                    {
+                                        getFieldDecorator('rule')(
+                                            <Input
+                                                placeholder="请选择分段规则"
+                                            />
+                                        )
+                                    }
+                                </FormItem>
+                        }
 
                         <FormItem label="选择图形" {...formItemLayout} >
                             <Button type="primary" onClick={this.handlePie} disabled={disabledTwo} icon="pie-chart" style={{ marginLeft: 15 }} >饼状图</Button>
@@ -380,6 +429,7 @@ class FieldInfo extends Component {
         )
     }
 }
+
 const mapStateToProps = (state) => ({
     inputBoxData: state.query.inputBoxData
 })
@@ -389,5 +439,6 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(getData_locast())
     }
 })
+
 FieldInfo = Form.create({ name: 'dynamic_form_item' })(FieldInfo);
 export default connect(mapStateToProps, mapDispatchToProps)(FieldInfo)
