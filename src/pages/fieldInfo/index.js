@@ -197,7 +197,7 @@ class FieldInfo extends Component {
 
         const formItemLayoutWithOutLabel = {
             wrapperCol: {
-                xs: { span: 24, offset: 0 },
+                xs: { span: 26, offset: 8 },
                 sm: { span: 20, offset: 4 },
             },
         };
@@ -206,53 +206,65 @@ class FieldInfo extends Component {
         const keys = getFieldValue('keys');
         let { ChartType, disabled, flag, disabledTwo, startValue, endValue, fieldsList, loading } = this.state;
         const formItems = keys.map((k, index) => (
-            <FormItem
-                {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                label={index === 0 ? '查询条件' : ''}
-                required={false}
+            <div className="divFlex"
+                // {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                style={{ marginLeft: index === 0 ? 0 : 69 }}
                 key={k}
             >
-                {getFieldDecorator(`queryCondition[${k}]fields`, {
-                    validateTrigger: ['onChange', 'onBlur']
-                })(
-                    <Select
-                        placeholder='请选择字段'
-                        style={{ width: 130, marginRight: 20 }}
-                    >
-                        {
-                            fieldsList.length > 0 ? fieldsList.map((item, i) => {
-                                return <Option key={i} value={item.id}>{item.name}</Option>
-                            }) : ""
-                        }
-                    </Select>
-                )}
-                {
-                    getFieldDecorator(`queryCondition[${k}]symbol`)(
+                <FormItem
+                    label={index === 0 ? '查询条件' : ''}
+                />
+                <FormItem
+                    required={false}
+                >
+                    {getFieldDecorator(`queryCondition[${k}]fields`, {
+                        validateTrigger: ['onChange', 'onBlur']
+                    })(
                         <Select
-                            style={{ width: 60, marginRight: 20 }}
+                            placeholder='请选择字段'
+                            style={{ width: 130, marginRight: 20 }}
                         >
-                            <Option value='0'>=</Option>
-                            <Option value='1'><Icon type="left" /></Option>
-                            <Option value='2'><Icon type="right" /></Option>
-                            <Option value='3'>≤</Option>
-                            <Option value='4'>≥</Option>
+                            {
+                                fieldsList.length > 0 ? fieldsList.map((item, i) => {
+                                    return <Option key={i} value={item.id}>{item.name}</Option>
+                                }) : ""
+                            }
                         </Select>
-                    )
-                }
-                {
-                    getFieldDecorator(`queryCondition[${k}]number`)(
-                        <Input type="number" style={{ width: 80, marginRight: 20 }} />
-                    )
-                }
-                {keys.length > 0 ? (
-                    <Icon
-                        className="dynamic-delete-button"
-                        type="minus-circle-o"
-                        // disabled={keys.length === 1}
-                        onClick={() => this.remove(k)}
-                    />
-                ) : null}
-            </FormItem>
+                    )}
+                </FormItem>
+                <FormItem>
+                    {
+                        getFieldDecorator(`queryCondition[${k}]symbol`)(
+                            <Select
+                                style={{ width: 60, marginRight: 20 }}
+                            >
+                                <Option value='0'>=</Option>
+                                <Option value='1'><Icon type="left" /></Option>
+                                <Option value='2'><Icon type="right" /></Option>
+                                <Option value='3'>≤</Option>
+                                <Option value='4'>≥</Option>
+                            </Select>
+                        )
+                    }
+                </FormItem>
+                <FormItem>
+                    {
+                        getFieldDecorator(`queryCondition[${k}]number`)(
+                            <Input type="number" style={{ width: 80, marginRight: 20 }} />
+                        )
+                    }
+                </FormItem>
+                <FormItem>
+                    {keys.length > 0 ? (
+                        <Icon
+                            className="dynamic-delete-button"
+                            type="minus-circle-o"
+                            // disabled={keys.length === 1}
+                            onClick={() => this.remove(k)}
+                        />
+                    ) : null}
+                </FormItem>
+            </div>
         ));
 
         return (

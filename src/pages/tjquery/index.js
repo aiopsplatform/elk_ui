@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, DatePicker, Select, Button, Icon, Form , Empty } from 'antd'
+import { Card, DatePicker, Select, Button, Icon, Form, Empty, Pagination } from 'antd'
 import moment from "moment"
 import fetch from "./../../fetch"
 import { connect } from "react-redux"
@@ -76,7 +76,9 @@ class TJQuery extends Component {
     onEndChange = (value) => {
         this.onChange('endValue', value);
     }
-
+    onChangePagination = (pageNumber) =>{
+        console.log('Page: ', pageNumber);
+    }
     render() {
         let { inputBoxData } = this.props;
         let { type, startValue, endValue, loading, dataList } = this.state;
@@ -116,6 +118,21 @@ class TJQuery extends Component {
                                 )
                             }
                         </FormItem>
+                        <FormItem label="服务">
+                            {
+                                getFieldDecorator('serve')(
+                                    <Select
+                                        placeholder='请选择服务'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='1'>服务一</Option>
+                                        <Option value='2'>服务二</Option>
+                                        <Option value='3'>服务三</Option>
+                                        <Option value='4'>服务四</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
                         <FormItem label="开始时间" >
                             {
                                 getFieldDecorator('begin_time')(
@@ -144,21 +161,6 @@ class TJQuery extends Component {
                                 )
                             }
                         </FormItem>
-                        <FormItem label="服务">
-                            {
-                                getFieldDecorator('serve')(
-                                    <Select
-                                        placeholder='请选择服务'
-                                        style={{ width: 200 }}
-                                    >
-                                        <Option value='1'>服务一</Option>
-                                        <Option value='2'>服务二</Option>
-                                        <Option value='3'>服务三</Option>
-                                        <Option value='4'>服务四</Option>
-                                    </Select>
-                                )
-                            }
-                        </FormItem>
                         <FormItem label="实例">
                             {
                                 getFieldDecorator('projects')(
@@ -175,14 +177,14 @@ class TJQuery extends Component {
                             }
                         </FormItem>
                         <FormItem>
-                            <Button type="primary" style={{ marginRight: 20}} onClick={this.handleFilterSubmit}>查询</Button>
+                            <Button type="primary" style={{ marginRight: 20 }} onClick={this.handleFilterSubmit}>查询</Button>
                             <Button onClick={this.reset} >重置</Button>
                         </FormItem>
                     </Form>
                 </Card>
                 <div className="cont_box" ref="cont_box">
                     <div className="cont_box_header">
-                        <span className="data_show_txt">数据展示</span>
+                    <Pagination style={{marginTop:3}} showQuickJumper defaultCurrent={1} total={50} onChange={this.onChangePagination} />
                         <span className="blow_up" onClick={this.handleBlowUp.bind(this)}><Icon type={type} /></span>
                     </div>
                     <div className="cont_box_body">
@@ -191,7 +193,7 @@ class TJQuery extends Component {
                                 return <p key={i} style={{ color: 'black' }} >
                                     {item}
                                 </p>
-                            }) : loading ? <Loading /> : <Empty className="emptyStyle" description= '暂无数据，请查询...' />}
+                            }) : loading ? <Loading /> : <Empty className="emptyStyle" description='暂无数据，请查询...' />}
                         </div>
 
                     </div>
