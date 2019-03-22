@@ -149,7 +149,7 @@ class FieldInfo extends Component {
                 this.setState({
                     showOrNo: false
                 })
-            }else{
+            } else {
                 this.setState({
                     showOrNo: true
                 })
@@ -259,18 +259,18 @@ class FieldInfo extends Component {
             <div className="field_big_box">
                 <div className="left_box">
                     <Form layout="horizontal">
-                        <FormItem label="查询索引" {...formItemLayout} >
+                        <FormItem label="查询类型" {...formItemLayout} >
                             {
                                 getFieldDecorator('indexes', {
                                     rules: [
                                         {
                                             required: true,
-                                            message: '索引不能为空'
+                                            message: '类型不能为空'
                                         }
                                     ]
                                 })(
                                     <Select
-                                        placeholder='请选择索引'
+                                        placeholder='请选择类型'
                                         style={{ width: 200 }}
                                         onChange={this.handleGetFields}
                                     >
@@ -423,7 +423,7 @@ class FieldInfo extends Component {
                     </Form>
                 </div>
                 <div className="right_box" >
-                    {ChartType === 1 && flag ? <Bar ref={'bar'} /> : ChartType === 0 && flag ? <Pie ref={'pie'} /> : loading ? <p className="loadingBox" > <Loading /> </p> : <Empty className="fieldEmptyStyle" description='暂无数据，请查询...' />}
+                    {ChartType === 1 && flag ? <Bar ref={'bar'} /> : ChartType === 0 && flag ? <Pie ref={'pie'} /> : loading ? <div className="loadingBox" > <Loading /> </div> : <Empty className="fieldEmptyStyle" description='暂无数据，请查询...' />}
                 </div>
             </div>
         )

@@ -71,11 +71,11 @@ class LogTrend extends Component {
             <div>
                 <Card className="logTrend_cards" >
                     <Form layout="inline">
-                        <FormItem label="索引">
+                        <FormItem label="类型">
                             {
                                 getFieldDecorator('indexes')(
                                     <Select
-                                        placeholder='请选择索引'
+                                        placeholder='请选择类型'
                                         style={{ width: 200 }}
                                     >
                                         {

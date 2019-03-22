@@ -55,7 +55,7 @@ export default class Content extends Component {
             <div className="realtime_body">
                 {
                     LogContent.length > 0 ? LogContent.map((item, i) => {
-                        return <p key={i} style={{ color: 'red' }}>{item}</p>
+                        return <p key={i} style={{color:'black'}} >{item}</p>
                     }) : loading ? <Loading /> : <Empty className="emptyStyle" description='暂无数据，请查询...' />
                 }
             </div>

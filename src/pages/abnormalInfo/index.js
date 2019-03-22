@@ -90,11 +90,11 @@ class AbnormalInfo extends Component {
             <div className="abnormall_big_box" >
                 <Card className="abnormall_card" >
                     <Form layout="inline">
-                        <FormItem label="索引">
+                        <FormItem label="类型">
                             {
                                 getFieldDecorator('indexes')(
                                     <Select
-                                        placeholder='请选择索引'
+                                        placeholder='请选择类型'
                                         style={{ width: 200 }}
                                     >
                                         {
@@ -106,22 +106,6 @@ class AbnormalInfo extends Component {
                                 )
                             }
                         </FormItem>
-                        <FormItem label="类型">
-                            {
-                                getFieldDecorator('types')(
-                                    <Select
-                                        placeholder='请选择类型'
-                                        style={{ width: 200 }}
-                                    >
-                                        <Option value='1'>类型一</Option>
-                                        <Option value='2'>类型二</Option>
-                                        <Option value='3'>类型三</Option>
-                                        <Option value='4'>类型四</Option>
-                                    </Select>
-                                )
-                            }
-                        </FormItem>
-                        {/* <Times /> */}
                         <FormItem label="开始时间" >
                             {
                                 getFieldDecorator('begin_time', {

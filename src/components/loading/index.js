@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component  } from 'react'
 import "./index.less"
 export default class Loadings extends Component {
     render() {

@@ -90,11 +90,11 @@ class SlowInfo extends Component {
             <div className="slow_big_box" >
                 <Card className="slow_card">
                     <Form layout="inline">
-                        <FormItem label="查询索引">
+                        <FormItem label="查询类型">
                             {
                                 getFieldDecorator('indexes')(
                                     <Select
-                                        placeholder='请选择索引'
+                                        placeholder='请选择类型'
                                         style={{ width: 200 }}
                                     >
                                         {
