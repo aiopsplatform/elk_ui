@@ -46,6 +46,10 @@ class TJQuery extends Component {
         this.setState({ disabled });
     }
 
+    export = () =>{
+        console.log('正在导出...')
+    }
+
     //时间选择范围
     disabledStartDate = (startValue) => {
         const endValue = this.state.endValue;
@@ -178,13 +182,14 @@ class TJQuery extends Component {
                         </FormItem>
                         <FormItem>
                             <Button type="primary" style={{ marginRight: 20 }} onClick={this.handleFilterSubmit}>查询</Button>
-                            <Button onClick={this.reset} >重置</Button>
+                            <Button onClick={this.reset} style={{ marginRight: 20 }} >重置</Button>
+                            <Button onClick={this.export} >导出</Button>
                         </FormItem>
                     </Form>
                 </Card>
                 <div className="cont_box" ref="cont_box">
                     <div className="cont_box_header">
-                    <Pagination style={{marginTop:3}} showQuickJumper defaultCurrent={1} total={50} onChange={this.onChangePagination} />
+                    <Pagination style={{marginTop:3,marginLeft:5}} showQuickJumper defaultCurrent={1} total={50} onChange={this.onChangePagination} />
                         <span className="blow_up" onClick={this.handleBlowUp.bind(this)}><Icon type={type} /></span>
                     </div>
                     <div className="cont_box_body">
