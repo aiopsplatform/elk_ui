@@ -343,7 +343,7 @@ class FieldInfo extends Component {
                                 <Icon type="plus" /> 添加查询条件
                             </Button>
                         </FormItem>
-                        <FormItem label="操作类型" {...formItemLayout} >
+                        {/* <FormItem label="操作类型" {...formItemLayout} >
                             {
                                 getFieldDecorator('operationType', {
                                     rules: [
@@ -352,7 +352,7 @@ class FieldInfo extends Component {
                                             message: '操作类型不能为空'
                                         }
                                     ],
-                                    initialValue: "0"
+                                    initialValue: '0'
                                 })(
                                     <Select
                                         placeholder='请选择操作类型'
@@ -366,7 +366,7 @@ class FieldInfo extends Component {
                                     </Select>
                                 )
                             }
-                        </FormItem>
+                        </FormItem> */}
                         <FormItem label="统计字段" {...formItemLayout} >
                             {
                                 getFieldDecorator('field', {
@@ -389,7 +389,7 @@ class FieldInfo extends Component {
                                 )
                             }
                         </FormItem>
-                        {
+                        {/* {
                             this.state.showOrNo ?
 
                                 <FormItem
@@ -422,7 +422,7 @@ class FieldInfo extends Component {
                                         )
                                     }
                                 </FormItem>
-                        }
+                        } */}
 
                         <FormItem label="选择图形" {...formItemLayout} >
                             <Button type="primary" onClick={this.handlePie} disabled={disabledTwo} icon="pie-chart" style={{ marginLeft: 15 }} >饼状图</Button>

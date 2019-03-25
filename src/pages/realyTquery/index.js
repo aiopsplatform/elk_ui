@@ -7,9 +7,9 @@ import { getData_locast } from "../../action/actioncreator"
 const Option = Select.Option;
 const FormItem = Form.Item;
 class RealyTQuery extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state = { }
+        this.state = {}
     }
 
     //获取input框数据
@@ -22,7 +22,7 @@ class RealyTQuery extends Component {
         let that = this;
         clearInterval(that.timer)
         this.refs.content.setState({
-            loading : true
+            loading: true
         })
         let fieldsValue = this.props.form.getFieldsValue();
         that.timer = setInterval(() => {
@@ -30,7 +30,7 @@ class RealyTQuery extends Component {
         }, 5000)
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         let that = this;
         clearInterval(that.timer)
     }
@@ -65,7 +65,7 @@ class RealyTQuery extends Component {
                                 )
                             }
                         </FormItem>
-                        <FormItem label="级别">
+                        {/* <FormItem label="级别">
                             {
                                 getFieldDecorator('rank')(
                                     <Select
@@ -79,39 +79,37 @@ class RealyTQuery extends Component {
                                     </Select>
                                 )
                             }
-                        </FormItem>
+                        </FormItem> */}
                         <FormItem label="服务">
                             {
-                                getFieldDecorator('serve')(
+                                getFieldDecorator('serve', {
+                                    initialValue: '0'
+                                })(
                                     <Select
                                         placeholder='请选择服务'
                                         style={{ width: 200 }}
                                     >
-                                        <Option value='1'>服务一</Option>
-                                        <Option value='2'>服务二</Option>
-                                        <Option value='3'>服务三</Option>
-                                        <Option value='4'>服务四</Option>
+                                        <Option value='0'>ecp_service_0232</Option>
                                     </Select>
                                 )
                             }
                         </FormItem>
                         <FormItem label="实例">
                             {
-                                getFieldDecorator('projects')(
+                                getFieldDecorator('projects', {
+                                    initialValue: '0'
+                                })(
                                     <Select
                                         placeholder='请选择实例'
                                         style={{ width: 200 }}
                                     >
-                                        <Option value='1'>实例一</Option>
-                                        <Option value='2'>实例二</Option>
-                                        <Option value='3'>实例三</Option>
-                                        <Option value='4'>实例四</Option>
+                                        <Option value='0'>ecp_instarice_0012</Option>
                                     </Select>
                                 )
                             }
                         </FormItem>
                         <FormItem>
-                            <Button type="primary" style={{ marginRight: 20}} onClick={this.handleFilterSubmit}>查询</Button>
+                            <Button type="primary" style={{ marginRight: 20 }} onClick={this.handleFilterSubmit}>查询</Button>
                             <Button onClick={this.reset}>重置</Button>
                         </FormItem>
                     </Form>

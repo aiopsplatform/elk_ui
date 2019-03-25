@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, DatePicker, Select, Button, Icon, Form, Empty, Pagination } from 'antd'
+import { Card, DatePicker, Select, Button, Icon, Form, Empty } from 'antd'
 import moment from "moment"
 import fetch from "./../../fetch"
 import { connect } from "react-redux"
@@ -80,18 +80,18 @@ class TJQuery extends Component {
     onEndChange = (value) => {
         this.onChange('endValue', value);
     }
-    onChangePagination = (pageNumber) => {
-        console.log('Page: ', pageNumber);
-    }
+    // onChangePagination = (pageNumber) => {
+    //     console.log('Page: ', pageNumber);
+    // }
 
-    itemRender = (current,type, originalElement) => {
-        if (type === 'prev') {
-            return <button>上一页</button>;
-        } if (type === 'next') {
-            return <button>下一页</button>;
-        }
-        return originalElement;
-    }
+    // itemRender = (current,type, originalElement) => {
+    //     if (type === 'prev') {
+    //         return <button>上一页</button>;
+    //     } if (type === 'next') {
+    //         return <button>下一页</button>;
+    //     }
+    //     return originalElement;
+    // }
     render() {
         let { inputBoxData } = this.props;
         let { type, startValue, endValue, loading, dataList } = this.state;
@@ -116,7 +116,7 @@ class TJQuery extends Component {
                                 )
                             }
                         </FormItem>
-                        <FormItem label="级别">
+                        {/* <FormItem label="级别">
                             {
                                 getFieldDecorator('rank')(
                                     <Select
@@ -130,18 +130,17 @@ class TJQuery extends Component {
                                     </Select>
                                 )
                             }
-                        </FormItem>
+                        </FormItem> */}
                         <FormItem label="服务">
                             {
-                                getFieldDecorator('serve')(
+                                getFieldDecorator('serve', {
+                                    initialValue: '0'
+                                })(
                                     <Select
                                         placeholder='请选择服务'
                                         style={{ width: 200 }}
                                     >
-                                        <Option value='1'>服务一</Option>
-                                        <Option value='2'>服务二</Option>
-                                        <Option value='3'>服务三</Option>
-                                        <Option value='4'>服务四</Option>
+                                        <Option value='0'>ecp_service_0232</Option>
                                     </Select>
                                 )
                             }
@@ -176,15 +175,14 @@ class TJQuery extends Component {
                         </FormItem>
                         <FormItem label="实例">
                             {
-                                getFieldDecorator('projects')(
+                                getFieldDecorator('projects', {
+                                    initialValue: '0'
+                                })(
                                     <Select
                                         placeholder='请选择实例'
                                         style={{ width: 200 }}
                                     >
-                                        <Option value='1'>实例一</Option>
-                                        <Option value='2'>实例二</Option>
-                                        <Option value='3'>实例三</Option>
-                                        <Option value='4'>实例四</Option>
+                                        <Option value='0'>ecp_instarice_0012</Option>
                                     </Select>
                                 )
                             }
@@ -198,7 +196,7 @@ class TJQuery extends Component {
                 </Card>
                 <div className="cont_box" ref="cont_box">
                     <div className="cont_box_header">
-                        <Pagination
+                        {/* <Pagination
                             style={{ marginTop: 3, marginLeft: 5 }}
                             showQuickJumper={false}
                             defaultCurrent={1}
@@ -206,7 +204,11 @@ class TJQuery extends Component {
                             simple
                             onChange={this.onChangePagination}
                             itemRender={this.itemRender}
-                        />
+                        /> */}
+                        <span>
+                            <Button>上一页</Button>
+                            <Button>下一页</Button>
+                        </span>
                         <span className="blow_up" onClick={this.handleBlowUp.bind(this)}><Icon type={type} /></span>
                     </div>
                     <div className="cont_box_body">
@@ -234,7 +236,7 @@ class TJQuery extends Component {
                                     left:0;
                                     bottom:0;
                                     width:100%;
-                                    height:100%;
+                                    height:93.9%;
                                     z-inde:10;
                                 `
         } else {
