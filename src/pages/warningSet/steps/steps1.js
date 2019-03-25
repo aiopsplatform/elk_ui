@@ -25,8 +25,8 @@ export default class Steps1 extends Component {
                             <FormItem style={{ width: 160 }} >
                                 {
                                     getFieldDecorator('types')(
-                                        <Select placeholder="请选择节点" >
-                                            <Option value={1}>节点</Option>
+                                        <Select placeholder="请选择类型" >
+                                            <Option value={1}>日志容量告警</Option>
                                         </Select>
                                     )
                                 }

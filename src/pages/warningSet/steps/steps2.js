@@ -11,13 +11,10 @@ export default class Steps2 extends Component {
                     <FormItem style={{ width: 110 }} >
                         {
                             getFieldDecorator('Utilization', {
-                                initialValue: 1
+                                initialValue: 0
                             })(
                                 <Select style={{ width: 110 }} >
-                                    <Option value={1}>5分钟</Option>
-                                    <Option value={2}>10分钟</Option>
-                                    <Option value={3}>15分钟</Option>
-                                    <Option value={4}>20分钟</Option>
+                                    <Option value={0}>日志容量</Option>
                                 </Select>
                             )
                         }
@@ -25,11 +22,11 @@ export default class Steps2 extends Component {
                     <FormItem style={{ width: 80 }} >
                         {
                             getFieldDecorator('size', {
-                                initialValue: 1
+                                initialValue: 0
                             })(
                                 <Select style={{ width: 80 }}>
-                                    <Option value={1}><Icon type="right" /></Option>
-                                    <Option value={2}><Icon type="left" /></Option>
+                                    <Option value={0}><Icon type="right" /></Option>
+                                    <Option value={1}><Icon type="left" /></Option>
                                 </Select>
                             )
                         }
@@ -46,10 +43,17 @@ export default class Steps2 extends Component {
                             )
                         }
                     </FormItem>
-                    <FormItem style={{ width: 90 }}  >
+                    <FormItem>
                         {
-                            getFieldDecorator('mb')(
-                                <Input type="text" width="100" placeholder="MB" />
+                            getFieldDecorator('company', {
+                                initialValue: 0
+                            })(
+                                <Select style={{ width: 90 }}>
+                                    <Option value={0}>M</Option>
+                                    <Option value={1}>G</Option>
+                                    <Option value={2}>T</Option>
+                                    <Option value={3}>P</Option>
+                                </Select>
                             )
                         }
                     </FormItem>
@@ -58,13 +62,13 @@ export default class Steps2 extends Component {
                         <Button style={{ marginLeft: 10 }} ><Icon type="close" /></Button>
                     </FormItem>
                 </Form>
-                <div className="two_wz">
+                {/* <div className="two_wz">
                     <p><Icon type="exclamation-circle" /> </p>
                     <p>
                         <span style={{ color: 'blue' }}>CPU利用率</span>=所有容器实例占用CPU总和/CPU资源总量<br />
                         <span style={{ color: 'blue' }}>内存使用率</span>=所有容器实例占用内存总和/容器实例数量
                     </p>
-                </div>
+                </div> */}
             </div>
         )
     }

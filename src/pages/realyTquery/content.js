@@ -53,11 +53,13 @@ export default class Content extends Component {
                 <span className="blow_up" onClick={this.handleBlowUp.bind(this)}><Icon type={type} /></span>
             </div>
             <div className="realtime_body">
-                {
-                    LogContent.length > 0 ? LogContent.map((item, i) => {
-                        return <p key={i} style={{color:'black'}} >{item}</p>
-                    }) : loading ? <Loading /> : <Empty className="emptyStyle" description='暂无数据，请查询...' />
-                }
+                <div className="cont_box_body_cont">
+                    {
+                        LogContent.length > 0 ? LogContent.map((item, i) => {
+                            return <p key={i} style={{ color: 'black' }} >{item}</p>
+                        }) : loading ? <Loading /> : <Empty className="emptyStyle" description='暂无数据，请查询...' />
+                    }
+                </div>
             </div>
         </div>)
     }
