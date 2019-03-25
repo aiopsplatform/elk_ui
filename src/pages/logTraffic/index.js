@@ -102,14 +102,14 @@ export default class LogTraffic extends Component {
         const data = [{
             key: '1',
             logTypes: '0',
-            currentCapacity: '49',
-            averageCapacity: '125',
+            currentCapacity: '149',
+            averageCapacity: '25',
             averageData: '8054',
         }, {
             key: '2',
             logTypes: '1',
-            currentCapacity: '45',
-            averageCapacity: '118',
+            currentCapacity: '145',
+            averageCapacity: '18',
             averageData: '6787',
         }]
         const selectedRowKeys = this.state.selectedRowKeys;
