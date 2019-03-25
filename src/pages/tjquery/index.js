@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Card, DatePicker, Select, Button, Icon, Form, Empty } from 'antd'
 import moment from "moment"
-import fetch from "./../../fetch"
+import fetchD from "./../../fetch"
+import {fetch} from "whatwg-fetch"
 import { connect } from "react-redux"
 import "./index.less"
 import Loading from "../../components/loading"
@@ -31,7 +32,7 @@ class TJQuery extends Component {
             loading: true
         })
         let fieldsValue = this.props.form.getFieldsValue();
-        fetch.requers(this, "/index/selectByIndex", fieldsValue);
+        fetchD.requers(this, "/index/selectByIndex", fieldsValue);
     }
 
     reset = () => {
@@ -79,6 +80,20 @@ class TJQuery extends Component {
 
     onEndChange = (value) => {
         this.onChange('endValue', value);
+    }
+
+    newPages = () =>{
+        let url = "/index/selectByIndex";
+        fetch(url)
+        .then(res => res.json())
+        .then((data)=>{
+            this.setState({
+                dataList : JSON.parse(JSON.stringify(data))
+            })
+        })
+        .catch(error => {
+            console.log('error is', error)
+        });
     }
     // onChangePagination = (pageNumber) => {
     //     console.log('Page: ', pageNumber);
@@ -206,8 +221,8 @@ class TJQuery extends Component {
                             itemRender={this.itemRender}
                         /> */}
                         <span>
-                            <Button>上一页</Button>
-                            <Button>下一页</Button>
+                            <Button onClick={this.newPages} >上一页</Button>
+                            <Button onClick={this.newPages}>下一页</Button>
                         </span>
                         <span className="blow_up" onClick={this.handleBlowUp.bind(this)}><Icon type={type} /></span>
                     </div>

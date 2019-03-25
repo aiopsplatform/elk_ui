@@ -48,7 +48,7 @@ class App extends Component {
       openKeys: [sessionStorage.getItem('name1')] || ['sub1'],
     };
   }
-  rootSubmenuKeys = ['sub1', 'sub2', 'sub3', 'sub4', 'sub5','sub6','sub7','sub8'];
+  rootSubmenuKeys = ['sub1', 'sub2', 'sub3', 'sub4', 'sub5', 'sub6', 'sub7', 'sub8'];
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
   }
@@ -158,7 +158,7 @@ class App extends Component {
                   <Route path="/systemPrediction" component={SystemPrediction} />
                   <Route path="/callLinkPrediction" component={CallLinkPrediction} />
                   <Route path="/requestTime" component={RequestTime} />
-                  <Route path="/baselinePrediction" component={BaselinePrediction} />                 
+                  <Route path="/baselinePrediction" component={BaselinePrediction} />
                   <Route path="/abnormalConfig" component={AbnormalConfig} />
                   <Route path="/setWarning/warn_detail" component={WarnDetail} />
                   <Route path="/setWarning/CPU_detail" component={CPUDDetail} />
@@ -210,28 +210,28 @@ class App extends Component {
       case 12:
         sessionStorage.setItem('name', '12');
         break;
-        case 13:
+      case 13:
         sessionStorage.setItem('name', '13');
         break;
-        case 14:
+      case 14:
         sessionStorage.setItem('name', '14');
         break;
-        case 15:
+      case 15:
         sessionStorage.setItem('name', '15');
         break;
-        case 16:
+      case 16:
         sessionStorage.setItem('name', '16');
         break;
-        case 17:
+      case 17:
         sessionStorage.setItem('name', '17');
         break;
-        case 18:
+      case 18:
         sessionStorage.setItem('name', '18');
         break;
-        case 19:
+      case 19:
         sessionStorage.setItem('name', '19');
         break;
-        case 20:
+      case 20:
         sessionStorage.setItem('name', '20');
         break;
       default:
