@@ -92,12 +92,12 @@ class App extends Component {
                   </SubMenu>
                   <SubMenu
                     key="sub3"
-                    title={<span><Icon type="file-search" /><span>日志分析</span></span>}
+                    title={<span><Icon type="exception" /><span>日志分析</span></span>}
                   >
-                    <Menu.Item key="5"><Link onClick={this._click.bind(this, 5, 'sub3')} to='/slowrequest'>慢请求统计</Link></Menu.Item>
-                    <Menu.Item key="6"><Link onClick={this._click.bind(this, 6, 'sub3')} to='/most'>最频繁请求统计</Link></Menu.Item>
-                    <Menu.Item key="7"><Link onClick={this._click.bind(this, 7, 'sub3')} to='/logTraffic'>日志容量统计</Link></Menu.Item>
-                    <Menu.Item key="8"><Link onClick={this._click.bind(this, 8, 'sub3')} to='/logTrend'>日志趋势</Link></Menu.Item>
+                    <Menu.Item key="5"><Link onClick={this._click.bind(this, 5, 'sub3')} to='/slowrequest'>慢请求分析</Link></Menu.Item>
+                    <Menu.Item key="6"><Link onClick={this._click.bind(this, 6, 'sub3')} to='/most'>最频繁请求分析</Link></Menu.Item>
+                    <Menu.Item key="7"><Link onClick={this._click.bind(this, 7, 'sub3')} to='/logTraffic'>日志容量分析</Link></Menu.Item>
+                    <Menu.Item key="8"><Link onClick={this._click.bind(this, 8, 'sub3')} to='/logTrend'>日志趋势分析</Link></Menu.Item>
                   </SubMenu>
                   <SubMenu
                     key="sub4"
