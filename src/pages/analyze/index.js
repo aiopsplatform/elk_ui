@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Table, Modal, Tree, Form, Select, Button , Icon } from 'antd'
-import axios from "./../../axios"
+// import axios from "./../../axios"
 import "./index.less"
 import Graph from "./graph"
 const { TreeNode } = Tree;
@@ -16,18 +16,18 @@ export default class Analyze extends Component {
         }
     }
 
-    params = {
-        page: 1
-    }
+    // params = {
+    //     page: 1
+    // }
 
-    componentDidMount() {
-        this.requestList();
-    }
+    // componentDidMount() {
+    //     this.requestList();
+    // }
 
 
-    requestList = () => {
-        axios.requestList(this, '/analyze/list', this.params);
-    }
+    // requestList = () => {
+    //     axios.requestList(this, '/analyze/list', this.params);
+    // }
 
     handleVisitDetails = () => {
         this.setState({
@@ -75,6 +75,13 @@ export default class Analyze extends Component {
                 }
             }
         ]
+        const data = [{
+            key: '1',
+            askURL: 'login',
+            serviceName: 'shop',
+            timeConsuming: '5s',
+            abnormal: '无',
+        }]
         const selectedRowKeys = this.state.selectedRowKeys;
         const { getFieldDecorator } = this.props.form;
         const rowCheckSelection = {
@@ -115,7 +122,7 @@ export default class Analyze extends Component {
                     <Table
                         rowSelection={rowCheckSelection}
                         columns={columns}
-                        dataSource={this.state.list}
+                        dataSource={data}
                         pagination={this.state.pagination}
                     />
                 </Card>

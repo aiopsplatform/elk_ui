@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
 import {Card , Table , Button , Input } from 'antd'
-import axios from "./../../axios"
+// import axios from "./../../axios"
 const Search = Input.Search;
  export default class MediaManagement extends Component  {
      constructor(props){
          super(props);
          this.state={}
      }
-    params = {
-        page: 1
-    }
+    // params = {
+    //     page: 1
+    // }
 
-    componentDidMount() {
-        this.requestList();
-    }
+    // componentDidMount() {
+    //     this.requestList();
+    // }
 
-    requestList = () => {
-        axios.requestList(this, '/MediaManagement/dataList', this.params);
-    }
+    // requestList = () => {
+    //     axios.requestList(this, '/MediaManagement/dataList', this.params);
+    // }
     handleWDDownload = () =>{
         alert("安装文档下载" )
     }
@@ -84,6 +84,19 @@ const Search = Input.Search;
                 }
             },
         ]
+        const data = [{
+            key: '1',
+            name: '0',
+            versionNumber: '0',
+            operatingSystem: '2',
+            size: '33',
+        },{
+            key: '2',
+            name: '1',
+            versionNumber: '1',
+            operatingSystem: '3',
+            size: '29',
+        }]
         let selectedRowKeys = this.state.selectedRowKeys;
         const rowCheckSelection = {
             type: 'checkbox',
@@ -107,7 +120,7 @@ const Search = Input.Search;
                     <Table
                         rowSelection={rowCheckSelection}
                         columns={columns}
-                        dataSource={this.state.list}
+                        dataSource={data}
                         pagination={this.state.pagination}
                     />
                 </Card>

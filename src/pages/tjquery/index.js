@@ -46,7 +46,7 @@ class TJQuery extends Component {
         this.setState({ disabled });
     }
 
-    export = () =>{
+    export = () => {
         console.log('正在导出...')
     }
 
@@ -80,8 +80,17 @@ class TJQuery extends Component {
     onEndChange = (value) => {
         this.onChange('endValue', value);
     }
-    onChangePagination = (pageNumber) =>{
+    onChangePagination = (pageNumber) => {
         console.log('Page: ', pageNumber);
+    }
+
+    itemRender = (current,type, originalElement) => {
+        if (type === 'prev') {
+            return <button>上一页</button>;
+        } if (type === 'next') {
+            return <button>下一页</button>;
+        }
+        return originalElement;
     }
     render() {
         let { inputBoxData } = this.props;
@@ -189,7 +198,15 @@ class TJQuery extends Component {
                 </Card>
                 <div className="cont_box" ref="cont_box">
                     <div className="cont_box_header">
-                    <Pagination style={{marginTop:3,marginLeft:5}} showQuickJumper defaultCurrent={1} total={50} onChange={this.onChangePagination} />
+                        <Pagination
+                            style={{ marginTop: 3, marginLeft: 5 }}
+                            showQuickJumper={false}
+                            defaultCurrent={1}
+                            total={50}
+                            simple
+                            onChange={this.onChangePagination}
+                            itemRender={this.itemRender}
+                        />
                         <span className="blow_up" onClick={this.handleBlowUp.bind(this)}><Icon type={type} /></span>
                     </div>
                     <div className="cont_box_body">

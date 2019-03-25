@@ -5,6 +5,7 @@ import "./index.less"
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 const Search = Input.Search;
+let id = 0
 export default class WarningInform extends Component {
     constructor(props) {
         super(props);
@@ -12,18 +13,18 @@ export default class WarningInform extends Component {
             isVisible: false
         }
     }
-    params = {
-        page: 1
-    }
+    // params = {
+    //     page: 1
+    // }
 
-    componentDidMount() {
-        this.requestList();
-    }
+    // componentDidMount() {
+    //     this.requestList();
+    // }
 
 
-    requestList = () => {
-        axios.requestList(this, '/table/list', this.params);
-    }
+    // requestList = () => {
+    //     axios.requestList(this, '/table/list', this.params);
+    // }
 
     handleOperate = (type) => {
         if (type === 'create') {
@@ -34,7 +35,7 @@ export default class WarningInform extends Component {
         }
     }
 
-    // 创建员工提交
+    // 创建通知组提交
     handleSubmit = () => {
         // let type = this.state.type;
         let data = this.userForm.props.form.getFieldsValue();
@@ -57,51 +58,30 @@ export default class WarningInform extends Component {
     render() {
         const columns = [
             {
-                title: '策略名称',
-                dataIndex: 'clname',
+                title: '组名',
+                dataIndex: 'groupName',
                 width: 20 + '%',
             }, {
-                title: '类型',
-                dataIndex: 'types',
-                width: 10 + '%',
-            }, {
-                title: '告警对象',
-                dataIndex: 'warnobject',
-                width: 10 + '%',
-                render(sex) {
-                    return sex === 1 ? '男' : '女'
-                }
-            }, {
-                title: '状态',
-                dataIndex: 'state',
-                width: 10 + '%',
-                render(state) {
-                    return {
-                        '1': '咸鱼一条',
-                        '2': '风华浪子',
-                        '3': '北大才子一枚',
-                        '4': '百度FE',
-                        '5': '创业者'
-                    }[state]
-                }
-            }, {
-                title: '监控周期',
-                dataIndex: 'period',
-                width: 10 + '%',
+                title: '描述',
+                dataIndex: 'describe',
+                width: 30 + '%',
             }, {
                 title: '创建时间',
                 dataIndex: 'startTime',
-                width: 20 + '%',
+                width: 30 + '%',
             }, {
                 title: '最后修改人',
                 dataIndex: 'lastname',
-                width: 10 + '%',
-            }, {
-                title: '操作',
-                dataIndex: 'operate',
-                width: 10 + '%',
-            },
+                width: 20 + '%',
+            }
         ]
+        const data = [{
+            key: '1',
+            groupName: '运维组',
+            describe: '发送告警通知运维组',
+            startTime: '2019-3-22 10:00:00',
+            lastname: '孙大强',
+        }]
         const selectedRowKeys = this.state.selectedRowKeys;
         const rowCheckSelection = {
             type: 'checkbox',
@@ -113,7 +93,6 @@ export default class WarningInform extends Component {
                 })
             }
         }
-
 
 
         return (
@@ -133,13 +112,13 @@ export default class WarningInform extends Component {
                     <Table
                         rowSelection={rowCheckSelection}
                         columns={columns}
-                        dataSource={this.state.list}
+                        dataSource={data}
                         pagination={this.state.pagination}
                     />
                 </Card>
                 <Modal
                     className="warnInformModal"
-                    title="创建告警策略"
+                    title="创建通知组"
                     style={{ borderRadius: 30 }}
                     visible={this.state.isVisible}
                     onOk={this.handleSubmit}
@@ -149,11 +128,10 @@ export default class WarningInform extends Component {
                         this.setState({
                             isVisible: false
                         })
-                    }}
+                    }} x
                     width={600}
                 >
                     <UserForm type={this.state.type} userInfo={this.state.userInfo} wrappedComponentRef={(inst) => { this.userForm = inst; }} />
-                    <span className="aAdd"  ><span className="wranInform_span" ><Icon type="plus-circle" /> 添加邮箱</span></span>
                 </Modal>
             </div>
         )
@@ -161,16 +139,65 @@ export default class WarningInform extends Component {
 }
 
 class UserForm extends React.Component {
+    remove = (k) => {
+        const { form } = this.props;
+        const keys = form.getFieldValue('keys');
+        if (keys.length === 0) {
+            return;
+        }
+
+        form.setFieldsValue({
+            keys: keys.filter(key => key !== k),
+        });
+    }
+
+    add = () => {
+        const { form } = this.props;
+        const keys = form.getFieldValue('keys');
+        const nextKeys = keys.concat(id++);
+        form.setFieldsValue({
+            keys: nextKeys,
+        });
+    }
 
     render() {
-        const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 3 },
             wrapperCol: { span: 19 }
         }
+        const { getFieldDecorator, getFieldValue } = this.props.form;
+        getFieldDecorator('keys', { initialValue: [] });
+        const keys = getFieldValue('keys');
+        const formItems = keys.map((k) => (
+            <div className="email_box"
+                // {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                style={{ marginLeft: 65 }}
+                key={k}
+            >
+                <FormItem>
+                     {
+                            getFieldDecorator(`queryCondition[${k}]email`)(
+                                <Input type="text" placeholder="请输入名称" />
+                            )
+                        }
+                </FormItem>
+                <FormItem style={{ width: 100 }} className="remark" >
+                    {
+                            getFieldDecorator(`queryCondition[${k}]remark`)(
+                                <Input type="text" placeholder="请输入备注" />
+                            )
+                        }
+                </FormItem>
+                <FormItem className="emailBtns" >
+                        <Button type="primary">验证邮箱</Button>
+                        <Button onClick={() => this.remove(k)} >取消</Button>
+                    </FormItem>
+            </div>
+        ));
+
         return (
             <Form layout="horizontal">
-                <FormItem label="用户名" {...formItemLayout}>
+                <FormItem label="组名" {...formItemLayout}>
                     {
                         getFieldDecorator('user_name')(
                             <Input type="text" placeholder="请输入名称" />
@@ -204,8 +231,10 @@ class UserForm extends React.Component {
                         <Button type="primary">验证邮箱</Button>
                         <Button>取消</Button>
                     </FormItem>
+                    
                 </div>
-
+                {formItems}
+                <span className="aAdd" onClick={this.add}  ><span className="wranInform_span" ><Icon type="plus-circle" /> 添加邮箱</span></span>
             </Form>
         );
     }

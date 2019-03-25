@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Card, DatePicker, Select, Button, Form, Table } from 'antd'
 import moment from "moment"
-import axios from "./../../axios"
+// import axios from "./../../axios"
 import "./index.less"
 const Option = Select.Option;
 const FormItem = Form.Item;
@@ -13,16 +13,16 @@ export default class RequestTime extends Component {
             endValue: ''
         }
     }
-    params = {
-        page: 1
-    }
-    componentDidMount() {
-        this.requestList();
-    }
+    // params = {
+    //     page: 1
+    // }
+    // componentDidMount() {
+    //     this.requestList();
+    // }
 
-    requestList = () => {
-        axios.requestList(this, '/requestTime/list', this.params);
-    }
+    // requestList = () => {
+    //     axios.requestList(this, '/requestTime/list', this.params);
+    // }
    
     //重置
     reset = () => {
@@ -84,9 +84,6 @@ export default class RequestTime extends Component {
                 title: '服务',
                 dataIndex: 'service',
                 width: 25 + '%',
-                render(service){
-                    return 'service' + service
-                }
             }, {
                 title: '预测执行时长',
                 dataIndex: 'dorecastDuration',
@@ -103,6 +100,25 @@ export default class RequestTime extends Component {
                 }
             },
         ]
+        const data = [{
+            key: '1',
+            requestName: '0',
+            service: 'Half set',
+            dorecastDuration: '23',
+            predictionInterval: '66',
+        },{
+            key: '2',
+            requestName: '1',
+            service: 'full set',
+            dorecastDuration: '66',
+            predictionInterval: '36',
+        },{
+            key: '3',
+            requestName: '2',
+            service: 'full set',
+            dorecastDuration: '19',
+            predictionInterval: '28',
+        }]
         const selectedRowKeys = this.state.selectedRowKeys;
         const rowCheckSelection = {
             selectedRowKeys,
@@ -199,7 +215,7 @@ export default class RequestTime extends Component {
                     <Table
                         rowSelection={rowCheckSelection}
                         columns={columns}
-                        dataSource={this.state.list}
+                        dataSource={data}
                         pagination={this.state.pagination}
                     />
                 </Card>

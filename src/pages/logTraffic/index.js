@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Card, DatePicker, Select, Button, Form, Table } from 'antd'
 import moment from "moment"
-import axios from "./../../axios"
+// import axios from "./../../axios"
 import "./index.less"
 const Option = Select.Option;
 const FormItem = Form.Item;
@@ -13,16 +13,16 @@ export default class LogTraffic extends Component {
             endValue: ''
         }
     }
-    params = {
-        page: 1
-    }
-    componentDidMount() {
-        this.requestList();
-    }
+    // params = {
+    //     page: 1
+    // }
+    // componentDidMount() {
+    //     this.requestList();
+    // }
 
-    requestList = () => {
-        axios.requestList(this, '/logTraffic/datalist', this.params);
-    }
+    // requestList = () => {
+    //     axios.requestList(this, '/logTraffic/datalist', this.params);
+    // }
 
     //重置
     reset = () => {
@@ -80,25 +80,38 @@ export default class LogTraffic extends Component {
                 title: '当前容量',
                 dataIndex: 'currentCapacity',
                 width: 25 + '%',
-                render(currentCapacity){
+                render(currentCapacity) {
                     return currentCapacity + "GB"
                 }
             }, {
                 title: '平均容量(每天)',
                 dataIndex: 'averageCapacity',
                 width: 25 + '%',
-                render(averageCapacity){
+                render(averageCapacity) {
                     return averageCapacity + "GB"
                 }
             }, {
                 title: '平均数据(每天)',
                 dataIndex: 'averageData',
                 width: 25 + '%',
-                render(data){
+                render(data) {
                     return data + "万"
                 }
             },
         ]
+        const data = [{
+            key: '1',
+            logTypes: '0',
+            currentCapacity: '49',
+            averageCapacity: '125',
+            averageData: '8054',
+        }, {
+            key: '2',
+            logTypes: '1',
+            currentCapacity: '45',
+            averageCapacity: '118',
+            averageData: '6787',
+        }]
         const selectedRowKeys = this.state.selectedRowKeys;
         const rowCheckSelection = {
             selectedRowKeys,
@@ -172,7 +185,7 @@ export default class LogTraffic extends Component {
                             }
                         </FormItem>
                         <FormItem>
-                            <Button type="primary" style={{ marginRight: 20}} onClick={this.handleFilterSubmit}>统计</Button>
+                            <Button type="primary" style={{ marginRight: 20 }} onClick={this.handleFilterSubmit}>统计</Button>
                             <Button onClick={this.reset}>重置</Button>
                         </FormItem>
                     </Form>
@@ -181,7 +194,7 @@ export default class LogTraffic extends Component {
                     <Table
                         rowSelection={rowCheckSelection}
                         columns={columns}
-                        dataSource={this.state.list}
+                        dataSource={data}
                         pagination={this.state.pagination}
                     />
                 </Card>

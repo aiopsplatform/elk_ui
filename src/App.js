@@ -14,7 +14,7 @@ import LogTraffic from "./pages/logTraffic"
 import LogTrend from "./pages/logTrend"
 import MediaManagement from "./pages/mediaManagement"
 import WarningSet from "./pages/warningSet"
-import WarningRecord from "./pages/warningRecord"
+// import WarningRecord from "./pages/warningRecord"
 import WarningInform from "./pages/warningInform"
 import Configure from "./pages/configure"
 import WarnDetail from "./pages/warnDetail"
@@ -105,7 +105,7 @@ class App extends Component {
                     title={<span><Icon type="alert" /><span>告警管理</span></span>}
                   >
                     <Menu.Item key="10"><Link onClick={this._click.bind(this, 10, 'sub4')} to='/setWarning'>告警设置</Link></Menu.Item>
-                    <Menu.Item key="11"><Link onClick={this._click.bind(this, 11, 'sub4')} to='/recordWarning'>告警记录</Link></Menu.Item>
+                    {/* <Menu.Item key="11"><Link onClick={this._click.bind(this, 11, 'sub4')} to='/recordWarning'>告警记录</Link></Menu.Item> */}
                     <Menu.Item key="12"><Link onClick={this._click.bind(this, 12, 'sub4')} to='/informWarning'>告警通知组</Link></Menu.Item>
                   </SubMenu>
                   <SubMenu
@@ -146,7 +146,7 @@ class App extends Component {
                   <Route path="/logTrend" component={LogTrend} />
                   <Route path="/mediaManagement" component={MediaManagement} />
                   <Route path="/setWarning" exact component={WarningSet} />
-                  <Route path="/recordWarning" component={WarningRecord} />
+                  {/* <Route path="/recordWarning" component={WarningRecord} /> */}
                   <Route path="/informWarning" component={WarningInform} />
                   <Route path="/analyze" component={Analyze} />
                   <Route path="/monito" component={ResourcesM} />

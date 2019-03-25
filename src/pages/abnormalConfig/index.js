@@ -11,17 +11,17 @@ export default class AbnormalConfig extends Component {
             isVisible: false
         }
     }
-    params = {
-        page: 1
-    }
-    componentDidMount() {
-        this.requestList();
-    }
+    // params = {
+    //     page: 1
+    // }
+    // componentDidMount() {
+    //     this.requestList();
+    // }
 
 
-    requestList = () => {
-        axios.requestList(this, '/table/abnormalConfig', this.params);
-    }
+    // requestList = () => {
+    //     axios.requestList(this, '/table/abnormalConfig', this.params);
+    // }
 
     //点击新建按钮
     handleCreate = () => {
@@ -30,7 +30,7 @@ export default class AbnormalConfig extends Component {
         })
     }
 
-    // 创建员工提交
+    // 创建异常配置提交
     handleSubmit = () => {
         let data = this.userForm.props.form.getFieldsValue();
         axios.ajax({
@@ -65,29 +65,22 @@ export default class AbnormalConfig extends Component {
                 title: '类型',
                 dataIndex: 'types',
                 width: 25 + '%',
-                render(types) {
-                    return types === 1 ? '类型一' : '类型二'
-                }
             }, {
                 title: '名称',
                 dataIndex: 'name',
                 width: 25 + '%',
-                render(name) {
-                    return name === 1 ? '名称一' : '名称二'
-                }
             }, {
                 title: '关键字',
                 dataIndex: 'keyword',
                 width: 50 + '%',
-                render(state) {
-                    return {
-                        '1': '404',
-                        '2': '500',
-                        '3': '505',
-                    }[state]
-                }
             }
         ]
+        const data = [{
+            key: '1',
+            types: 'nginx',
+            name: 'nginx异常',
+            keyword: '301,302,304,404,500,504',
+        }]
         const selectedRowKeys = this.state.selectedRowKeys;
         const rowCheckSelection = {
             type: 'checkbox',
@@ -109,7 +102,8 @@ export default class AbnormalConfig extends Component {
                     <Table
                         rowSelection={rowCheckSelection}
                         columns={columns}
-                        dataSource={this.state.list}
+                        // dataSource={this.state.list}
+                        dataSource={data}
                         pagination={this.state.pagination}
                     />
                 </Card>

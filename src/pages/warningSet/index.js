@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Card, Button, Input, Badge, Table, Icon, Modal, Steps, message , Form } from 'antd'
-import axios from "./../../axios"
+import { Card, Button, Input, Badge, Table, Modal, Steps, message , Form } from 'antd'
+// import axios from "./../../axios"
 import "./index.less"
 import moment from "moment"
 import Steps1 from "./steps/steps1"
@@ -15,17 +15,17 @@ export default class WarningSet extends Component {
             isVisible: false
         }
     }
-    params = {
-        page: 1
-    }
+    // params = {
+    //     page: 1
+    // }
 
-    componentDidMount() {
-        this.requestList();
-    }
+    // componentDidMount() {
+    //     this.requestList();
+    // }
 
-    requestList = () => {
-        axios.requestList(this, '/table/list', this.params);
-    }
+    // requestList = () => {
+    //     axios.requestList(this, '/table/list', this.params);
+    // }
 
     handleOperate = (type) => {
         let item = this.state.selectedRowKeys;
@@ -78,13 +78,13 @@ export default class WarningSet extends Component {
         }
     }
 
-    handleClname1 = () => {
-        this.props.history.push("/setWarning/warn_detail")
-    }
+    // handleClname1 = () => {
+    //     this.props.history.push("/setWarning/warn_detail")
+    // }
 
-    handleClname2 = () => {
-        this.props.history.push("/setWarning/CPU_detail")
-    }
+    // handleClname2 = () => {
+    //     this.props.history.push("/setWarning/CPU_detail")
+    // }
 
     // componentDidUpdate() {
     //     console.log(this.state.selectedRowKeys)
@@ -97,23 +97,20 @@ export default class WarningSet extends Component {
                 title: '策略名称',
                 dataIndex: 'clname',
                 width: 20 + '%',
-                render: (clname, item) => {
-                    return {
-                        "1": <span className="warn_span" onClick={(item) => { this.handleClname1(item) }}><Icon type='caret-right' />内存告警</span>,
-                        "2": <span className="warn_span" onClick={(item) => { this.handleClname2(item) }}><Icon type='caret-right' />CPU告警</span>,
-                    }[clname]
-                }
+                // render: (clname, item) => {
+                //     return {
+                //         "1": <span className="warn_span" onClick={(item) => { this.handleClname1(item) }}><Icon type='caret-right' />内存告警</span>,
+                //         "2": <span className="warn_span" onClick={(item) => { this.handleClname2(item) }}><Icon type='caret-right' />CPU告警</span>,
+                //     }[clname]
+                // }
             }, {
                 title: '类型',
                 dataIndex: 'types',
-                width: 10 + '%',
+                width: 20 + '%',
             }, {
                 title: '告警对象',
                 dataIndex: 'warnobject',
                 width: 10 + '%',
-                render(warnobject) {
-                    return warnobject === 1 ? '男' : '女'
-                }
             }, {
                 title: '状态',
                 dataIndex: 'state',
@@ -127,11 +124,7 @@ export default class WarningSet extends Component {
                         '5': <Badge status="warning" text="警告" />
                     }[state]
                 }
-            }, {
-                title: '监控周期',
-                dataIndex: 'period',
-                width: 10 + '%',
-            }, {
+            },{
                 title: '创建时间',
                 dataIndex: 'startTime',
                 width: 20 + '%',
@@ -149,6 +142,15 @@ export default class WarningSet extends Component {
                 }
             },
         ]
+        const data = [{
+            key: '1',
+            clname: '日志容量',
+            types: '日志容量告警',
+            warnobject : '运维群',
+            state : '1',
+            startTime: '2019-3-22 10:00:00',
+            lastname : '孙大强',
+          }]
         const selectedRowKeys = this.state.selectedRowKeys;
         const rowCheckSelection = {
             selectedRowKeys,
@@ -178,7 +180,7 @@ export default class WarningSet extends Component {
                     <Table
                         rowSelection={rowCheckSelection}
                         columns={columns}
-                        dataSource={this.state.list}
+                        dataSource={data}
                         pagination={this.state.pagination}
                     />
                 </Card>
