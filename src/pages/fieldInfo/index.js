@@ -39,15 +39,15 @@ class FieldInfo extends Component {
 
     //重置
     reset = () => {
-        this.props.form.resetFields();
-        this.setState({
-            flag: false,
-            disabled: true,
-            disabledTwo: false,
-            ChartType: '',
-            dataList: ''
-        })
-        // this.props.history.go(0)
+        // this.props.form.resetFields();
+        // this.setState({
+        //     flag: false,
+        //     disabled: true,
+        //     disabledTwo: false,
+        //     ChartType: '',
+        //     dataList: ''
+        // })
+        this.props.history.go(0)
     }
 
     handlePie = () => {
@@ -64,23 +64,21 @@ class FieldInfo extends Component {
         })
     }
 
-    // componentDidUpdate() {
-    //     let { dataList, ChartType } = this.state;
-    //     if (dataList === '' ) {
-    //         return ;
-    //     } else {
-    //         if (ChartType === 0) {
-    //             this.refs.pie.setData(dataList)
-    //         } else if (ChartType === 1) {
-    //             this.refs.bar.setData(dataList)
-    //         }
-    //     }
-    // }
+    componentDidUpdate() {
+        let { dataList, ChartType } = this.state;
+        if (dataList === '' ) {
+            return ;
+        } else {
+            if (ChartType === 0) {
+                this.refs.pie.setData(dataList)
+            } else if (ChartType === 1) {
+                this.refs.bar.setData(dataList)
+            }
+        }
+    }
 
     handleStart = () => {
-        let that = this;
         let fieldsValue = this.props.form.getFieldsValue();
-        let { dataList, ChartType } = this.state;
         this.props.form.validateFields((err) => {
             if (!err) {
                 fetchChart.requers(this, "/index/fieldStatistics", fieldsValue);
@@ -90,11 +88,6 @@ class FieldInfo extends Component {
             disabled: true,
             disabledTwo: true
         })
-        if (ChartType === 0) {
-            that.refs.pie.setData(dataList)
-        } else if (ChartType === 1) {
-            that.refs.bar.setData(dataList)
-        }
     }
 
     remove = (k) => {
