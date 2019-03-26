@@ -75,6 +75,6 @@ export default class Bar extends React.Component {
         myChart.setOption(option)
     }
     render() {
-        return (<div ref={'box'} style={{ height: 500 }}></div>)
+        return (<div ref={'box'} style={{ height: 550 }}></div>)
     }
 }

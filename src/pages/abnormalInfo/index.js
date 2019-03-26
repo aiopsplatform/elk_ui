@@ -148,7 +148,7 @@ class AbnormalInfo extends Component {
                                 )
                             }
                         </FormItem>
-                        <FormItem label="指标">
+                        {/* <FormItem label="指标">
                             {
                                 getFieldDecorator('target')(
                                     <Select
@@ -162,7 +162,7 @@ class AbnormalInfo extends Component {
                                     </Select>
                                 )
                             }
-                        </FormItem>
+                        </FormItem> */}
                         <FormItem>
                             <Button type="primary" style={{ marginRight: 20}} onClick={this.handleFilterSubmit}>查询</Button>
                             <Button onClick={this.reset}  >重置</Button>

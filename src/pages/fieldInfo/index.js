@@ -39,14 +39,15 @@ class FieldInfo extends Component {
 
     //重置
     reset = () => {
-        this.props.form.resetFields();
-        this.setState({
-            flag: false,
-            disabled: true,
-            disabledTwo: false,
-            ChartType: '',
-            dataList: ''
-        })
+        // this.props.form.resetFields();
+        // this.setState({
+        //     flag: false,
+        //     disabled: true,
+        //     disabledTwo: false,
+        //     ChartType: '',
+        //     dataList: ''
+        // })
+        this.props.history.go(0)
     }
 
     handlePie = () => {
@@ -65,7 +66,7 @@ class FieldInfo extends Component {
 
     componentDidUpdate() {
         let { dataList, ChartType } = this.state;
-        if (!dataList.length) {
+        if (!dataList.length ) {
             return
         } else {
             if (ChartType === 0) {
