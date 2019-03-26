@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Card, Form, Select, Button , Empty} from 'antd'
+import { Card, Form, Select, Button, Empty } from 'antd'
 import "./index.less"
 import Line from "./line.js"
 // import Loading from "./../../components/loading"
@@ -7,15 +7,15 @@ const Option = Select.Option;
 const FormItem = Form.Item;
 
 export default class BaselinePrediction extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
-            loading : true
+        this.state = {
+            loading: true
         }
     }
-    handleStart = () =>{
+    handleStart = () => {
         this.setState({
-            loading : false
+            loading: false
         })
     }
     reset = () => {
@@ -23,22 +23,21 @@ export default class BaselinePrediction extends Component {
     }
     render() {
         const { getFieldDecorator } = this.props.form;
-        let {loading} = this.state;
+        let { loading } = this.state;
         return (
             <div>
                 <Card className="BaselinePrediction_card" >
                     <Form layout="inline">
-                        <FormItem label="服务" >
+                        <FormItem label="服务">
                             {
-                                getFieldDecorator('serve')(
+                                getFieldDecorator('serve', {
+                                    initialValue: '0'
+                                })(
                                     <Select
                                         placeholder='请选择服务'
                                         style={{ width: 200 }}
                                     >
-                                        <Option value='1'>服务一</Option>
-                                        <Option value='2'>服务二</Option>
-                                        <Option value='3'>服务三</Option>
-                                        <Option value='4'>服务四</Option>
+                                        <Option value='0'>ecp_service_0232</Option>
                                     </Select>
                                 )
                             }
@@ -80,7 +79,7 @@ export default class BaselinePrediction extends Component {
                     </Form>
                 </Card>
                 <div>
-                  {  loading ? <Empty className="emptyStyle" description= '暂无数据，请获取数据...' /> : <Line /> }
+                    {loading ? <Empty className="emptyStyle" description='暂无数据，请获取数据...' /> : <Line />}
                 </div>
             </div>
         )

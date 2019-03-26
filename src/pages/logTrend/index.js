@@ -89,15 +89,14 @@ class LogTrend extends Component {
                         </FormItem>
                         <FormItem label="服务">
                             {
-                                getFieldDecorator('serve')(
+                                getFieldDecorator('serve', {
+                                    initialValue: '0'
+                                })(
                                     <Select
                                         placeholder='请选择服务'
                                         style={{ width: 200 }}
                                     >
-                                        <Option value='1'>服务一</Option>
-                                        <Option value='2'>服务二</Option>
-                                        <Option value='3'>服务三</Option>
-                                        <Option value='4'>服务四</Option>
+                                        <Option value='0'>ecp_service_0232</Option>
                                     </Select>
                                 )
                             }
