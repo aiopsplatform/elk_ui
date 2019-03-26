@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Card, DatePicker, Select, Button, Icon, Form, Empty } from 'antd'
 import moment from "moment"
 import fetchD from "./../../fetch"
-import {fetch} from "whatwg-fetch"
+import { fetch } from "whatwg-fetch"
 import { connect } from "react-redux"
 import "./index.less"
 import Loading from "../../components/loading"
@@ -82,18 +82,9 @@ class TJQuery extends Component {
         this.onChange('endValue', value);
     }
 
-    newPages = () =>{
-        let url = "/index/selectByIndex";
-        fetch(url)
-        .then(res => res.json())
-        .then((data)=>{
-            this.setState({
-                dataList : JSON.parse(JSON.stringify(data))
-            })
-        })
-        .catch(error => {
-            console.log('error is', error)
-        });
+    newPages = () => {
+        let fieldsValue = this.props.form.getFieldsValue();
+        fetchD.requers(this, "/index/selectByIndex", fieldsValue);
     }
     // onChangePagination = (pageNumber) => {
     //     console.log('Page: ', pageNumber);
