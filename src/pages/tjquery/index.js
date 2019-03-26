@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Card, DatePicker, Select, Button, Icon, Form, Empty } from 'antd'
 import moment from "moment"
 import fetchD from "./../../fetch"
-import { fetch } from "whatwg-fetch"
+// import { fetch } from "whatwg-fetch"
 import { connect } from "react-redux"
 import "./index.less"
 import Loading from "../../components/loading"
@@ -18,7 +18,8 @@ class TJQuery extends Component {
             startValue: '',
             endValue: '',
             Loading: false,
-            dataList: ''
+            dataList: '',
+            page: 1
         }
     }
 
@@ -26,13 +27,23 @@ class TJQuery extends Component {
         this.props.getList();
     }
 
+    componentDidUpdate() {
+        console.log(this.state.dataList)
+    }
 
     handleFilterSubmit = () => {
         this.setState({
             loading: true
         })
+        let { page } = this.state;
         let fieldsValue = this.props.form.getFieldsValue();
-        fetchD.requers(this, "/index/selectByIndex", fieldsValue);
+        const listS = {
+            ...fieldsValue,
+            page
+        }
+        console.log(listS)
+        fetchD.requers(this, "/index/selectByIndex", listS);
+
     }
 
     reset = () => {
@@ -82,22 +93,35 @@ class TJQuery extends Component {
         this.onChange('endValue', value);
     }
 
-    newPages = () => {
-        let fieldsValue = this.props.form.getFieldsValue();
-        fetchD.requers(this, "/index/selectByIndex", fieldsValue);
-    }
-    // onChangePagination = (pageNumber) => {
-    //     console.log('Page: ', pageNumber);
-    // }
+    DownPages = () => {
+        this.setState({
+            page: this.state.page+1
+        }, () => {
+            let { page } = this.state;
+            let fieldsValue = this.props.form.getFieldsValue();
+            const listS = {
+                ...fieldsValue,
+                page
+            }
+            fetchD.requers(this, "/index/selectByIndex", listS);
+        })
 
-    // itemRender = (current,type, originalElement) => {
-    //     if (type === 'prev') {
-    //         return <button>上一页</button>;
-    //     } if (type === 'next') {
-    //         return <button>下一页</button>;
-    //     }
-    //     return originalElement;
-    // }
+    }
+
+    OnPages = () => {
+        this.setState({
+            page: this.state.page-1
+        },()=>{
+            let { page } = this.state;
+            let fieldsValue = this.props.form.getFieldsValue();
+            const listS = {
+                ...fieldsValue,
+                page
+            }
+            fetchD.requers(this, "/index/selectByIndex", listS);
+        })
+    }
+
     render() {
         let { inputBoxData } = this.props;
         let { type, startValue, endValue, loading, dataList } = this.state;
@@ -202,18 +226,12 @@ class TJQuery extends Component {
                 </Card>
                 <div className="cont_box" ref="cont_box">
                     <div className="cont_box_header">
-                        {/* <Pagination
-                            style={{ marginTop: 3, marginLeft: 5 }}
-                            showQuickJumper={false}
-                            defaultCurrent={1}
-                            total={50}
-                            simple
-                            onChange={this.onChangePagination}
-                            itemRender={this.itemRender}
-                        /> */}
                         <span>
-                            <Button onClick={this.newPages} >上一页</Button>
-                            <Button onClick={this.newPages}>下一页</Button>
+                            <Button
+                                onClick={this.OnPages}
+                            disabled= {this.state.page < 2 ? true : false}
+                            >上一页</Button>
+                            <Button onClick={this.DownPages}>下一页</Button>
                         </span>
                         <span className="blow_up" onClick={this.handleBlowUp.bind(this)}><Icon type={type} /></span>
                     </div>
