@@ -3,9 +3,11 @@ import { Card, DatePicker, Select, Button, Form, Table } from 'antd'
 import moment from "moment"
 // import axios from "./../../axios"
 import "./index.less"
+import { connect } from "react-redux"
+import { getData_locast } from "../../action/actioncreator"
 const Option = Select.Option;
 const FormItem = Form.Item;
-export default class LogTraffic extends Component {
+class LogTraffic extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -64,6 +66,7 @@ export default class LogTraffic extends Component {
     }
     render() {
         let { startValue, endValue } = this.state;
+        let { inputBoxData } = this.props;
         const { getFieldDecorator } = this.props.form;
         const columns = [
             {
@@ -127,7 +130,7 @@ export default class LogTraffic extends Component {
             <div>
                 <Card className="logTraffic_cards" >
                     <Form layout="inline">
-                    <FormItem label="服务">
+                        <FormItem label="服务">
                             {
                                 getFieldDecorator('serve', {
                                     initialValue: '0'
@@ -142,16 +145,17 @@ export default class LogTraffic extends Component {
                             }
                         </FormItem>
                         <FormItem label="类型">
-                            {
-                                getFieldDecorator('types')(
+                        {
+                                getFieldDecorator('indexes')(
                                     <Select
                                         placeholder='请选择类型'
                                         style={{ width: 200 }}
                                     >
-                                        <Option value='1'>类型一</Option>
-                                        <Option value='2'>类型二</Option>
-                                        <Option value='3'>类型三</Option>
-                                        <Option value='4'>类型四</Option>
+                                        {
+                                            inputBoxData.length > 0 ? inputBoxData.map((item, i) => {
+                                                return <Option key={i} value={item.id}>{item.describe}</Option>
+                                            }) : ""
+                                        }
                                     </Select>
                                 )
                             }
@@ -198,7 +202,7 @@ export default class LogTraffic extends Component {
                                 )
                             }
                         </FormItem>
-                        
+
                         <FormItem>
                             <Button type="primary" style={{ marginRight: 20 }} onClick={this.handleFilterSubmit}>统计</Button>
                             <Button onClick={this.reset}>重置</Button>
@@ -218,4 +222,15 @@ export default class LogTraffic extends Component {
     }
 }
 
+
+const mapStateToProps = (state) => ({
+    inputBoxData: state.query.inputBoxData
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    getList() {
+        dispatch(getData_locast())
+    }
+})
 LogTraffic = Form.create({})(LogTraffic);
+export default connect(mapStateToProps, mapDispatchToProps)(LogTraffic)

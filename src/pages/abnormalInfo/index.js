@@ -99,7 +99,7 @@ class AbnormalInfo extends Component {
                                     >
                                         {
                                             inputBoxData.length > 0 ? inputBoxData.map((item, i) => {
-                                                return <Option key={i} value={item.id}>{item.name}</Option>
+                                                return <Option key={i} value={item.id}>{item.describe}</Option>
                                             }) : ""
                                         }
                                     </Select>

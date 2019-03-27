@@ -22,6 +22,7 @@ class Tab1 extends Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         let { loading } = this.state;
+        let  {inputBoxData}  = this.props;
         return (
             <div>
                 <Card className="resourcesm_card" >
@@ -43,15 +44,16 @@ class Tab1 extends Component {
                         </FormItem>
                         <FormItem label="类型">
                             {
-                                getFieldDecorator('types')(
+                                getFieldDecorator('indexes')(
                                     <Select
                                         placeholder='请选择类型'
                                         style={{ width: 200 }}
                                     >
-                                        <Option value='1'>类型一</Option>
-                                        <Option value='2'>类型二</Option>
-                                        <Option value='3'>类型三</Option>
-                                        <Option value='4'>类型四</Option>
+                                        {
+                                            inputBoxData.length > 0 ? inputBoxData.map((item, i) => {
+                                                return <Option key={i} value={item.id}>{item.describe}</Option>
+                                            }) : ""
+                                        }
                                     </Select>
                                 )
                             }

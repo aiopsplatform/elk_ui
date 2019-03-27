@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
 import { Card, Table } from 'antd'
-import axios from "./../../axios"
+// import axios from "./../../axios"
 export default class Tab2 extends Component {
     constructor(props){
         super(props);
         this.state = {}
     }
-    componentDidMount() {
-        this.requestList();
-    }
+    // componentDidMount() {
+    //     this.requestList();
+    // }
 
-    requestList = () => {
-        axios.requestList(this, '/tabs2/dataList');
-    }
+    // requestList = () => {
+    //     axios.requestList(this, '/tabs2/dataList');
+    // }
     render() {
         const columns = [
             {
@@ -63,17 +63,38 @@ export default class Tab2 extends Component {
                 }
             }
         ]
-        
+        const data = [{
+            key: '1',
+            nodeName: '1',
+            IPAddress: '1',
+            CPUSituation : '15',
+            memoryUtilization : '40',
+            diskUtilization: '65',
+          },{
+            key: '2',
+            nodeName: '2',
+            IPAddress: '2',
+            CPUSituation : '45',
+            memoryUtilization : '33',
+            diskUtilization: '66',
+          },{
+            key: '3',
+            nodeName: '3',
+            IPAddress: '3',
+            CPUSituation : '12',
+            memoryUtilization : '18',
+            diskUtilization: '33',
+          }]
         return (
                 <Card>
                     <Table
                         rowSelection={null}
                         columns={columns}
-                        dataSource={this.state.list}
+                        dataSource={data}
                         pagination={false}
                     />
                     <div className="nums" >
-                        共<span> 10 </span>条数据
+                        共<span> 3 </span>条数据
                     </div>
                 </Card>
         )
