@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Card, Button, DatePicker, Form, InputNumber , Empty} from "antd"
+import { Card, Button, DatePicker, Form, InputNumber, Empty , Select} from "antd"
 import "./index.less"
 import Bar from "./bar"
 import Loading from "./../../components/loading"
 import fetch from "./../../fetch"
 import moment from "moment"
+const Option = Select.Option;
 const FormItem = Form.Item;
 class OftenInfo extends Component {
     constructor(props) {
@@ -12,8 +13,8 @@ class OftenInfo extends Component {
         this.state = {
             startValue: '',
             endValue: '',
-            loading : false,
-            dataList : ''
+            loading: false,
+            dataList: ''
         }
     }
 
@@ -23,14 +24,14 @@ class OftenInfo extends Component {
         this.setState({
             startValue: '',
             endValue: '',
-            loading : false
+            loading: false
         })
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
         if (!this.state.dataList.length) {
-           return
-        }else{
+            return
+        } else {
             this.refs.bar.setData(this.state.dataList)
         }
     }
@@ -40,7 +41,7 @@ class OftenInfo extends Component {
         let fieldsValue = this.props.form.getFieldsValue();
         this.props.form.validateFields((err) => {
             if (!err) {
-                fetch.requers(this,"/index/exceptionCount",fieldsValue)
+                fetch.requers(this, "/index/exceptionCount", fieldsValue)
             }
         })
     }
@@ -75,12 +76,26 @@ class OftenInfo extends Component {
         this.onChange('endValue', value);
     }
     render() {
-        let { startValue, endValue , dataList , loading } = this.state;
+        let { startValue, endValue, dataList, loading } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="often_big_box" >
                 <Card className="often_card">
                     <Form layout="inline">
+                        <FormItem label="服务">
+                            {
+                                getFieldDecorator('serve', {
+                                    initialValue: '0'
+                                })(
+                                    <Select
+                                        placeholder='请选择服务'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='0'>ecp_service_0232</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
                         <FormItem label="开始时间" >
                             {
                                 getFieldDecorator('begin_time', {
@@ -142,7 +157,7 @@ class OftenInfo extends Component {
                     </Form>
                 </Card>
                 <div className="BarBox" >
-                    {dataList.length > 0 ? <Bar ref={'bar'} /> : loading ? <Loading /> : <Empty className="emptyStyle" description= '暂无数据，请查询...' />}
+                    {dataList.length > 0 ? <Bar ref={'bar'} /> : loading ? <Loading /> : <Empty className="emptyStyle" description='暂无数据，请查询...' />}
                 </div>
             </div>
         )

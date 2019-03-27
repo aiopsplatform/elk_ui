@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, DatePicker, Select, Button, Form , Empty } from 'antd'
+import { Card, DatePicker, Select, Button, Form, Empty } from 'antd'
 import "./index.less"
 import fetch from "./../../fetch"
 import { connect } from "react-redux"
@@ -15,8 +15,8 @@ class SlowInfo extends Component {
         this.state = {
             startValue: '',
             endValue: '',
-            loading : false,
-            dataList:''
+            loading: false,
+            dataList: ''
         }
     }
 
@@ -24,8 +24,8 @@ class SlowInfo extends Component {
         this.props.getList();
     }
 
-    componentDidUpdate(){
-        if (this.state.dataList.length>0) {
+    componentDidUpdate() {
+        if (this.state.dataList.length > 0) {
             this.refs.bar.setData(this.state.dataList)
         }
     }
@@ -35,7 +35,7 @@ class SlowInfo extends Component {
         let fieldsValue = this.props.form.getFieldsValue();
         this.props.form.validateFields((err) => {
             if (!err) {
-                fetch.requers(this,"/index/slowRequestCount",fieldsValue)
+                fetch.requers(this, "/index/slowRequestCount", fieldsValue)
             }
         })
     }
@@ -47,8 +47,8 @@ class SlowInfo extends Component {
         this.setState({
             startValue: '',
             endValue: '',
-            loading : false,
-            dataList :''
+            loading: false,
+            dataList: ''
         })
     }
 
@@ -66,7 +66,7 @@ class SlowInfo extends Component {
         if (!endValue || !startValue) {
             return endValue.valueOf() > new Date().getTime();
         }
-        return endValue.valueOf() <= startValue.valueOf() || endValue.valueOf() > new Date().getTime() ;
+        return endValue.valueOf() <= startValue.valueOf() || endValue.valueOf() > new Date().getTime();
     }
 
     onChange = (fields, value) => {
@@ -85,13 +85,27 @@ class SlowInfo extends Component {
 
     render() {
         let { inputBoxData } = this.props;
-        let { startValue, endValue , dataList , loading} = this.state;
+        let { startValue, endValue, dataList, loading } = this.state;
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="slow_big_box" >
                 <Card className="slow_card">
                     <Form layout="inline">
-                        <FormItem label="查询类型">
+                        <FormItem label="服务">
+                            {
+                                getFieldDecorator('serve', {
+                                    initialValue: '0'
+                                })(
+                                    <Select
+                                        placeholder='请选择服务'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='0'>ecp_service_0232</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
+                        <FormItem label="类型">
                             {
                                 getFieldDecorator('indexes')(
                                     <Select
@@ -149,6 +163,7 @@ class SlowInfo extends Component {
                                 )
                             }
                         </FormItem>
+
                         {/* <FormItem label="查询指标">
                             {
                                 getFieldDecorator('target')(
@@ -165,13 +180,13 @@ class SlowInfo extends Component {
                             }
                         </FormItem> */}
                         <FormItem>
-                            <Button type="primary" style={{ marginRight: 20}} onClick={this.handleFilterSubmit}>查询</Button>
+                            <Button type="primary" style={{ marginRight: 20 }} onClick={this.handleFilterSubmit}>查询</Button>
                             <Button onClick={this.reset}>重置</Button>
                         </FormItem>
                     </Form>
                 </Card>
                 <div className="BarBox" >
-                    {dataList.length>0 ? <Bar ref={'bar'} /> : loading ? <Loading /> : <Empty className="emptyStyle" description= '暂无数据，请查询...' />}
+                    {dataList.length > 0 ? <Bar ref={'bar'} /> : loading ? <Loading /> : <Empty className="emptyStyle" description='暂无数据，请查询...' />}
                 </div>
             </div>
         )

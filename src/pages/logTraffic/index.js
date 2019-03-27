@@ -169,6 +169,20 @@ export default class LogTraffic extends Component {
                                 )
                             }
                         </FormItem>
+                        <FormItem label="服务">
+                            {
+                                getFieldDecorator('serve', {
+                                    initialValue: '0'
+                                })(
+                                    <Select
+                                        placeholder='请选择服务'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='0'>ecp_service_0232</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
                         <FormItem label="类型">
                             {
                                 getFieldDecorator('types')(
