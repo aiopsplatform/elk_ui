@@ -127,6 +127,35 @@ export default class LogTraffic extends Component {
             <div>
                 <Card className="logTraffic_cards" >
                     <Form layout="inline">
+                    <FormItem label="服务">
+                            {
+                                getFieldDecorator('serve', {
+                                    initialValue: '0'
+                                })(
+                                    <Select
+                                        placeholder='请选择服务'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='0'>ecp_service_0232</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
+                        <FormItem label="类型">
+                            {
+                                getFieldDecorator('types')(
+                                    <Select
+                                        placeholder='请选择类型'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='1'>类型一</Option>
+                                        <Option value='2'>类型二</Option>
+                                        <Option value='3'>类型三</Option>
+                                        <Option value='4'>类型四</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
                         <FormItem label="开始时间" >
                             {
                                 getFieldDecorator('begin_time', {
@@ -169,35 +198,7 @@ export default class LogTraffic extends Component {
                                 )
                             }
                         </FormItem>
-                        <FormItem label="服务">
-                            {
-                                getFieldDecorator('serve', {
-                                    initialValue: '0'
-                                })(
-                                    <Select
-                                        placeholder='请选择服务'
-                                        style={{ width: 200 }}
-                                    >
-                                        <Option value='0'>ecp_service_0232</Option>
-                                    </Select>
-                                )
-                            }
-                        </FormItem>
-                        <FormItem label="类型">
-                            {
-                                getFieldDecorator('types')(
-                                    <Select
-                                        placeholder='请选择类型'
-                                        style={{ width: 200 }}
-                                    >
-                                        <Option value='1'>类型一</Option>
-                                        <Option value='2'>类型二</Option>
-                                        <Option value='3'>类型三</Option>
-                                        <Option value='4'>类型四</Option>
-                                    </Select>
-                                )
-                            }
-                        </FormItem>
+                        
                         <FormItem>
                             <Button type="primary" style={{ marginRight: 20 }} onClick={this.handleFilterSubmit}>统计</Button>
                             <Button onClick={this.reset}>重置</Button>

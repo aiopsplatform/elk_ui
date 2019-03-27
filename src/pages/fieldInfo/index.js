@@ -426,8 +426,8 @@ class FieldInfo extends Component {
                         } */}
 
                         <FormItem label="选择图形" {...formItemLayout} >
-                            <Button type="primary" onClick={this.handlePie} disabled={disabledTwo} icon="pie-chart" style={{ marginLeft: 15 }} >饼状图</Button>
-                            <Button type="primary" onClick={this.handleBar} disabled={disabledTwo} icon="bar-chart" style={{ marginLeft: 30 }} >柱状图</Button>
+                            <Button type={ChartType === 0 ? 'primary' : ''} onClick={this.handlePie} disabled={disabledTwo} icon="pie-chart" style={{ marginLeft: 15 }} >饼状图</Button>
+                            <Button type={ChartType === 1 ? 'primary' : ''} onClick={this.handleBar} disabled={disabledTwo} icon="bar-chart" style={{ marginLeft: 30 }} >柱状图</Button>
                         </FormItem>
                         <FormItem className="start_buton">
                             <Button title="请先选择需要展示的图表类型" type="primary" onClick={this.handleStart} disabled={disabled}>开始统计</Button>

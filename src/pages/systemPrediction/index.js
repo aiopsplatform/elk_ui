@@ -122,6 +122,33 @@ export default class SystemPrediction extends Component {
             <div>
                 <Card className="IntelligentPrediction_cards" >
                     <Form layout="inline">
+                    <FormItem label="状态">
+                            {
+                                getFieldDecorator('state')(
+                                    <Select
+                                        placeholder='请选择状态'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='1'>正常</Option>
+                                        <Option value='2'>告警</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
+                        <FormItem label="服务">
+                            {
+                                getFieldDecorator('serve', {
+                                    initialValue: '0'
+                                })(
+                                    <Select
+                                        placeholder='请选择服务'
+                                        style={{ width: 200 }}
+                                    >
+                                        <Option value='0'>ecp_service_0232</Option>
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
                         <FormItem label="开始时间" >
                             {
                                 getFieldDecorator('begin_time', {
@@ -164,33 +191,7 @@ export default class SystemPrediction extends Component {
                                 )
                             }
                         </FormItem>
-                        <FormItem label="状态">
-                            {
-                                getFieldDecorator('state')(
-                                    <Select
-                                        placeholder='请选择状态'
-                                        style={{ width: 200 }}
-                                    >
-                                        <Option value='1'>正常</Option>
-                                        <Option value='2'>告警</Option>
-                                    </Select>
-                                )
-                            }
-                        </FormItem>
-                        <FormItem label="服务">
-                            {
-                                getFieldDecorator('serve', {
-                                    initialValue: '0'
-                                })(
-                                    <Select
-                                        placeholder='请选择服务'
-                                        style={{ width: 200 }}
-                                    >
-                                        <Option value='0'>ecp_service_0232</Option>
-                                    </Select>
-                                )
-                            }
-                        </FormItem>
+                        
                         <FormItem>
                             <Button type="primary" style={{ marginRight: 20}} onClick={this.handleFilterSubmit}>查询</Button>
                             <Button onClick={this.reset}>重置</Button>

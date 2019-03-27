@@ -35,15 +35,18 @@ class TJQuery extends Component {
         this.setState({
             loading: true
         })
+
         let { page } = this.state;
         let fieldsValue = this.props.form.getFieldsValue();
         const listS = {
             ...fieldsValue,
             page
         }
-        console.log(listS)
-        fetchD.requers(this, "/index/selectByIndex", listS);
-
+        this.props.form.validateFields((err) => {
+            if (!err) {
+                fetchD.requers(this, "/index/selectByIndex", listS);
+            }
+        })
     }
 
     reset = () => {
@@ -95,7 +98,7 @@ class TJQuery extends Component {
 
     DownPages = () => {
         this.setState({
-            page: this.state.page+1
+            page: this.state.page + 1
         }, () => {
             let { page } = this.state;
             let fieldsValue = this.props.form.getFieldsValue();
@@ -110,8 +113,8 @@ class TJQuery extends Component {
 
     OnPages = () => {
         this.setState({
-            page: this.state.page-1
-        },()=>{
+            page: this.state.page - 1
+        }, () => {
             let { page } = this.state;
             let fieldsValue = this.props.form.getFieldsValue();
             const listS = {
@@ -177,7 +180,14 @@ class TJQuery extends Component {
                         </FormItem>
                         <FormItem label="开始时间" >
                             {
-                                getFieldDecorator('begin_time')(
+                                getFieldDecorator('begin_time', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '开始时间不能为空'
+                                        }
+                                    ]
+                                })(
                                     <DatePicker
                                         placeholder="请选择开始时间"
                                         format="YYYY-MM-DD HH:mm:ss"
@@ -191,7 +201,14 @@ class TJQuery extends Component {
                         </FormItem>
                         <FormItem label="结束时间" >
                             {
-                                getFieldDecorator('end_time')(
+                                getFieldDecorator('end_time', {
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: '结束时间不能为空'
+                                        }
+                                    ]
+                                })(
                                     <DatePicker
                                         placeholder="请选择结束时间"
                                         format="YYYY-MM-DD HH:mm:ss"
@@ -229,7 +246,7 @@ class TJQuery extends Component {
                         <span>
                             <Button
                                 onClick={this.OnPages}
-                            disabled= {this.state.page < 2 ? true : false}
+                                disabled={this.state.page < 2 ? true : false}
                             >上一页</Button>
                             <Button onClick={this.DownPages}>下一页</Button>
                         </span>
