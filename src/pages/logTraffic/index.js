@@ -87,14 +87,14 @@ class LogTraffic extends Component {
                     return currentCapacity + "GB"
                 }
             }, {
-                title: '平均容量(每天)',
+                title: '平均容量',
                 dataIndex: 'averageCapacity',
                 width: 25 + '%',
                 render(averageCapacity) {
                     return averageCapacity + "GB"
                 }
             }, {
-                title: '平均数据(每天)',
+                title: '平均数据(每天/条)',
                 dataIndex: 'averageData',
                 width: 25 + '%',
                 render(data) {
@@ -202,7 +202,6 @@ class LogTraffic extends Component {
                                 )
                             }
                         </FormItem>
-
                         <FormItem>
                             <Button type="primary" style={{ marginRight: 20 }} onClick={this.handleFilterSubmit}>统计</Button>
                             <Button onClick={this.reset}>重置</Button>

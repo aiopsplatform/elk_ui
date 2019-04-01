@@ -22,7 +22,7 @@ class TJQuery extends Component {
             page: 1
         }
     }
-
+    
     componentDidMount() {
         this.props.getList();
     }
@@ -59,6 +59,7 @@ class TJQuery extends Component {
 
     export = () => {
         console.log('正在导出...')
+        window.location.href = 'https://achilles22.github.io/images/about.jpg'
     }
 
     //时间选择范围

@@ -23,7 +23,7 @@ export default class Line extends Component{
 
         let option = {
             title: {
-                text: '日志趋势',
+                text: '日志趋势(单位 : G)',
                 x: 'center'
             },
             xAxis: {
