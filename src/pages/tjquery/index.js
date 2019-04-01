@@ -71,6 +71,16 @@ class TJQuery extends Component {
         return startValue.valueOf() > endValue.valueOf();
     }
 
+    //获取类型中的数据
+    handleGetIndexes(i){
+        this.setState({
+            getIndexes : i
+        })
+    }
+
+    //获取开始时间的数据
+
+
     disabledEndDate = (endValue) => {
         const startValue = this.state.startValue;
         if (!endValue || !startValue) {
@@ -136,6 +146,7 @@ class TJQuery extends Component {
                                     <Select
                                         placeholder='请选择类型'
                                         style={{ width: 200 }}
+                                        onChange={this.handleGetIndexes.bind(this)}
                                     >
                                         {
                                             inputBoxData.length > 0 ? inputBoxData.map((item, i) => {
