@@ -27,10 +27,6 @@ class TJQuery extends Component {
         this.props.getList();
     }
 
-    componentDidUpdate() {
-        console.log(this.state.dataList)
-    }
-
     handleFilterSubmit = () => {
         this.setState({
             loading: true

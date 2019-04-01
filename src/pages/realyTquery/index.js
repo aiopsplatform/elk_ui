@@ -25,6 +25,7 @@ class RealyTQuery extends Component {
             loading: true
         })
         let fieldsValue = this.props.form.getFieldsValue();
+        this.refs.content.requers(fieldsValue)
         that.timer = setInterval(() => {
             this.refs.content.requers(fieldsValue)
         }, 5000)
