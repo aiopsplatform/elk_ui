@@ -15,12 +15,13 @@ export default class Graph extends Component {
                 {
                     type: 'graph',
                     layout: 'none',
-                    symbolSize: 50,
+                    symbolSize: [ 100 , 50],
+                    symbol:'roundRect',
                     roam: true,
                     label: {
                         normal: {
-                            show: true
-                        }
+                            show: true,
+                        },
                     },
                     edgeSymbol: ['circle', 'arrow'],
                     edgeSymbolSize: [4, 10],
