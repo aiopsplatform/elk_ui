@@ -25,5 +25,14 @@ export const getData_normalBar = () => ({
     })
 })
 
+export const types = {
+    SWITCH_LOGIN:'SWITCH_LOGIN'
+}
 
+export function switchLoin(flag) {
+    return {
+        type:types.SWITCH_LOGIN,
+        flag
+    }
+}
 

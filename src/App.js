@@ -28,6 +28,7 @@ import ResourcesM from "./pages/resourcesMonitoring"
 import AbnormalConfig from "./pages/abnormalConfig"
 import { Provider } from "react-redux";
 import store from "./store"
+import Login from './pages/login/login'
 import "./style/loading.less"
 moment.locale('zh-cn')
 const {
@@ -62,7 +63,7 @@ class App extends Component {
       });
     }
   }
-
+  
   render() {
     return (
       <LocaleProvider locale={zh_CN}>
@@ -140,7 +141,7 @@ class App extends Component {
               </Sider>
               <Layout>
                 <Switch>
-                  <Route path="/conditionquery" component={TJQuery} />
+                  <Route path="/conditionquery" component={TJQuery}/>
                   <Route path="/realtion" component={RealyTQuery} />
                   <Route path="/statistics" component={FieldInfo} />
                   <Route path="/configure" component={Configure} />
@@ -162,7 +163,8 @@ class App extends Component {
                   <Route path="/abnormalConfig" component={AbnormalConfig} />
                   <Route path="/setWarning/warn_detail" component={WarnDetail} />
                   <Route path="/setWarning/CPU_detail" component={CPUDDetail} />
-                  <Redirect from="/" to="/conditionquery" />
+                  <Route path="/login" component={Login} />
+                  <Redirect from="/" to="/login" />
                 </Switch>
               </Layout>
             </Layout>

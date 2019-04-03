@@ -1,6 +1,7 @@
 const defaultState = {
 	inputBoxData: [],
-	dataList: []
+	dataList: [],
+	flag : false
 }
 
 export default (state = defaultState, action) => {
@@ -13,6 +14,12 @@ export default (state = defaultState, action) => {
 			let dataLists = JSON.parse(JSON.stringify(state));
 			dataLists.dataList = action.payload;
 			return dataLists;
+		case 'SWITCH_LOGIN':
+			return {
+				...state,
+				flag: action.flag
+			}
+
 		default:
 			break;
 	}
