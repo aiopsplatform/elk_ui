@@ -1,8 +1,9 @@
 const proxy = require("http-proxy-middleware");
+import {IPAddress} from "./components/IPaddress"
 
 module.exports = (app) => {
 	app.use("/index", proxy({
-		target: "http://192.168.1.102:8080",
+		target: IPAddress,
 		changeOrigin: true
 	})),
 	app.use("/table", proxy({
