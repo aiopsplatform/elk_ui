@@ -14,7 +14,6 @@ class Login extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
                 let url = '/index/loginRequest'
                 fetch(url, {
                     method: 'post',

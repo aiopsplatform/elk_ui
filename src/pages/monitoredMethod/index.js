@@ -8,11 +8,19 @@ class MonitoredMethod extends Component {
         super(props);
         this.state = {}
     }
-    
+
+   
+
+    componentDidMount() {
+        var now=new Date().getTime();
+        var dom_load = now - performance.timing.navigationStart;
+        console.log('页面加载时间为：' + dom_load);
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
         const columns = [
-              {
+            {
                 title: <div className="meth" >方法名称</div>,
                 dataIndex: 'methodName',
                 width: 100 + '%',
@@ -21,14 +29,14 @@ class MonitoredMethod extends Component {
         const data = [{
             key: '1',
             methodName: <div className="Tabledata" ><span className="comApm" >com.demo.apm</span><span className="middle" >.User</span><span className="blues" >.buyTicket</span><span className="last" >(com.demo.apm.Fish)</span></div>,
-        },{
+        }, {
             key: '2',
             methodName: <div className="Tabledata" ><span className="comApm" >com.demo.apm</span><span className="middle" >.User</span><span className="blues" >.commitDB</span><span className="last" >()</span></div>,
-        },{
-            key: '2',
+        }, {
+            key: '3',
             methodName: <div className="Tabledata" ><span className="comApm" >com.demo.apm</span><span className="middle" >.User</span><span className="blues" >.login</span><span className="last" >()</span></div>,
         }]
-     
+
         return (
             <div>
                 <Card title="监控方法列表" >
