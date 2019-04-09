@@ -26,6 +26,8 @@ import RequestTime from "./pages/requestTime"
 import BaselinePrediction from "./pages/baselinePrediction"
 import ResourcesM from "./pages/resourcesMonitoring"
 import AbnormalConfig from "./pages/abnormalConfig"
+import MonitoredMethod from "./pages/monitoredMethod"
+import ApplicationMethod from "./pages/applicationMethod"
 import { Provider } from "react-redux";
 import store from "./store"
 import Login from './pages/login/login'
@@ -118,6 +120,8 @@ class App extends Component {
                     key="sub6"
                     title={<span><Icon type="cluster" /><span>问题分析</span></span>}
                   >
+                    <Menu.Item key="21"><Link onClick={this._click.bind(this, 21, 'sub6')} to='/monitoredMethod'>被监控方法</Link></Menu.Item>
+                    <Menu.Item key="22"><Link onClick={this._click.bind(this, 22, 'sub6')} to='/applicationMethod'>应用程序方法</Link></Menu.Item>
                     <Menu.Item key="13"><Link onClick={this._click.bind(this, 13, 'sub6')} to='/analyze'>链路分析</Link></Menu.Item>
                     <Menu.Item key="14"><Link onClick={this._click.bind(this, 14, 'sub6')} to='/monito'>资源监控</Link></Menu.Item>
                   </SubMenu>
@@ -161,6 +165,8 @@ class App extends Component {
                   <Route path="/requestTime" component={RequestTime} />
                   <Route path="/baselinePrediction" component={BaselinePrediction} />
                   <Route path="/abnormalConfig" component={AbnormalConfig} />
+                  <Route path="/monitoredMethod" component={MonitoredMethod} />
+                  <Route path="/applicationMethod" component={ApplicationMethod} />
                   <Route path="/setWarning/warn_detail" component={WarnDetail} />
                   <Route path="/setWarning/CPU_detail" component={CPUDDetail} />
                   <Route path="/login" component={Login} />
@@ -235,6 +241,12 @@ class App extends Component {
         break;
       case 20:
         sessionStorage.setItem('name', '20');
+        break;
+        case 21:
+        sessionStorage.setItem('name', '21');
+        break;
+        case 22:
+        sessionStorage.setItem('name', '22');
         break;
       default:
         break;

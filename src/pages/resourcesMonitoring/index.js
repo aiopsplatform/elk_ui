@@ -7,9 +7,6 @@ import { getData_locast } from "../../action/actioncreator"
 import "./index.less"
 const TabPane = Tabs.TabPane;
 class ResourcesM extends Component {
-    constructor(props) {
-        super(props);
-    }
     
     componentDidMount(){
         this.props.getList();
