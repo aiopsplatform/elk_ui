@@ -31,6 +31,7 @@ import ApplicationMethod from "./pages/applicationMethod"
 import { Provider } from "react-redux";
 import store from "./store"
 import Login from './pages/login/login'
+import Topo from "./pages/topo/index4"
 import "./style/loading.less"
 moment.locale('zh-cn')
 const {
@@ -65,7 +66,7 @@ class App extends Component {
       });
     }
   }
-  
+
   render() {
     return (
       <LocaleProvider locale={zh_CN}>
@@ -140,12 +141,13 @@ class App extends Component {
                   >
                     <Menu.Item key="19"><Link onClick={this._click.bind(this, 19, 'sub8')} to='/configure'>grok规则</Link></Menu.Item>
                     <Menu.Item key="20"><Link onClick={this._click.bind(this, 20, 'sub8')} to='/abnormalConfig'>异常配置</Link></Menu.Item>
+                    <Menu.Item key="23"><Link onClick={this._click.bind(this, 23, 'sub8')} to='/topo'>拓扑图</Link></Menu.Item>
                   </SubMenu>
                 </Menu>
               </Sider>
               <Layout>
                 <Switch>
-                  <Route path="/conditionquery" component={TJQuery}/>
+                  <Route path="/conditionquery" component={TJQuery} />
                   <Route path="/realtion" component={RealyTQuery} />
                   <Route path="/statistics" component={FieldInfo} />
                   <Route path="/configure" component={Configure} />
@@ -169,6 +171,7 @@ class App extends Component {
                   <Route path="/applicationMethod" component={ApplicationMethod} />
                   <Route path="/setWarning/warn_detail" component={WarnDetail} />
                   <Route path="/setWarning/CPU_detail" component={CPUDDetail} />
+                  <Route path="/topo" component={Topo} />
                   <Route path="/login" component={Login} />
                   <Redirect from="/" to="/login" />
                 </Switch>
@@ -242,11 +245,14 @@ class App extends Component {
       case 20:
         sessionStorage.setItem('name', '20');
         break;
-        case 21:
+      case 21:
         sessionStorage.setItem('name', '21');
         break;
-        case 22:
+      case 22:
         sessionStorage.setItem('name', '22');
+        break;
+      case 23:
+        sessionStorage.setItem('name', '23');
         break;
       default:
         break;
