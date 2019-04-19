@@ -11,8 +11,8 @@ export default class Analyze extends Component {
         super(props);
         this.state = {
             isVisibleDetails: false,
-            isVisibleTrack: false
-            
+            isVisibleTrack: false,
+            data : 'aaaaa'
         }
     }
 
@@ -172,7 +172,7 @@ export default class Analyze extends Component {
                     }}
                     width={700}
                 >
-                   <Graph />
+                   <Graph data={this.state.data} />
                 </Modal>
             </div>
         )

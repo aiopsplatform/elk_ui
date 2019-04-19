@@ -22,7 +22,7 @@ class Jtopo extends Component {
             color: 'red',
             tip: {
                 text: '杨雄',
-                type: 'Top'
+                type: 'Top',
             },
             x: 300,
             y: 200,
@@ -41,7 +41,6 @@ class Jtopo extends Component {
         var node = new JTopo.Node(node1Option);    // 创建一个节点
         var node2 = new JTopo.Node(node2Option);
         stage.add(node); // 放入到场景中
-        console.log(stage)
         stage.add(node2)
         var link = new JTopo.FoldLink(node, node2, 'text');
         stage.add(link)

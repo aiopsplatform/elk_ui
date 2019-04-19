@@ -3,6 +3,7 @@ import echarts from "echarts"
 
 export default class Graph extends Component {
     componentDidMount() {
+        console.log(this.props.data)
         let myChart = echarts.init(this.refs.box);
         let option = {
             title: {

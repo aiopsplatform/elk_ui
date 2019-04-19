@@ -77,57 +77,57 @@ export default class JsplumbTest extends React.Component {
 
     id = 0;
 
-    add = () => {
-        let self = this;
-        let id = this.id++;
-        $("#cavans").append(
-            '<div id="' + id + '" >未命名流程框</div>');
-        $("#" + id).css("left", 0).css("top", 0);
-        $("#" + id).addClass(styles.node);//less
-        this.addPoint(id);//添加锚点
-        this.jsPlumbInstance.draggable(id, { containment: "right" });//可移动
-    }
+    // add = () => {
+    //     let self = this;
+    //     let id = this.id++;
+    //     $("#cavans").append(
+    //         '<div id="' + id + '" >未命名流程框</div>');
+    //     $("#" + id).css("left", 0).css("top", 0);
+    //     $("#" + id).addClass(styles.node);//less
+    //     this.addPoint(id);//添加锚点
+    //     this.jsPlumbInstance.draggable(id, { containment: "right" });//可移动
+    // }
     //添加锚点
-    addPoint = (id) => {
-        const self = this;
-        self.jsPlumbInstance.addEndpoint(id, { anchors: "Top", id: id + "Top" }, hollowCircle);
-        self.jsPlumbInstance.addEndpoint(id, { anchors: "Bottom", id: id + "Bottom" }, hollowCircle);
-        self.jsPlumbInstance.addEndpoint(id, { anchors: "Right", id: id + "Right" }, hollowCircle);
-        self.jsPlumbInstance.addEndpoint(id, { anchors: "Left", id: id + "Left" }, hollowCircle);
-    }
+    // addPoint = (id) => {
+    //     const self = this;
+    //     self.jsPlumbInstance.addEndpoint(id, { anchors: "Top", id: id + "Top" }, hollowCircle);
+    //     self.jsPlumbInstance.addEndpoint(id, { anchors: "Bottom", id: id + "Bottom" }, hollowCircle);
+    //     self.jsPlumbInstance.addEndpoint(id, { anchors: "Right", id: id + "Right" }, hollowCircle);
+    //     self.jsPlumbInstance.addEndpoint(id, { anchors: "Left", id: id + "Left" }, hollowCircle);
+    // }
 
     //下面补充一些删除方法，给已有流程框连线等方法
 
     //删除流程框
-    delete = () => {
-        let ids = [1, 2, 3, 4, 5]//之前画的流程框id集合
-        for (let i of ids) {
-            this.jsPlumbInstance.remove(i)
-        }
-    }
+    // delete = () => {
+    //     let ids = [1, 2, 3, 4, 5]//之前画的流程框id集合
+    //     for (let i of ids) {
+    //         this.jsPlumbInstance.remove(i)
+    //     }
+    // }
 
     //删除连线
-    deleteLine = () => {
-        //selectConn 为连线点击时获取的conn
-        this.jsPlumbInstance.deleteConnection(this.state.selectConn)
-    }
+    // deleteLine = () => {
+    //     //selectConn 为连线点击时获取的conn
+    //     this.jsPlumbInstance.deleteConnection(this.state.selectConn)
+    // }
 
     //为已有流程框连线 设置文字
-    connectAndLabel = () => {
-        //source target 为之前设置的流程框id
-        this.jsPlumbInstance.connect({
-            source: "test1",
-            target: "test2",
-            anchors: ["Right", "Left"],
-            ...hollowCircle,
-        });
+    // connectAndLabel = () => {
+    //     //source target 为之前设置的流程框id
+    //     this.jsPlumbInstance.connect({
+    //         source: "test1",
+    //         target: "test2",
+    //         anchors: ["Right", "Left"],
+    //         ...hollowCircle,
+    //     });
 
-        //setLabel
-        this.jsPlumbInstance.getConnections({
-            source: "test1",
-            target: "test2",
-        })[0].getOverlay('label').setLabel(12345);
-    }
+    //     //setLabel
+    //     this.jsPlumbInstance.getConnections({
+    //         source: "test1",
+    //         target: "test2",
+    //     })[0].getOverlay('label').setLabel(12345);
+    // }
 
 
 
@@ -135,7 +135,7 @@ export default class JsplumbTest extends React.Component {
     render() {
         //div内容：一个添加按钮 ，一个画图区
         return <div>
-            <div id="cavans"></div>
+            <div id="cavans" style={{width:'100%',height:'600px'}} ></div>
         </div>
     }
 }

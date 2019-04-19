@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Card, DatePicker, Select, Button, Icon, Form, Empty } from 'antd'
 import moment from "moment"
 import fetchD from "./../../fetch"
-// import { fetch } from "whatwg-fetch"
 import { connect } from "react-redux"
 import "./index.less"
 import Loading from "../../components/loading"
@@ -22,7 +21,7 @@ class TJQuery extends Component {
             page: 1
         }
     }
-    
+
     componentDidMount() {
         this.props.getList();
     }
@@ -58,8 +57,9 @@ class TJQuery extends Component {
     }
 
     export = () => {
-        console.log('正在导出...')
-        window.location.href = 'https://achilles22.github.io/images/about.jpg'
+        let { startValue , endValue , getIndexes} = this.state;
+        window.location.href = "http://192.168.1.102:8080/index/exportLogs?indexes="+getIndexes+ '&begin_time='+ startValue +'&end_time='+endValue
+        
     }
 
     //时间选择范围
@@ -72,9 +72,9 @@ class TJQuery extends Component {
     }
 
     //获取类型中的数据
-    handleGetIndexes(i){
+    handleGetIndexes(i) {
         this.setState({
-            getIndexes : i
+            getIndexes: i
         })
     }
 
