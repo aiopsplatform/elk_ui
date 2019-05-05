@@ -9,13 +9,18 @@ class MonitoredMethod extends Component {
         this.state = {}
     }
 
-   
+
 
     componentDidMount() {
-        var now=new Date().getTime();
+        var now = new Date().getTime();
         var dom_load = now - performance.timing.navigationStart;
         console.log('页面加载时间为：' + dom_load);
+        // this.onChangeValue()
     }
+    // onChangeValue = () => {
+    //     this.props.form.setFieldsValue({ keyWord: 'dddddd' });
+    //     console.log(this.props.form.getFieldValue("keyWord"))  //获取内容
+    // }
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -59,7 +64,9 @@ class MonitoredMethod extends Component {
 
                             {
                                 getFieldDecorator('keyWord')(
-                                    <Input placeholder="请输入关键字" />
+                                    <Input placeholder="请输入关键字"
+                                    // onChange={this.onChangeValue} 
+                                    />
                                 )
                             }
                         </FormItem>

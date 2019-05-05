@@ -31,7 +31,7 @@ import ApplicationMethod from "./pages/applicationMethod"
 import { Provider } from "react-redux";
 import store from "./store"
 import Login from './pages/login/login'
-import Topo from "./pages/topo/index4"
+import Topo from "./pages/topo/jsplumb"
 import JTopo from "./pages/jtopo/index"
 import D3topo from './pages/D3'
 import "./style/loading.less"

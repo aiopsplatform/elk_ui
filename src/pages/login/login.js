@@ -38,6 +38,11 @@ class Login extends Component {
                                 title: '提示',
                                 content: '密码错误'
                             })
+                        }else if (data[0].code == 3) {
+                            Modal.info({
+                                title: '提示',
+                                content: '用户名和密码错误'
+                            })
                         }
                     })
             }

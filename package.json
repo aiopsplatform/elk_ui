@@ -38,7 +38,7 @@
     "jest-pnp-resolver": "1.0.2",
     "jest-resolve": "23.6.0",
     "jest-watch-typeahead": "^0.2.1",
-    "jsplumb": "^2.9.0",
+    "jsplumb": "^2.9.2",
     "jtopo": "^0.1.3",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
